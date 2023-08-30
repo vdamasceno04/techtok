@@ -3,9 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>LOJA ONLINE TOP</title>
 </head>
+<style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    h1 {
+      margin-bottom: 30px;
+    }
+
+    form {
+      display: inline-block;
+      text-align: left;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    input[type="submit"] {
+      padding: 10px 20px;
+      font-size: 18px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+</style>
 <body>
-    LOJA DE PERIFERICOS
+    <h1>LOJA ONLINE TOP</h1>
+    <button onclick="redirectTo('mouses')">Mouses</button>
+    <button onclick="redirectTo('teclados')">Teclados</button>
+    <button onclick="redirectTo('fones')">Fones de ouvido</button>
+    <button onclick="redirectTo('pendrives')">Pen drives</button>
+    <button onclick="redirectTo('caixasdesom')">Caixas de som</button>
 </body>
+<script>
+    function redirectTo(page){window.location.href = page.concat('.html');}
+</script>
 </html>
