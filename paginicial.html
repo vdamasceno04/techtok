@@ -38,15 +38,11 @@
 </style>
 <body>
     <h1>LOJA ONLINE TOP</h1>
-    <button onclick="redirectTo('?cat=mouses')">Mouses</button>
-    <button onclick="redirectTo('?cat=teclados')">Teclados</button>
-    <button onclick="redirectTo('?cat=fones')">Fones de ouvido</button>
-    <button onclick="redirectTo('?cat=pendrives')">Pen drives</button>
-    <button onclick="redirectTo('?cat=caixasdesom')">Caixas de som</button>
+    <button onclick="redirectToCategory('?cat=mouses')">Mouses</button>
+    <button onclick="redirectToCategory('?cat=teclados')">Teclados</button>
+    <button onclick="redirectToCategory('?cat=fones')">Fones de ouvido</button>
+    <button onclick="redirectToCategory('?cat=pendrives')">Pen drives</button>
+    <button onclick="redirectToCategory('?cat=caixasdesom')">Caixas de som</button>
 </body>
-<script>
-    function redirectTo(category){
-      url = 'category.html'
-      window.location.href = url.concat(category);}
-</script>
+<script src ="htmlRedirect.js"></script>
 </html>

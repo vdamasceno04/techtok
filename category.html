@@ -7,15 +7,11 @@
 </head>
 <body>
     <h1>LOJA ONLINE TOP</h1>
-    <button onclick="redirectTo('?cat=mouse1')">mouse1</button> 
-    <button onclick="redirectTo('?cat=mouse2')">mouse2</button>
-    <button onclick="redirectTo('?cat=mouse3')">mouse3</button>
-    <button onclick="redirectTo('?cat=mouse4')">mouse4</button>
-    <button onclick="redirectTo('?cat=mouse5')">mouse5</button>
+    <button onclick="redirectToProduct('?prod=mouse1')">mouse1</button> 
+    <button onclick="redirectToProduct('?prod=mouse2')">mouse2</button>
+    <button onclick="redirectToProduct('?prod=mouse3')">mouse3</button>
+    <button onclick="redirectToProduct('?prod=mouse4')">mouse4</button>
+    <button onclick="redirectToProduct('?prod=mouse5')">mouse5</button>
 </body>
-<script>
-    function redirectTo(product){  //replace product name to product id
-      url = 'product.html'
-      window.location.href = url.concat(product);}
-</script>
+<script src ="htmlRedirect.js"></script>
 </html>
