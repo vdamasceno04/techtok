@@ -11,8 +11,13 @@
         <img id="productimg" src=""  alt="">
 </body>
 <script>
+    url = window.location.search
+    paramurl = new URLSearchParams(url)
+    prod = paramurl.get('cat')
+    console.log('url = ', prod)
+
     document.getElementById('productname').innerHTML = getProductName();
-    function getProductName(){return 'mouse logitech m90'}
+    function getProductName(){return prod}
     
     document.getElementById('productimg').src = getImgSrc();
     function getImgSrc(){return 'imgs/mouselogitechm90.png'}
