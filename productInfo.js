@@ -1,6 +1,5 @@
 function getProductId(url){ //get product id from url
     params = new URLSearchParams(url)
-    console.log('a')
     return params.get('prod')
 }
 
@@ -20,7 +19,6 @@ function setName(htmlId, url){ //set html product name field
 function setImgPath(imgId, url){ //set html product img field
     id = getProductId(url)
     img_path = getImgPath()
-    console.log("imgpath = ", img_path)
     document.getElementById(imgId).src = img_path;
 }
 
