@@ -7,3 +7,7 @@ function redirectToProduct(product){//send to product.html?CHOSENPRODUCT
     url = 'product.html'
     window.location.href = url.concat(product)
 }
+
+function redirectToLogin(){
+    window.location.href = 'login.html'
+}
