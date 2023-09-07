@@ -13,4 +13,6 @@ function redirectToLogin(){
 }
 
 //function redirectToUserArea(){}
-//function redirectToRegister(){}
+function redirectToRegister(){
+    window.location.href = 'register.html'
+}
