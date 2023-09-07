@@ -7,7 +7,7 @@ function getPassword(){ //get password from html's filled box
     return password
 }
 
-function validateLogin() {
+function validateLogin(){ //TODO VALIDATION CONDITIONS 
     username = getUsername()
     password = getPassword()
     

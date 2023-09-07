@@ -11,3 +11,6 @@ function redirectToProduct(product){//send to product.html?CHOSENPRODUCT
 function redirectToLogin(){
     window.location.href = 'login.html'
 }
+
+//function redirectToUserArea(){}
+//function redirectToRegister(){}
