@@ -15,25 +15,52 @@
     h1 {
       margin-bottom: 30px;
     }
+
+    div#passwordBox {
+      margin-top: 2px;
+    }
+
+    div#submitMessage {
+      margin-top: 3;
+      color: red;
+      display: none;
+    }
+
+    div#registerButton {
+      margin-top: 20px;
+    }
+
+    input[type="submit"] {
+      margin-top: 5px;
+    }
 </style>
 <body>
     <h1>LOJA ONLINE TOP</h1>
     <div class="login-box">
         <form onsubmit="validateLogin(); return false;">
-          <label for="username">Username:</label>
-          <input id="username" placeholder="Your username">
+          <div id="usernameBox">
+            <label for="username">Username:</label>
+            <input id="username" placeholder="Your username">
+          </div>
     
-          <label for="password">Password:</label>
-          <input id="password" type="password" placeholder="Your password">
+          <div id="passwordBox">
+            <label for="password">Password:</label>
+            <input id="password" type="password" placeholder="Your password">
+          </div>
     
-          <input type="submit" value="Entrar">
+          <input type="submit" value="Enter">
         </form>
+    </div>
+    <div id="submitMessage">
+      Missing Username/Password
     </div>
 </body>
 <script src="login.js"></script>
 <body>
-    don't have an account?
+  <div id="registerButton">
+    Don't have an account?
     <button onclick="redirectToRegister()">Register now</button>
+  </div>
 </body>
 <script src='htmlRedirect.js'></script> 
 </html> 
