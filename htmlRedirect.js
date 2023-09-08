@@ -12,7 +12,12 @@ function redirectToLogin(){
     window.location.href = 'login.html'
 }
 
-//function redirectToUserArea(){}
+function redirectToMainPage() {
+    window.location.href = 'paginicial.html'
+}
+
 function redirectToRegister(){
     window.location.href = 'register.html'
 }
+
+//function redirectToUserArea(){}

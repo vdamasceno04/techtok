@@ -3,9 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>LOJA ONLINE TOP</title>
 </head>
+<style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    h1 {
+      margin-bottom: 30px;
+    }
+
+    div#passwordBox {
+      margin-top: 7px;
+    }
+
+    div#submitMessage {
+      margin-top: 2px;
+      color: red;
+      display: none;
+    }
+
+    div#loginButton {
+      margin-top: 20px;
+    }
+
+    input[type="submit"] {
+      margin-top: 20px;
+    }
+</style>
 <body>
-    REGISTER
+    <div id="mainPage" onClick="redirectToMainPage()"> <h1>LOJA ONLINE TOP</h1> </div>
+    <div class="login-box">
+        <form onsubmit="validateUserCreation(); return false;">
+          <div id="usernameBox">
+            <label for="username">Username:</label>
+            <input id="username" placeholder="Your username">
+          </div>
+    
+          <div id="passwordBox">
+            <label for="password">Password:</label>
+            <input id="password" type="password" placeholder="Your password">
+          </div>
+
+          <div id="submitMessage">Missing Username/Password</div>
+    
+          <input type="submit" value="Create account">
+        </form>
+    </div>
 </body>
-</html>
+<script src="login.js"></script>
+<body>
+  <div id="loginButton">
+    Already have an account?
+    <button onclick="redirectToLogin()">Log in</button>
+  </div>
+</body>
+<script src='htmlRedirect.js'></script> 
+</html> 

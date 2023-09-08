@@ -17,11 +17,11 @@
     }
 
     div#passwordBox {
-      margin-top: 2px;
+      margin-top: 7px;
     }
 
     div#submitMessage {
-      margin-top: 3;
+      margin-top: 2px;
       color: red;
       display: none;
     }
@@ -31,11 +31,11 @@
     }
 
     input[type="submit"] {
-      margin-top: 5px;
+      margin-top: 20px;
     }
 </style>
 <body>
-    <h1>LOJA ONLINE TOP</h1>
+    <div id="mainPage" onClick="redirectToMainPage()"> <h1>LOJA ONLINE TOP</h1> </div>
     <div class="login-box">
         <form onsubmit="validateLogin(); return false;">
           <div id="usernameBox">
@@ -47,12 +47,14 @@
             <label for="password">Password:</label>
             <input id="password" type="password" placeholder="Your password">
           </div>
+
+          
+          <div id="submitMessage">
+            Missing Username/Password
+          </div>
     
           <input type="submit" value="Enter">
         </form>
-    </div>
-    <div id="submitMessage">
-      Missing Username/Password
     </div>
 </body>
 <script src="login.js"></script>
