@@ -10,17 +10,15 @@ function getPassword(){ //get password from html's filled box
 
 function hasBlankText(username, password) {
     var submitMessage = document.getElementById("submitMessage")
+    submitMessage.style.display = "block"
     
     if (username.length == 0 && password.length == 0) {
-        submitMessage.style.display = "block"
         submitMessage.innerText = "Please fill in your information"
     }
     else if (username.length == 0) {
-        submitMessage.style.display = "block"
         submitMessage.innerText = "Please fill in your username"
     }
     else if (password.length == 0) {
-        submitMessage.style.display = "block"
         submitMessage.innerText = "Please fill in your password"
     }
     else {
