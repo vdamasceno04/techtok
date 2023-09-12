@@ -38,10 +38,17 @@ const newUser = async(user)=>{
     await con.query(insert,values)
 }
 
-// const newProduct = async(user)=>{
+// const newProduct = async(type,product)=>{
 //     const con = await db()
-//     const insert = 'INSERT INTO users (login,password) VALUES (?,?)'
-//     const values = [user.login,user.password]
+//     const insert = 'INSERT INTO ' + type + '(login,password) VALUES (?,?)'
+//     const values = [product.a, product.b]
+//     await con.query(insert,values)
+// }
+
+// const getProductInfo = async(type,id,info)=>{
+//     const con = await db()
+//     const insert = 'INSERT INTO ' + type + '(login,password) VALUES (?,?)'
+//     const values = [product.a, product.b]
 //     await con.query(insert,values)
 // }
 
