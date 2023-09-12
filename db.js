@@ -1,7 +1,7 @@
 const db = async()=>{
     console.log('Connecting to DB...');
     if(global.con && global.con.state != 'disconnected'){
-        console.log('Already connected to DB')
+        console.log('Already connected to database')
         return global.con
     }
     const mysql = require('mysql2/promise')
@@ -12,9 +12,17 @@ const db = async()=>{
       user: 'root',
       password: 'admin',
     })
-    console.log('Connected to DB')
-    global.con = connection
-    return con
+    // connection.connect(err =>{
+    //     if(err){
+    //       console.error('Database connection failed: ' + err.stack)
+    //       return
+    //     }
+    //     else{
+            console.log('Connected to database')
+            global.con = connection
+            return con
+    //     }
+    // })
 }
 
 const getTable = async(table)=>{
@@ -23,6 +31,20 @@ const getTable = async(table)=>{
     return await entries
 }
 
+const newUser = async(user)=>{
+    const con = await db()
+    const insert = 'INSERT INTO users (login,password) VALUES (?,?)'
+    const values = [user.login,user.password]
+    await con.query(insert,values)
+}
+
+// const newProduct = async(user)=>{
+//     const con = await db()
+//     const insert = 'INSERT INTO users (login,password) VALUES (?,?)'
+//     const values = [user.login,user.password]
+//     await con.query(insert,values)
+// }
+
 db()
 
-module.exports = {getTable}
+module.exports = {getTable,newUser}
