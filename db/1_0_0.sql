@@ -18,13 +18,13 @@ USE `company`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `caixa de som`
+-- Table structure for table `caixa_de_som`
 --
 
-DROP TABLE IF EXISTS `caixa de som`;
+DROP TABLE IF EXISTS `caixa_de_som`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `caixa de som` (
+CREATE TABLE `caixa_de_som` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `marca` varchar(45) NOT NULL,
   `modelo` varchar(45) NOT NULL,
@@ -43,12 +43,12 @@ CREATE TABLE `caixa de som` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `caixa de som`
+-- Dumping data for table `caixa_de_som`
 --
 
-LOCK TABLES `caixa de som` WRITE;
-/*!40000 ALTER TABLE `caixa de som` DISABLE KEYS */;
-/*!40000 ALTER TABLE `caixa de som` ENABLE KEYS */;
+LOCK TABLES `caixa_de_som` WRITE;
+/*!40000 ALTER TABLE `caixa_de_som` DISABLE KEYS */;
+/*!40000 ALTER TABLE `caixa_de_som` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -120,13 +120,13 @@ LOCK TABLES `mouse` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `pen drive`
+-- Table structure for table `pen_drive`
 --
 
-DROP TABLE IF EXISTS `pen drive`;
+DROP TABLE IF EXISTS `pen_drive`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `pen drive` (
+CREATE TABLE `pen_drive` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `marca` varchar(45) NOT NULL,
   `modelo` varchar(45) NOT NULL,
@@ -144,12 +144,12 @@ CREATE TABLE `pen drive` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `pen drive`
+-- Dumping data for table `pen_drive`
 --
 
-LOCK TABLES `pen drive` WRITE;
-/*!40000 ALTER TABLE `pen drive` DISABLE KEYS */;
-/*!40000 ALTER TABLE `pen drive` ENABLE KEYS */;
+LOCK TABLES `pen_drive` WRITE;
+/*!40000 ALTER TABLE `pen_drive` DISABLE KEYS */;
+/*!40000 ALTER TABLE `pen_drive` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -231,4 +231,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-09-12 13:20:13
+-- Dump completed on 2023-09-12 13:44:27
