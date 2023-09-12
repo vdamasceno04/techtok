@@ -1,4 +1,9 @@
-class Product{
+/*provavelmente puxar o id de cada um
+dos produtos de uma tabela e enviá-lo na construtora
+das instancias dos produtos seja o melhor jeito
+de instanciar tudo*/
+
+class Product{ 
     constructor() {
         this.id = -1
         this.imgpath = null
