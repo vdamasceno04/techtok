@@ -34,6 +34,9 @@ CREATE TABLE `caixa de som` (
   `protecao` varchar(45) NOT NULL,
   `led` varchar(45) NOT NULL,
   `descricao` varchar(255) NOT NULL,
+  `preco` int unsigned DEFAULT NULL,
+  `estoque` int unsigned DEFAULT NULL,
+  `imagem` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
@@ -65,6 +68,9 @@ CREATE TABLE `fone` (
   `audio` varchar(45) NOT NULL,
   `led` varchar(45) NOT NULL,
   `descricao` varchar(255) NOT NULL,
+  `preco` int unsigned DEFAULT NULL,
+  `estoque` int unsigned DEFAULT NULL,
+  `imagem` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
@@ -96,6 +102,9 @@ CREATE TABLE `mouse` (
   `dpi` int unsigned NOT NULL,
   `led` varchar(45) NOT NULL,
   `descricao` varchar(255) NOT NULL,
+  `preco` int unsigned DEFAULT NULL,
+  `estoque` int unsigned DEFAULT NULL,
+  `imagem` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
@@ -125,6 +134,10 @@ CREATE TABLE `pen drive` (
   `conexao` varchar(45) NOT NULL,
   `leitura` int unsigned NOT NULL,
   `escrita` int unsigned NOT NULL,
+  `descricao` varchar(255) NOT NULL,
+  `preco` int unsigned DEFAULT NULL,
+  `estoque` int unsigned DEFAULT NULL,
+  `imagem` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
@@ -157,6 +170,9 @@ CREATE TABLE `teclado` (
   `switch` varchar(45) NOT NULL,
   `led` varchar(45) NOT NULL,
   `descricao` varchar(255) NOT NULL,
+  `preco` int unsigned DEFAULT NULL,
+  `estoque` int unsigned DEFAULT NULL,
+  `imagem` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
@@ -183,6 +199,14 @@ CREATE TABLE `usuarios` (
   `login` varchar(45) NOT NULL,
   `senha` varchar(45) NOT NULL,
   `nome` varchar(255) DEFAULT NULL,
+  `rg` int unsigned DEFAULT NULL,
+  `cpf` int unsigned DEFAULT NULL,
+  `endereco` varchar(255) DEFAULT NULL,
+  `telefone` int unsigned DEFAULT NULL,
+  `celular` int unsigned DEFAULT NULL,
+  `profissao` varchar(45) DEFAULT NULL,
+  `email` varchar(45) DEFAULT NULL,
+  `foto` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `login_UNIQUE` (`login`)
@@ -207,4 +231,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-09-12 13:03:57
+-- Dump completed on 2023-09-12 13:20:13
