@@ -11,6 +11,13 @@ class Speaker extends Product{
         this.usbinput = false
         this.power = -1
     }
+
+    getWireless(){return this.wireless;}
+    getBattery(){return this.battery;}
+    getBluetooth(){return this.bluetooth;}
+    getStereo(){return this.stereo;}
+    getUsbinput(){return this.usbinput;}
+    getPower(){return this.power;}
 }
 
 module.exports = Speaker;
