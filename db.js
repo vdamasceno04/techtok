@@ -17,12 +17,10 @@ const db = async()=>{
     return con
 }
 
-function getTable(table = null) = async()=>{
-    if(table != null){
-        const con = await db()
-        const[entries] = await con.query('SELECT * FROM ' + table)
-        return await entries
-    }
+const getTable = async(table)=>{
+    const con = await db()
+    const[entries] = await con.query('SELECT * FROM ' + table)
+    return await entries
 }
 
 db()
