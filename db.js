@@ -6,23 +6,21 @@ const db = async()=>{
     }
     const mysql = require('mysql2/promise')
     const connection = mysql.createConnection({
-      host: 'localhost',
-      port: 3306,
-      database: 'company',
-      user: 'root',
-      password: 'admin',
+        host: 'localhost',
+        port: 3306,
+        database: 'company',
+        user: 'root',
+        password: 'admin',
     })
-    // connection.connect(err =>{
-    //     if(err){
-    //       console.error(`Database connection failed: ${err.stack}`)
-    //       return
-    //     }
-    //     else{
-            console.log('Connected to database')
-            global.con = connection
-            return con
-    //     }
-    // })
+    connection.catch(err=>{
+        if(err){
+            console.error(`Database connection failed: ${err}`)
+            return
+        }
+    })
+    console.log('Connected to database')
+    global.con = connection
+    return con
 }
 
 const getTable = async(table)=>{
@@ -73,9 +71,9 @@ module.exports = {
     getCell,
     addUser,
     isValidUser,
-    addTeclado,
-    addMouse,
-    addPenDrive,
-    addFoneDeOuvido,
-    addCaixaDeSom
+    // addTeclado,
+    // addMouse,
+    // addPenDrive,
+    // addFoneDeOuvido,
+    // addCaixaDeSom
 }
