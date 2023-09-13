@@ -1,5 +1,4 @@
 const db = async()=>{
-    console.log('Connecting to DB...');
     if(global.con && global.con.state != 'disconnected'){
         console.log('Already connected to database')
         return global.con
@@ -57,12 +56,35 @@ const getCell = async(info)=>{
 const addTeclado = async(product)=>{
     const con = await db()
     const sql = `INSERT INTO teclados(
-                 marca,
-                 modelo,
-
-                 ) VALUES (?,?,?,?,?)`
-    const values = [product.a, product.b]
+        marca,
+        modelo,
+        conexao,
+        bateria,
+        alcance,
+        layout,
+        switch,
+        led,
+        descricao,
+        preco,
+        estoque,
+        imagem
+    ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`
+    const values = [
+        product.marca,
+        product.modelo,
+        product.conexao,
+        product.bateria,
+        product.alcance,
+        product.layout,
+        product.switch,
+        product.led,
+        product.descricao,
+        product.preco,
+        product.estoque,
+        product.imagem
+    ]
     await con.query(sql,values)
+    console.log(`Teclado ${product.marca} ${product.modelo} added to database`)
 }
 
 module.exports = {
@@ -71,7 +93,7 @@ module.exports = {
     getCell,
     addUser,
     isValidUser,
-    // addTeclado,
+    addTeclado,
     // addMouse,
     // addPenDrive,
     // addFoneDeOuvido,
