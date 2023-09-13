@@ -1,11 +1,10 @@
 /* Database functions */
-
 const db = async()=>{// Connect to database
     try{
-        if(global.con && global.con.state != 'disconnected')
-            return global.con
+        if(global.connection && global.connection.state != 'disconnected')
+            return global.connection
         const mysql = require('mysql2/promise')
-        const connection = mysql.createConnection({
+        global.connection = await mysql.createConnection({
             host: 'localhost',
             port: 3306,
             database: 'company',
@@ -13,28 +12,33 @@ const db = async()=>{// Connect to database
             password: 'admin',
         })
         console.log('Connected to database')
-        global.con = connection
-        return con
+        return global.connection
     } catch(err) {
         console.error('Database connection failed: ' + err)
-        return
+        return null
     }
 }
 
 const getTable = async(table)=>{// Return a table from database
+    const sql = 'SELECT * FROM ??;'
+    const values = [table]
     try{
         const con = await db()
-        return await con.query(`SELECT * FROM ${table};`)
+        const [data] = await con.query(sql,values)
+        return data
     } catch(err) {
         console.error('Table not found: ' + err)
-        return
+        return null
     }
 }
 
 const getRow = async(info)=>{// Return a row from database
+    const sql = 'SELECT * FROM ?? WHERE ??=?;'
+    const values = [info.table,info.key,info.keyVal]
     try{
         const con = await db()
-        return await con.query(`SELECT * FROM ${info.table} WHERE ${info.key}=${info.keyVal};`)
+        const [data] = await con.query(sql,values)
+        return data
     } catch(err) {
         console.error('Row not found: ' + err)
         return
@@ -42,10 +46,12 @@ const getRow = async(info)=>{// Return a row from database
 }
 
 const getCell = async(info)=>{// Return a cell from database
+    const sql = 'SELECT ?? FROM ?? WHERE ??=?;'
+    const values = [info.column,info.table,info.key,info.keyVal]
     try{
         const con = await db()
-        const [cell] = await con.query(`SELECT ${info.column} FROM ${info.table} WHERE id=${info.id};`)
-        return cell[0][info.column]
+        const [data] = await con.query(sql,values)
+        return data[0][info.column]
     } catch(err) {
         console.error('Cell not found: ' + err)
         return
@@ -53,9 +59,11 @@ const getCell = async(info)=>{// Return a cell from database
 }
 
 const deleteRow = async(info)=>{// Delete a row from database
+    const sql = 'DELETE FROM ?? WHERE ??=?;'
+    const values = [info.table,info.key,info.keyVal]
     try{
         const con = await db()
-        await con.query(`DELETE FROM ${info.table} WHERE ${info.key}=${info.keyVal};`)
+        await con.query(sql,values)
     } catch(err) {
         console.error('Row not found: ' + err)
         return
@@ -63,9 +71,11 @@ const deleteRow = async(info)=>{// Delete a row from database
 }
 
 const updateCell = async(info)=>{// Update a cell in database
+    const sql = 'UPDATE ?? SET ??=? WHERE ??=?;'
+    const values = [info.table,info.column,info.value,info.key,info.keyVal]
     try{
         const con = await db()
-        await con.query(`UPDATE ${info.table} SET ${info.column}=${info.value} WHERE ${info.key}=${info.keyVal};`)
+        await con.query(sql,values)
     } catch(err) {
         console.error('Cell not found: ' + err)
         return
