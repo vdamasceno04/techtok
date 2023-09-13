@@ -41,7 +41,7 @@ const getRow = async(info)=>{// Return a row from database
         return data
     } catch(err) {
         console.error('Row not found: ' + err)
-        return
+        return null
     }
 }
 
@@ -54,7 +54,7 @@ const getCell = async(info)=>{// Return a cell from database
         return data[0][info.column]
     } catch(err) {
         console.error('Cell not found: ' + err)
-        return
+        return null
     }
 }
 
@@ -66,7 +66,7 @@ const deleteRow = async(info)=>{// Delete a row from database
         await con.query(sql,values)
     } catch(err) {
         console.error('Row not found: ' + err)
-        return
+        return null
     }
 }
 
@@ -78,7 +78,7 @@ const updateCell = async(info)=>{// Update a cell in database
         await con.query(sql,values)
     } catch(err) {
         console.error('Cell not found: ' + err)
-        return
+        return null
     }
 }
 
@@ -94,7 +94,7 @@ const insertUser = async(user)=>{// Add an user to database
         return id
     } catch(err) {
         console.error('User not inserted: ' + err)
-        return
+        return null
     }
 }
 
@@ -147,7 +147,7 @@ const insertCaixaDeSom = async(product)=>{// Insert "caixa de som" into database
         return id
     } catch(err) {
         console.error('Caixa de som not inserted: ' + err)
-        return
+        return null
     }
 }
 
@@ -187,7 +187,7 @@ const insertFoneDeOuvido = async(product)=>{// Insert "teclado" into database
         return id
     } catch(err) {
         console.error('Fone de ouvido not inserted: ' + err)
-        return
+        return null
     }
 }
 
@@ -228,7 +228,7 @@ const insertMouse = async(product)=>{// Insert "mouse" into database
         return id
     } catch(err) {
         console.error('Mouse not inserted: ' + err)
-        return
+        return null
     }
 }
 
@@ -266,7 +266,7 @@ const insertPenDrive = async(product)=>{// Insert "pen drive" into database
         return id
     } catch(err) {
         console.error('Mouse not inserted: ' + err)
-        return
+        return null
     }
 }
 
@@ -308,7 +308,7 @@ const insertTeclado = async(product)=>{// Insert "teclado" into database
         return id
     } catch(err) {
         console.error('Teclado not inserted: ' + err)
-        return
+        return null
     }
 }
 
