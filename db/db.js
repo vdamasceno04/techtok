@@ -1,16 +1,25 @@
 /* Database functions */
+
 const db = async()=>{// Connect to database
     try{
         if(global.connection && global.connection.state != 'disconnected')
             return global.connection
         const mysql = require('mysql2/promise')
-        global.connection = await mysql.createConnection({
-            host: 'localhost',
-            port: 3306,
-            database: 'company',
-            user: 'root',
-            password: 'admin',
-        })
+        if(!global.pool){// Pool to allow multiple simultaneous database users
+            global.pool = await mysql.createPool({
+                host: 'localhost',
+                port: 3306,
+                database: 'company',
+                user: 'root',
+                password: 'admin',
+                connectionLimit: 10,
+                connectTimeout: 10000,
+                idleTimeout: 180000,
+                waitForConnections: true,
+                queueLimit: 5,
+            })
+        }
+        global.connection = global.pool.getConnection()// Connect to database
         console.log('Connected to database')
         return global.connection
     } catch(err) {
@@ -89,7 +98,7 @@ const insertUser = async(user)=>{// Add an user to database
         const con = await db()
         await con.query(sql,values)
         const [aux] = await con.query('SELECT LAST_INSERT_ID() AS lastId;')
-        id = aux[0]['lastId']
+        id = aux[0].lastId
         console.log(`User ${user.login} inserted into database with ID = ${id}`)
         return id
     } catch(err) {
@@ -103,8 +112,12 @@ const isUserExists = async(user)=>{// Verify an user from database
     const values = [user.login,user.password]
     try{
         const con = await db()
-        await con.query(sql,values)
-        return true
+        const [data] = await con.query(sql,values)
+        if(data.length > 0){
+            return true;// User exists (at least one row is returned)
+        } else {
+            return false;// User does not exist (no rows returned)
+        }
     } catch(err) {
         console.error('User not found: ' + err)
         return false
@@ -142,7 +155,7 @@ const insertCaixaDeSom = async(product)=>{// Insert "caixa de som" into database
         const con = await db()
         await con.query(sql,values)
         const [aux] = await con.query('SELECT LAST_INSERT_ID() AS lastId;')
-        const id = aux
+        const id = aux[0]['lastId']
         console.log(`Caixa de som ${product.marca} ${product.modelo} inserted into database with ID = ${id}`)
         return id
     } catch(err) {

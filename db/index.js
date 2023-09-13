@@ -1,4 +1,5 @@
-// Database tests
+/* Script for database tests only */
+
 (async()=>{
     const db = require('./db.js')
     userId = await db.insertUser({login:'User9',password:'@pAs/_1%'})
