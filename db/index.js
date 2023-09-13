@@ -1,10 +1,8 @@
-// Code for databse tests
+// Code for database tests
 (async()=>{
     const db = require('./db.js')
-    signUp = await db.addUser({login:'User6',password:'@pAs/_1%'})
-    table = await db.getTable('usuarios')
-    console.log(table)
-    db.addTeclado({
+    // const userId = await db.insertUser({login:'User7',password:'@pAs/_1%'})
+    const idTeclado = db.insertTeclado({
         marca:'Pichau',
         modelo:'P631K',
         conexao:'USB 2.0',
@@ -18,8 +16,11 @@
         estoque:10,
         imagem:'./imgs/teclado.png'
     })
-    teclados = await db.getRow({table:'teclados',id:1})
-    console.log(teclados)
+    console.log(idTeclado)
+    teclado = await db.getRow({table:'teclados',id:1})
+    console.log(teclado)
     estoque = await db.getCell({table:'teclados',column:'estoque',id:1})
     console.log(estoque)
+    teclados = await db.getTable('teclados')
+    console.log(teclados)
 })()

@@ -1,4 +1,6 @@
-const db = async()=>{
+/* Database functions */
+
+const db = async()=>{// Connect to database
     if(global.con && global.con.state != 'disconnected'){
         console.log('Already connected to database')
         return global.con
@@ -22,38 +24,181 @@ const db = async()=>{
     return con
 }
 
-const getTable = async(table)=>{
+const getTable = async(table)=>{// Return a table from database
     const con = await db()
     return await con.query(`SELECT * FROM ${table}`)
 }
 
-const addUser = async(user)=>{
-    const con = await db()
-    const sql = 'INSERT INTO usuarios(login,senha) VALUES (?,?)'
-    const values = [user.login,user.password]
-    await con.query(sql,values)
-}
-
-const isValidUser = async(user)=>{
-    const con = await db()
-    const sql = 'SELECT id FROM usuarios WHERE (login=?,senha=?)'
-    values = [user.login,user.password]
-    if(await con.query(sql,values) != null)
-        return true
-    return false
-}
-
-const getRow = async(info)=>{
+const getRow = async(info)=>{// Return a row from database
     const con = await db()
     return await con.query(`SELECT * FROM ${info.table} WHERE id=${info.id}`)
 }
 
-const getCell = async(info)=>{
+const getCell = async(info)=>{// Return a cell from database
     const con = await db()
     return await con.query(`SELECT ${info.column} FROM ${info.table} WHERE id=${info.id}`)
 }
 
-const addTeclado = async(product)=>{
+const deleteRow = async(info)=>{// Delete a row from database
+    const con = await db()
+    return await con.query(`DELETE FROM ${info.table} WHERE id=${info.id}`)
+}
+
+const updateCell = async(info)=>{// Update a cell in database
+    const con = await db()
+    return await con.query(`DROP ${info.column} FROM ${info.table} WHERE id=${info.id}`)
+}
+
+const insertUser = async(user)=>{// Add an user to database
+    const con = await db()
+    await con.query(`INSERT INTO usuarios(login,senha) VALUES (${user.login},${user.password})`)
+    const id = await con.query('SELECT LAST_INSERT_ID()')
+    console.log(`User ${user.login} inserted into database with ID = ${id}`)
+    return id
+}
+
+const isValidUser = async(user)=>{// Verify an user from database
+    const con = await db()
+    if(await con.query(`SELECT id FROM usuarios WHERE (login=${user.login},senha=${user.password})`) != null)
+        return true
+    return false
+}
+
+const insertCaixaDeSom = async(product)=>{// Insert "caixa de som" into database
+    const con = await db()
+    const sql = `INSERT INTO caixas_de_som(
+        marca,
+        modelo,
+        bateria,
+        conexao,
+        potencia,
+        protecao,
+        led,
+        descricao,
+        preco,
+        estoque,
+        imagem
+    ) VALUES (?,?,?,?,?,?,?,?,?,?,?)`
+    const values = [
+        product.marca,
+        product.modelo,
+        product.bateria,
+        product.conexao,
+        product.potencia,
+        product.protecao,
+        product.led,
+        product.descricao,
+        product.preco,
+        product.estoque,
+        product.imagem
+    ]
+    await con.query(sql,values)
+    const id = await con.query('SELECT LAST_INSERT_ID()')
+    console.log(`Caixa de som ${product.marca} ${product.modelo} inserted into database with ID = ${id}`)
+    return id
+}
+
+const insertFoneDeOuvido = async(product)=>{// Insert "teclado" into database
+    const con = await db()
+    const sql = `INSERT INTO fones_de_ouvido(
+        marca,
+        modelo,
+        conexao,
+        bateria,
+        tipo,
+        audio,
+        led,
+        descricao,
+        preco,
+        estoque,
+        imagem
+    ) VALUES (?,?,?,?,?,?,?,?,?,?,?)`
+    const values = [
+        product.marca,
+        product.modelo,
+        product.conexao,
+        product.bateria,
+        product.tipo,
+        product.audio,
+        product.led,
+        product.descricao,
+        product.preco,
+        product.estoque,
+        product.imagem
+    ]
+    await con.query(sql,values)
+    const id = await con.query('SELECT LAST_INSERT_ID()')
+    console.log(`Fone de ouvido ${product.marca} ${product.modelo} inserted into database with ID = ${id}`)
+    return id
+}
+
+const insertMouse = async(product)=>{// Insert "mouse" into database
+    const con = await db()
+    const sql = `INSERT INTO mouses(
+        marca,
+        modelo,
+        botoes,
+        conexao,
+        bateria,
+        dpi,
+        led,
+        descricao,
+        preco,
+        estoque,
+        imagem
+    ) VALUES (?,?,?,?,?,?,?,?,?,?,?)`
+    const values = [
+        product.marca,
+        product.modelo,
+        product.botoes,
+        product.conexao,
+        product.bateria,
+        product.dpi,
+        product.led,
+        product.descricao,
+        product.preco,
+        product.estoque,
+        product.imagem
+    ]
+    await con.query(sql,values)
+    const id = await con.query('SELECT LAST_INSERT_ID()')
+    console.log(`Mouse ${product.marca} ${product.modelo} inserted into database with ID = ${id}`)
+    return id
+}
+
+const insertPenDrive = async(product)=>{// Insert "pen drive" into database
+    const con = await db()
+    const sql = `INSERT INTO pen_drives(
+        marca,
+        modelo,
+        capacidade,
+        conexao,
+        leitura,
+        escrita,
+        descricao,
+        preco,
+        estoque,
+        imagem
+    ) VALUES (?,?,?,?,?,?,?,?,?,?)`
+    const values = [
+        product.marca,
+        product.modelo,
+        product.capacidade,
+        product.conexao,
+        product.leitura,
+        product.escrita,
+        product.descricao,
+        product.preco,
+        product.estoque,
+        product.imagem
+    ]
+    await con.query(sql,values)
+    const id = await con.query('SELECT LAST_INSERT_ID()')
+    console.log(`Pen drive ${product.marca} ${product.modelo} inserted into database with ID = ${id}`)
+    return id
+}
+
+const insertTeclado = async(product)=>{// Insert "teclado" into database
     const con = await db()
     const sql = `INSERT INTO teclados(
         marca,
@@ -84,18 +229,22 @@ const addTeclado = async(product)=>{
         product.imagem
     ]
     await con.query(sql,values)
-    console.log(`Teclado ${product.marca} ${product.modelo} added to database`)
+    const id = await con.query('SELECT LAST_INSERT_ID()')
+    console.log(`Teclado ${product.marca} ${product.modelo} inserted into database with ID = ${id}`)
+    return id
 }
 
 module.exports = {
     getTable,
     getRow,
     getCell,
-    addUser,
+    deleteRow,
+    updateCell,
+    insertUser,
     isValidUser,
-    addTeclado,
-    // addMouse,
-    // addPenDrive,
-    // addFoneDeOuvido,
-    // addCaixaDeSom
+    insertCaixaDeSom,
+    insertFoneDeOuvido,
+    insertMouse,
+    insertPenDrive,
+    insertTeclado
 }
