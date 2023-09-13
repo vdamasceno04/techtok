@@ -34,7 +34,7 @@ const getTable = async(table)=>{// Return a table from database
 const getRow = async(info)=>{// Return a row from database
     try{
         const con = await db()
-        return await con.query(`SELECT * FROM ${info.table} WHERE id=${info.id};`)
+        return await con.query(`SELECT * FROM ${info.table} WHERE ${info.key}=${info.keyVal};`)
     } catch(err) {
         console.error('Row not found: ' + err)
         return
@@ -55,7 +55,7 @@ const getCell = async(info)=>{// Return a cell from database
 const deleteRow = async(info)=>{// Delete a row from database
     try{
         const con = await db()
-        await con.query(`DELETE FROM ${info.table} WHERE id=${info.id};`)
+        await con.query(`DELETE FROM ${info.table} WHERE ${info.key}=${info.keyVal};`)
     } catch(err) {
         console.error('Row not found: ' + err)
         return
