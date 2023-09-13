@@ -14,8 +14,8 @@
         switch:'Cherry MX Brown',
         led:'RGB',
         descricao:'Teclado mecânico',
-        preco:'400',
-        estoque:'10',
+        preco:400,
+        estoque:10,
         imagem:'./imgs/teclado.png'
     })
     teclados = await db.getRow({table:'teclados',id:1})
