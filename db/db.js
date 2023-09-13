@@ -89,10 +89,10 @@ const insertUser = async(user)=>{// Add an user to database
 }
 
 const isUserExists = async(user)=>{// Verify an user from database
-    const con = await db()
     const sql = 'SELECT id FROM usuarios WHERE login=? AND senha=?;'
     const values = [user.login,user.password]
     try{
+        const con = await db()
         await con.query(sql,values)
         return true
     } catch(err) {
