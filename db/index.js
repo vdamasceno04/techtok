@@ -1,4 +1,4 @@
-// Code for database tests
+// Database tests
 (async()=>{
     const db = require('./db.js')
     // const userId = await db.insertUser({login:'User7',password:'@pAs/_1%'})
@@ -17,10 +17,10 @@
         imagem:'./imgs/teclado.png'
     })
     console.log(idTeclado)
-    teclado = await db.getRow({table:'teclados',id:1})
-    console.log(teclado)
     estoque = await db.getCell({table:'teclados',column:'estoque',id:1})
-    console.log(estoque)
+    // console.log(estoque)
+    teclado = await db.getRow({table:'teclados',id:1})
+    // console.log(teclado)
     teclados = await db.getTable('teclados')
-    console.log(teclados)
+    // console.log(teclados)
 })()

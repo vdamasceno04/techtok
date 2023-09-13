@@ -1,10 +1,8 @@
 /* Database functions */
 
 const db = async()=>{// Connect to database
-    if(global.con && global.con.state != 'disconnected'){
-        console.log('Already connected to database')
+    if(global.con && global.con.state != 'disconnected')
         return global.con
-    }
     const mysql = require('mysql2/promise')
     const connection = mysql.createConnection({
         host: 'localhost',
@@ -26,40 +24,41 @@ const db = async()=>{// Connect to database
 
 const getTable = async(table)=>{// Return a table from database
     const con = await db()
-    return await con.query(`SELECT * FROM ${table}`)
+    return await con.query(`SELECT * FROM ${table};`)
 }
 
 const getRow = async(info)=>{// Return a row from database
     const con = await db()
-    return await con.query(`SELECT * FROM ${info.table} WHERE id=${info.id}`)
+    return await con.query(`SELECT * FROM ${info.table} WHERE id=${info.id};`)
 }
 
 const getCell = async(info)=>{// Return a cell from database
     const con = await db()
-    return await con.query(`SELECT ${info.column} FROM ${info.table} WHERE id=${info.id}`)
+    return await con.query(`SELECT ${info.column} FROM ${info.table} WHERE id=${info.id};`)
 }
 
-const deleteRow = async(info)=>{// Delete a row from database
+const deleteRow = async(info)=>{// Update a row in database
     const con = await db()
-    return await con.query(`DELETE FROM ${info.table} WHERE id=${info.id}`)
+    await con.query(`DELETE FROM ${info.table} WHERE id=${info.id};`)
 }
 
 const updateCell = async(info)=>{// Update a cell in database
     const con = await db()
-    return await con.query(`DROP ${info.column} FROM ${info.table} WHERE id=${info.id}`)
+    await con.query(`UPDATE ${info.table} SET ${info.column}=${info.value} WHERE id=${info.id};`)
 }
 
 const insertUser = async(user)=>{// Add an user to database
     const con = await db()
-    await con.query(`INSERT INTO usuarios(login,senha) VALUES (${user.login},${user.password})`)
-    const id = await con.query('SELECT LAST_INSERT_ID()')
+    await con.query(`INSERT INTO usuarios(login,senha) VALUES (${user.login},${user.password});`)
+    const aux = await con.query('SELECT LAST_INSERT_ID() AS lastId;')
+    const id = JSON.parse(JSON.stringify(aux[0]))[0].lastId
     console.log(`User ${user.login} inserted into database with ID = ${id}`)
     return id
 }
 
 const isValidUser = async(user)=>{// Verify an user from database
     const con = await db()
-    if(await con.query(`SELECT id FROM usuarios WHERE (login=${user.login},senha=${user.password})`) != null)
+    if(await con.query(`SELECT id FROM usuarios WHERE (login=${user.login},senha=${user.password});`) != null)
         return true
     return false
 }
@@ -78,7 +77,7 @@ const insertCaixaDeSom = async(product)=>{// Insert "caixa de som" into database
         preco,
         estoque,
         imagem
-    ) VALUES (?,?,?,?,?,?,?,?,?,?,?)`
+    ) VALUES (?,?,?,?,?,?,?,?,?,?,?);`
     const values = [
         product.marca,
         product.modelo,
@@ -93,7 +92,8 @@ const insertCaixaDeSom = async(product)=>{// Insert "caixa de som" into database
         product.imagem
     ]
     await con.query(sql,values)
-    const id = await con.query('SELECT LAST_INSERT_ID()')
+    const aux = await con.query('SELECT LAST_INSERT_ID() AS lastId;')
+    const id = JSON.parse(JSON.stringify(aux[0]))[0].lastId
     console.log(`Caixa de som ${product.marca} ${product.modelo} inserted into database with ID = ${id}`)
     return id
 }
@@ -112,7 +112,7 @@ const insertFoneDeOuvido = async(product)=>{// Insert "teclado" into database
         preco,
         estoque,
         imagem
-    ) VALUES (?,?,?,?,?,?,?,?,?,?,?)`
+    ) VALUES (?,?,?,?,?,?,?,?,?,?,?);`
     const values = [
         product.marca,
         product.modelo,
@@ -127,7 +127,8 @@ const insertFoneDeOuvido = async(product)=>{// Insert "teclado" into database
         product.imagem
     ]
     await con.query(sql,values)
-    const id = await con.query('SELECT LAST_INSERT_ID()')
+    const aux = await con.query('SELECT LAST_INSERT_ID() AS lastId;')
+    const id = JSON.parse(JSON.stringify(aux[0]))[0].lastId
     console.log(`Fone de ouvido ${product.marca} ${product.modelo} inserted into database with ID = ${id}`)
     return id
 }
@@ -146,7 +147,7 @@ const insertMouse = async(product)=>{// Insert "mouse" into database
         preco,
         estoque,
         imagem
-    ) VALUES (?,?,?,?,?,?,?,?,?,?,?)`
+    ) VALUES (?,?,?,?,?,?,?,?,?,?,?);`
     const values = [
         product.marca,
         product.modelo,
@@ -161,7 +162,8 @@ const insertMouse = async(product)=>{// Insert "mouse" into database
         product.imagem
     ]
     await con.query(sql,values)
-    const id = await con.query('SELECT LAST_INSERT_ID()')
+    const aux = await con.query('SELECT LAST_INSERT_ID() AS lastId;')
+    const id = JSON.parse(JSON.stringify(aux[0]))[0].lastId
     console.log(`Mouse ${product.marca} ${product.modelo} inserted into database with ID = ${id}`)
     return id
 }
@@ -179,7 +181,7 @@ const insertPenDrive = async(product)=>{// Insert "pen drive" into database
         preco,
         estoque,
         imagem
-    ) VALUES (?,?,?,?,?,?,?,?,?,?)`
+    ) VALUES (?,?,?,?,?,?,?,?,?,?);`
     const values = [
         product.marca,
         product.modelo,
@@ -193,7 +195,8 @@ const insertPenDrive = async(product)=>{// Insert "pen drive" into database
         product.imagem
     ]
     await con.query(sql,values)
-    const id = await con.query('SELECT LAST_INSERT_ID()')
+    const aux = await con.query('SELECT LAST_INSERT_ID() AS lastId;')
+    const id = JSON.parse(JSON.stringify(aux[0]))[0].lastId
     console.log(`Pen drive ${product.marca} ${product.modelo} inserted into database with ID = ${id}`)
     return id
 }
@@ -213,7 +216,7 @@ const insertTeclado = async(product)=>{// Insert "teclado" into database
         preco,
         estoque,
         imagem
-    ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`
+    ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);`
     const values = [
         product.marca,
         product.modelo,
@@ -229,7 +232,8 @@ const insertTeclado = async(product)=>{// Insert "teclado" into database
         product.imagem
     ]
     await con.query(sql,values)
-    const id = await con.query('SELECT LAST_INSERT_ID()')
+    const aux = await con.query('SELECT LAST_INSERT_ID() AS lastId;')
+    const id = JSON.parse(JSON.stringify(aux[0]))[0].lastId
     console.log(`Teclado ${product.marca} ${product.modelo} inserted into database with ID = ${id}`)
     return id
 }
