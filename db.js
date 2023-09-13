@@ -27,31 +27,35 @@ const db = async()=>{
 
 const getTable = async(table)=>{
     const con = await db()
-    const[entries] = await con.query('SELECT * FROM ' + table)
-    return await entries
+    return await con.query('SELECT * FROM ' + table)
 }
 
 const newUser = async(user)=>{
     const con = await db()
-    const insert = 'INSERT INTO users (login,password) VALUES (?,?)'
+    const sql = 'INSERT INTO usuarios (login,senha) VALUES (?,?)'
     const values = [user.login,user.password]
-    await con.query(insert,values)
+    await con.query(sql,values)
 }
 
-// const newProduct = async(type,product)=>{
+const getUser = async(user)=>{
+    const con = await db()
+    const sql = 'SELECT id FROM usuarios WHERE (login=?,senha=?)'
+    values = [user.login,user.password]
+    if(await con.query(sql,values) != null)
+        return true
+    return false
+}
+
+// const newProduct = async(product)=>{
 //     const con = await db()
-//     const insert = 'INSERT INTO ' + type + '(login,password) VALUES (?,?)'
+//     const sql = 'INSERT INTO ' + type + '(login,password) VALUES (?,?)'
 //     const values = [product.a, product.b]
-//     await con.query(insert,values)
+//     await con.query(sql,values)
 // }
 
-// const getProductInfo = async(type,id,info)=>{
-//     const con = await db()
-//     const insert = 'INSERT INTO ' + type + '(login,password) VALUES (?,?)'
-//     const values = [product.a, product.b]
-//     await con.query(insert,values)
-// }
+const getProductInfo = async(product)=>{
+    const con = await db()
+    return await con.query('SELECT * FROM ' + product.category + ' WHERE id=' + product.id)
+}
 
-db()
-
-module.exports = {getTable,newUser}
+module.exports = {getTable,newUser,getUser,getProductInfo}

@@ -1,6 +1,8 @@
 (async()=>{
     const db = require('./db.js')
-    const products = await db.getTable('products')
-    console.log(products)
-    const signup = await db.newUser({login:'User1',password:'@pAs/_1%'})
+    signup = await db.newUser({login:'User12',password:'@pAs/_1%'})
+    table = await db.getTable('usuarios')
+    console.log(table)
+    fone = await db.getProductInfo({category:'fone',id:1})
+    console.log(fone)
 })()
