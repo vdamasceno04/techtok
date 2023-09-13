@@ -37,7 +37,7 @@ const getCell = async(info)=>{// Return a cell from database
     return await con.query(`SELECT ${info.column} FROM ${info.table} WHERE id=${info.id};`)
 }
 
-const deleteRow = async(info)=>{// Update a row in database
+const deleteRow = async(info)=>{// Delete a row from database
     const con = await db()
     await con.query(`DELETE FROM ${info.table} WHERE id=${info.id};`)
 }
