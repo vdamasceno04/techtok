@@ -54,16 +54,16 @@ const getCell = async(info)=>{
     return await con.query(`SELECT ${info.column} FROM ${info.table} WHERE id=${info.id}`)
 }
 
-// const addTeclado = async(product)=>{
-//     const con = await db()
-//     const sql = `INSERT INTO teclados(
-//                  marca,
-//                  modelo,
+const addTeclado = async(product)=>{
+    const con = await db()
+    const sql = `INSERT INTO teclados(
+                 marca,
+                 modelo,
 
-//                  ) VALUES (?,?,?,?,?)`
-//     const values = [product.a, product.b]
-//     await con.query(sql,values)
-// }
+                 ) VALUES (?,?,?,?,?)`
+    const values = [product.a, product.b]
+    await con.query(sql,values)
+}
 
 module.exports = {
     getTable,

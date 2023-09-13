@@ -1,6 +1,6 @@
 (async()=>{
     const db = require('./db.js')
-    signUp = await db.addUser({login:'User1',password:'@pAs/_1%'})
+    signUp = await db.addUser({login:'User2',password:'@pAs/_1%'})
     table = await db.getTable('usuarios')
     console.log(table)
     fonesDeOuvido = await db.getRow({table:'fones_de_ouvido',id:1})
