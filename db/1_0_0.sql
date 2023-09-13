@@ -18,13 +18,13 @@ USE `company`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `caixa_de_som`
+-- Table structure for table `caixas_de_som`
 --
 
-DROP TABLE IF EXISTS `caixa_de_som`;
+DROP TABLE IF EXISTS `caixas_de_som`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `caixa_de_som` (
+CREATE TABLE `caixas_de_som` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `marca` varchar(45) NOT NULL,
   `modelo` varchar(45) NOT NULL,
@@ -43,22 +43,22 @@ CREATE TABLE `caixa_de_som` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `caixa_de_som`
+-- Dumping data for table `caixas_de_som`
 --
 
-LOCK TABLES `caixa_de_som` WRITE;
-/*!40000 ALTER TABLE `caixa_de_som` DISABLE KEYS */;
-/*!40000 ALTER TABLE `caixa_de_som` ENABLE KEYS */;
+LOCK TABLES `caixas_de_som` WRITE;
+/*!40000 ALTER TABLE `caixas_de_som` DISABLE KEYS */;
+/*!40000 ALTER TABLE `caixas_de_som` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `fone`
+-- Table structure for table `fones_de_ouvido`
 --
 
-DROP TABLE IF EXISTS `fone`;
+DROP TABLE IF EXISTS `fones_de_ouvido`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `fone` (
+CREATE TABLE `fones_de_ouvido` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `marca` varchar(45) NOT NULL,
   `modelo` varchar(45) NOT NULL,
@@ -77,22 +77,22 @@ CREATE TABLE `fone` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `fone`
+-- Dumping data for table `fones_de_ouvido`
 --
 
-LOCK TABLES `fone` WRITE;
-/*!40000 ALTER TABLE `fone` DISABLE KEYS */;
-/*!40000 ALTER TABLE `fone` ENABLE KEYS */;
+LOCK TABLES `fones_de_ouvido` WRITE;
+/*!40000 ALTER TABLE `fones_de_ouvido` DISABLE KEYS */;
+/*!40000 ALTER TABLE `fones_de_ouvido` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `mouse`
+-- Table structure for table `mouses`
 --
 
-DROP TABLE IF EXISTS `mouse`;
+DROP TABLE IF EXISTS `mouses`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `mouse` (
+CREATE TABLE `mouses` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `marca` varchar(45) NOT NULL,
   `modelo` varchar(45) NOT NULL,
@@ -111,22 +111,22 @@ CREATE TABLE `mouse` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `mouse`
+-- Dumping data for table `mouses`
 --
 
-LOCK TABLES `mouse` WRITE;
-/*!40000 ALTER TABLE `mouse` DISABLE KEYS */;
-/*!40000 ALTER TABLE `mouse` ENABLE KEYS */;
+LOCK TABLES `mouses` WRITE;
+/*!40000 ALTER TABLE `mouses` DISABLE KEYS */;
+/*!40000 ALTER TABLE `mouses` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `pen_drive`
+-- Table structure for table `pen_drives`
 --
 
-DROP TABLE IF EXISTS `pen_drive`;
+DROP TABLE IF EXISTS `pen_drives`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `pen_drive` (
+CREATE TABLE `pen_drives` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `marca` varchar(45) NOT NULL,
   `modelo` varchar(45) NOT NULL,
@@ -144,22 +144,22 @@ CREATE TABLE `pen_drive` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `pen_drive`
+-- Dumping data for table `pen_drives`
 --
 
-LOCK TABLES `pen_drive` WRITE;
-/*!40000 ALTER TABLE `pen_drive` DISABLE KEYS */;
-/*!40000 ALTER TABLE `pen_drive` ENABLE KEYS */;
+LOCK TABLES `pen_drives` WRITE;
+/*!40000 ALTER TABLE `pen_drives` DISABLE KEYS */;
+/*!40000 ALTER TABLE `pen_drives` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `teclado`
+-- Table structure for table `teclados`
 --
 
-DROP TABLE IF EXISTS `teclado`;
+DROP TABLE IF EXISTS `teclados`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `teclado` (
+CREATE TABLE `teclados` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `marca` varchar(45) NOT NULL,
   `modelo` varchar(45) NOT NULL,
@@ -179,12 +179,12 @@ CREATE TABLE `teclado` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `teclado`
+-- Dumping data for table `teclados`
 --
 
-LOCK TABLES `teclado` WRITE;
-/*!40000 ALTER TABLE `teclado` DISABLE KEYS */;
-/*!40000 ALTER TABLE `teclado` ENABLE KEYS */;
+LOCK TABLES `teclados` WRITE;
+/*!40000 ALTER TABLE `teclados` DISABLE KEYS */;
+/*!40000 ALTER TABLE `teclados` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -206,7 +206,7 @@ CREATE TABLE `usuarios` (
   `celular` int unsigned DEFAULT NULL,
   `profissao` varchar(45) DEFAULT NULL,
   `email` varchar(45) DEFAULT NULL,
-  `foto` varchar(45) DEFAULT NULL,
+  `foto` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `login_UNIQUE` (`login`)

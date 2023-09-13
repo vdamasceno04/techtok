@@ -14,7 +14,7 @@ const db = async()=>{
     })
     // connection.connect(err =>{
     //     if(err){
-    //       console.error('Database connection failed: ' + err.stack)
+    //       console.error(`Database connection failed: ${err.stack}`)
     //       return
     //     }
     //     else{
@@ -27,17 +27,17 @@ const db = async()=>{
 
 const getTable = async(table)=>{
     const con = await db()
-    return await con.query('SELECT * FROM ' + table)
+    return await con.query(`SELECT * FROM ${table}`)
 }
 
-const newUser = async(user)=>{
+const addUser = async(user)=>{
     const con = await db()
-    const sql = 'INSERT INTO usuarios (login,senha) VALUES (?,?)'
+    const sql = 'INSERT INTO usuarios(login,senha) VALUES (?,?)'
     const values = [user.login,user.password]
     await con.query(sql,values)
 }
 
-const getUser = async(user)=>{
+const isValidUser = async(user)=>{
     const con = await db()
     const sql = 'SELECT id FROM usuarios WHERE (login=?,senha=?)'
     values = [user.login,user.password]
@@ -46,16 +46,36 @@ const getUser = async(user)=>{
     return false
 }
 
-// const newProduct = async(product)=>{
+const getRow = async(info)=>{
+    const con = await db()
+    return await con.query(`SELECT * FROM ${info.table} WHERE id=${info.id}`)
+}
+
+const getCell = async(info)=>{
+    const con = await db()
+    return await con.query(`SELECT ${info.column} FROM ${info.table} WHERE id=${info.id}`)
+}
+
+// const addTeclado = async(product)=>{
 //     const con = await db()
-//     const sql = 'INSERT INTO ' + type + '(login,password) VALUES (?,?)'
+//     const sql = `INSERT INTO teclados(
+//                  marca,
+//                  modelo,
+
+//                  ) VALUES (?,?,?,?,?)`
 //     const values = [product.a, product.b]
 //     await con.query(sql,values)
 // }
 
-const getProductInfo = async(product)=>{
-    const con = await db()
-    return await con.query('SELECT * FROM ' + product.category + ' WHERE id=' + product.id)
+module.exports = {
+    getTable,
+    getRow,
+    getCell,
+    addUser,
+    isValidUser,
+    addTeclado,
+    addMouse,
+    addPenDrive,
+    addFoneDeOuvido,
+    addCaixaDeSom
 }
-
-module.exports = {getTable,newUser,getUser,getProductInfo}

@@ -1,8 +1,10 @@
 (async()=>{
     const db = require('./db.js')
-    signup = await db.newUser({login:'User12',password:'@pAs/_1%'})
+    signUp = await db.newUser({login:'User17',password:'@pAs/_1%'})
     table = await db.getTable('usuarios')
     console.log(table)
-    fone = await db.getProductInfo({category:'fone',id:1})
-    console.log(fone)
+    fonesDeOuvido = await db.getRow({table:'fones_de_ouvido',id:1})
+    console.log(fonesDeOuvido)
+    penDrives = await db.getCell({table:'pen_drives',column:'estoque',id:1})
+    console.log(penDrives)
 })()
