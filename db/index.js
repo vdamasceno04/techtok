@@ -2,7 +2,7 @@
 (async()=>{
     const db = require('./db.js')
     // const userId = await db.insertUser({login:'User7',password:'@pAs/_1%'})
-    const idTeclado = db.insertTeclado({
+    idTeclado = db.insertTeclado({
         marca:'Pichau',
         modelo:'P631K',
         conexao:'USB 2.0',
