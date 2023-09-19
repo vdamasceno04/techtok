@@ -1,25 +1,37 @@
 /* Database functions */
 
+const mysql = require('mysql2/promise')
+
+let connectionPool
+
+const createConnectionPool = async()=>{
+    return mysql.createPool({// Pool to allow multiple simultaneous database users
+        host: 'localhost',
+        port: 3306,
+        database: 'company',
+        user: 'root',
+        password: 'admin',
+        connectionLimit: 10,// max users
+        connectTimeout: 10000,// ms
+        idleTimeout: 180000,// ms
+        waitForConnections: false,// wait till connected to db?
+        queueLimit: 5,// max awaiting connections
+    })
+}
+
+const getConnection = async(pool)=>{
+    return pool.getConnection()// Connect to database
+}
+
 const db = async()=>{// Connect to database
     try{
-        if(global.connection && global.connection.state != 'disconnected')
+        if(global.connection && global.connection.state != 'disconnected'){
             return global.connection
-        const mysql = require('mysql2/promise')
-        if(!global.pool){// Pool to allow multiple simultaneous database users
-            global.pool = await mysql.createPool({
-                host: 'localhost',
-                port: 3306,
-                database: 'company',
-                user: 'root',
-                password: 'admin',
-                connectionLimit: 10,
-                connectTimeout: 10000,
-                idleTimeout: 180000,
-                waitForConnections: true,
-                queueLimit: 5,
-            })
         }
-        global.connection = global.pool.getConnection()// Connect to database
+        if (!connectionPool){
+            connectionPool = await createConnectionPool()
+        }
+        global.connection = await getConnection(connectionPool)
         console.log('Connected to database')
         return global.connection
     } catch(err) {
@@ -113,11 +125,7 @@ const isUserExists = async(user)=>{// Verify an user from database
     try{
         const con = await db()
         const [data] = await con.query(sql,values)
-        if(data.length > 0){
-            return true;// User exists (at least one row is returned)
-        } else {
-            return false;// User does not exist (no rows returned)
-        }
+        return data.length > 0// True if user exists and password is correct
     } catch(err) {
         console.error('User not found: ' + err)
         return false
@@ -164,7 +172,7 @@ const insertCaixaDeSom = async(product)=>{// Insert "caixa de som" into database
     }
 }
 
-const insertFoneDeOuvido = async(product)=>{// Insert "teclado" into database
+const insertFoneDeOuvido = async(product)=>{// Insert "fone de ouvido" into database
     const sql = `INSERT INTO fones_de_ouvido(
         marca,
         modelo,
