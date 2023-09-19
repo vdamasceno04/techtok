@@ -86,7 +86,6 @@ const deleteRow = async(info)=>{// Delete a row from database
         await con.query(sql,values)
     } catch(err) {
         console.error('Row not found: ' + err)
-        return null
     }
 }
 
@@ -98,12 +97,11 @@ const updateCell = async(info)=>{// Update a cell in database
         await con.query(sql,values)
     } catch(err) {
         console.error('Cell not found: ' + err)
-        return null
     }
 }
 
 const insertUser = async(user)=>{// Add an user to database
-    const sql = 'INSERT INTO usuarios(login,senha) VALUES (?,?);'
+    const sql = 'INSERT INTO users(login,password) VALUES (?,?);'
     const values = [user.login,user.password]
     try{
         const con = await db()
@@ -114,12 +112,12 @@ const insertUser = async(user)=>{// Add an user to database
         return id
     } catch(err) {
         console.error('User not inserted: ' + err)
-        return null
+        return -1
     }
 }
 
 const isUserExists = async(user)=>{// Verify an user from database
-    const sql = 'SELECT id FROM usuarios WHERE login=? AND senha=?;'
+    const sql = 'SELECT id FROM users WHERE login=? AND password=?;'
     const values = [user.login,user.password]
     try{
         const con = await db()
@@ -131,204 +129,41 @@ const isUserExists = async(user)=>{// Verify an user from database
     }
 }
 
-const insertCaixaDeSom = async(product)=>{// Insert "caixa de som" into database
-    const sql = `INSERT INTO caixas_de_som(
-        marca,
-        modelo,
-        bateria,
-        conexao,
-        potencia,
-        protecao,
-        led,
-        descricao,
-        preco,
-        estoque,
-        imagem
-    ) VALUES (?,?,?,?,?,?,?,?,?,?,?);`
+const insertProduct = async(product)=>{// Insert product into database
+    const sql = `INSERT INTO products(
+            category,
+            brand,
+            model,
+            stock,
+            price,
+            image_path,
+            description,
+            warranty
+        ) VALUES (?,?,?,?,?,?,?,?);`
     const values = [
-        product.marca,
-        product.modelo,
-        product.bateria,
-        product.conexao,
-        product.potencia,
-        product.protecao,
-        product.led,
-        product.descricao,
-        product.preco,
-        product.estoque,
-        product.imagem
+        product.category,
+        product.brand,
+        product.model,
+        product.stock,
+        product.price,
+        product.imgpath,
+        product.description,
+        product.warranty
     ]
+    const sql2 = 'SELECT LAST_INSERT_ID() AS lastId;'
+    const sql3 = 'INSERT INTO ??(id) VALUES (?);'
     try{
         const con = await db()
         await con.query(sql,values)
-        const [aux] = await con.query('SELECT LAST_INSERT_ID() AS lastId;')
+        const [aux] = await con.query(sql2)
         const id = aux[0]['lastId']
-        console.log(`Caixa de som ${product.marca} ${product.modelo} inserted into database with ID = ${id}`)
+        const values3 = [product.category,id]
+        await con.query(sql3,values3)
+        console.log(`${product.brand} ${product.model} inserted into database with ID = ${id}`)
         return id
     } catch(err) {
-        console.error('Caixa de som not inserted: ' + err)
-        return null
-    }
-}
-
-const insertFoneDeOuvido = async(product)=>{// Insert "fone de ouvido" into database
-    const sql = `INSERT INTO fones_de_ouvido(
-        marca,
-        modelo,
-        conexao,
-        bateria,
-        tipo,
-        audio,
-        led,
-        descricao,
-        preco,
-        estoque,
-        imagem
-    ) VALUES (?,?,?,?,?,?,?,?,?,?,?);`
-    const values = [
-        product.marca,
-        product.modelo,
-        product.conexao,
-        product.bateria,
-        product.tipo,
-        product.audio,
-        product.led,
-        product.descricao,
-        product.preco,
-        product.estoque,
-        product.imagem
-    ]
-    try{
-        const con = await db()
-        await con.query(sql,values)
-        const [aux] = await con.query('SELECT LAST_INSERT_ID() AS lastId;')
-        const id = aux[0]['lastId']
-        console.log(`Fone de ouvido ${product.marca} ${product.modelo} inserted into database with ID = ${id}`)
-        return id
-    } catch(err) {
-        console.error('Fone de ouvido not inserted: ' + err)
-        return null
-    }
-}
-
-const insertMouse = async(product)=>{// Insert "mouse" into database
-    const con = await db()
-    const sql = `INSERT INTO mouses(
-        marca,
-        modelo,
-        botoes,
-        conexao,
-        bateria,
-        dpi,
-        led,
-        descricao,
-        preco,
-        estoque,
-        imagem
-    ) VALUES (?,?,?,?,?,?,?,?,?,?,?);`
-    const values = [
-        product.marca,
-        product.modelo,
-        product.botoes,
-        product.conexao,
-        product.bateria,
-        product.dpi,
-        product.led,
-        product.descricao,
-        product.preco,
-        product.estoque,
-        product.imagem
-    ]
-    try{
-        const con = await db()
-        await con.query(sql,values)
-        const [aux] = await con.query('SELECT LAST_INSERT_ID() AS lastId;')
-        const id = aux[0]['lastId']
-        console.log(`Mouse ${product.marca} ${product.modelo} inserted into database with ID = ${id}`)
-        return id
-    } catch(err) {
-        console.error('Mouse not inserted: ' + err)
-        return null
-    }
-}
-
-const insertPenDrive = async(product)=>{// Insert "pen drive" into database
-    const sql = `INSERT INTO pen_drives(
-        marca,
-        modelo,
-        capacidade,
-        conexao,
-        leitura,
-        escrita,
-        descricao,
-        preco,
-        estoque,
-        imagem
-    ) VALUES (?,?,?,?,?,?,?,?,?,?);`
-    const values = [
-        product.marca,
-        product.modelo,
-        product.capacidade,
-        product.conexao,
-        product.leitura,
-        product.escrita,
-        product.descricao,
-        product.preco,
-        product.estoque,
-        product.imagem
-    ]
-    try{
-        const con = await db()
-        await con.query(sql,values)
-        const [aux] = await con.query('SELECT LAST_INSERT_ID() AS lastId;')
-        const id = aux[0]['lastId']
-        console.log(`Pen drive ${product.marca} ${product.modelo} inserted into database with ID = ${id}`)
-        return id
-    } catch(err) {
-        console.error('Mouse not inserted: ' + err)
-        return null
-    }
-}
-
-const insertTeclado = async(product)=>{// Insert "teclado" into database
-    const sql = `INSERT INTO teclados(
-        marca,
-        modelo,
-        conexao,
-        bateria,
-        alcance,
-        layout,
-        switch,
-        led,
-        descricao,
-        preco,
-        estoque,
-        imagem
-    ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);`
-    const values = [
-        product.marca,
-        product.modelo,
-        product.conexao,
-        product.bateria,
-        product.alcance,
-        product.layout,
-        product.switch,
-        product.led,
-        product.descricao,
-        product.preco,
-        product.estoque,
-        product.imagem
-    ]
-    try{
-        const con = await db()
-        await con.query(sql,values)
-        const [aux] = await con.query('SELECT LAST_INSERT_ID() AS lastId;')
-        const id = aux[0]['lastId']
-        console.log(`Teclado ${product.marca} ${product.modelo} inserted into database with ID = ${id}`)
-        return id
-    } catch(err) {
-        console.error('Teclado not inserted: ' + err)
-        return null
+        console.error('Product not inserted: ' + err)
+        return -1
     }
 }
 
@@ -340,9 +175,5 @@ module.exports = {
     updateCell,
     insertUser,
     isUserExists,
-    insertCaixaDeSom,
-    insertFoneDeOuvido,
-    insertMouse,
-    insertPenDrive,
-    insertTeclado
+    insertProduct
 }

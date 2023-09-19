@@ -12,6 +12,7 @@ class Product{
         this.model = null
         this.description = null
         this.warranty = -1
+        this.stock = -1
     }
 
     getId(){return this.id;}
@@ -21,6 +22,6 @@ class Product{
     getDescription(){return this.description;}
     getBrand(){return this.brand;}
     getWarranty(){return this.warranty;}
-    
+    getStock(){return this.stock;}
 }
 module.exports = Product;

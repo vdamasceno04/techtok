@@ -5,28 +5,22 @@
     userId = await db.insertUser({login:'User9',password:'@pAs/_1%'})
     userExists = await db.isUserExists({login:'User9',password:'@pAs/_1%'})
     console.log(userExists)
-    idTeclado = await db.insertTeclado({
-        marca:'Pichau',
-        modelo:'P631K',
-        conexao:'USB 2.0',
-        bateria:null,
-        alcance:null,
-        layout:'ABNT2',
-        switch:'Cherry MX Brown',
-        led:'RGB',
-        descricao:'Teclado mecânico',
-        preco:400,
-        estoque:10,
-        imagem:'./imgs/teclado.png'
+    await db.deleteRow({table:'users',key:'id',keyVal:userId})
+    idTeclado = await db.insertProduct({
+        category:'keyboards',
+        brand:'Pichau',
+        model:'P631K',
+        description:'Teclado mecânico',
+        price:400,
+        stock:10,
+        imgpath:'../imgs/keyboard.png',
+        warranty:12
     })
-    estoque = await db.getCell({table:'teclados',column:'estoque',key:'id',keyVal:idTeclado})
-    console.log('Stock: ' + estoque)
-    await db.updateCell({table:'teclados',column:'estoque',value:9,key:'id',keyVal:idTeclado})
-    estoque = await db.getCell({table:'teclados',column:'estoque',key:'id',keyVal:idTeclado})
-    console.log('New stock: ' + estoque)
-    teclado = await db.getRow({table:'teclados',key:'id',keyVal:idTeclado})
-    console.log(teclado)
-    await db.deleteRow({table:'teclados',key:'id',keyVal:idTeclado})
-    teclados = await db.getTable('teclados')
-    console.log(teclados)
+    await db.updateCell({table:'keyboards',column:'led',value:'rgb',key:'id',keyVal:idTeclado})
+    console.log(await db.getCell({table:'keyboards',column:'led',key:'id',keyVal:idTeclado}))
+    console.log(await db.getRow({table:'keyboards',key:'id',keyVal:idTeclado}))
+    await db.deleteRow({table:'keyboards',key:'id',keyVal:idTeclado})
+    await db.deleteRow({table:'products',key:'id',keyVal:idTeclado})
+    console.log(await db.getTable('keyboards'))
+    console.log(await db.getTable('products'))
 })()
