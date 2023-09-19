@@ -1,10 +1,9 @@
 /* Database functions */
 
-const mysql = require('mysql2/promise')
-
 let connectionPool
 
 const createConnectionPool = async()=>{
+    const mysql = require('mysql2/promise')
     return mysql.createPool({// Pool to allow multiple simultaneous database users
         host: 'localhost',
         port: 3306,
