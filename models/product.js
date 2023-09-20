@@ -62,9 +62,8 @@ class Product extends Model{
     const saveProduct = async(category)=>{// save common info into database
         this.generateId('product')
         const db = require('../db/db.js')
-        await db.insertRows({
-            table:'products',
-            info:{
+        await db.insertRow({
+            'products',{
                 'id':this.id,
                 'category':category
                 'brand':this.brand,

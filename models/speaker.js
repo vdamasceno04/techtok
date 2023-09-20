@@ -42,9 +42,8 @@ class Speaker extends Product{
     save = async()=>{// save new product to database
         this.saveProduct('speakers')
         const db = require('../db/db.js')
-        await db.insertRows({
-            table:'speakers',
-            info:{
+        await db.insertRow({
+            'speakers',{
                 'id':this.id,
                 'connection':this.connection,
                 'channels':this.channels,

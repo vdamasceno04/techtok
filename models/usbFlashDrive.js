@@ -38,9 +38,8 @@ class UsbFlashDrive extends Product{
     save = async()=>{// save new product to database
         this.saveProduct('usb_flash_drives')
         const db = require('../db/db.js')
-        await db.insertRows({
-            table:'usb_flash_drives',
-            info:{
+        await db.insertRow({
+            'usb_flash_drives',{
                 'id':this.id,
                 'usb_type':this.usbType,
                 'capacity':this.capacity,

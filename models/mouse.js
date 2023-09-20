@@ -43,9 +43,8 @@ class Mouse extends Product{
     save = async()=>{// save new product to database
         this.saveProduct('mouses')
         const db = require('../db/db.js')
-        await db.insertRows({
-            table:'mouses',
-            info:{
+        await db.insertRow({
+            'mouses',{
                 'id':this.id,
                 'connection':this.connection,
                 'led':this.led,

@@ -70,9 +70,8 @@ class User extends Model{
     save = async()=>{// save new product to database
         this.generateId('user')
         const db = require('../db/db.js')
-        await db.insertRows({
-            table:'users',
-            info:{
+        await db.insertRow({
+            'users',{
                 'id':this.id,
                 'login':this.login,
                 'password':this.password,
@@ -93,8 +92,7 @@ class User extends Model{
     checkLogin = async()=>{
         const db = require('../db/db.js')
         return await db.checkIfExists({
-            qty:1,
-            table:'users',
+            'users',
             info:{
                 'login':this.login
             }
@@ -104,8 +102,7 @@ class User extends Model{
     checkPassword = async()=>{
         const db = require('../db/db.js')
         return await db.checkIfExists({
-            qty:2,
-            table:'users',
+            'users',
             info:{
                 'login':this.login
                 'password':this.password
