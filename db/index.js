@@ -26,4 +26,5 @@
     console.log(await db.getTable('keyboards'))
     console.log(await db.getTable('products'))
     console.log(await db.getTable('ids'))
+    process.exit(0)
 })()
