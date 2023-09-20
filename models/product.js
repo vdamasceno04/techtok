@@ -9,26 +9,41 @@ class Product extends Model{
     constructor() {
         super()
 
-        this.imgPath = null
-        this.price = -1
+        // string
         this.brand = null
         this.model = null
         this.description = null
-        this.warranty = -1
-        this.stock = -1
+        this.imgPath = null
         this.material = null
         this.size = null
+
+        // int
+        this.price = -1
+        this.warranty = -1
+        this.stock = -1
     }
 
-    getImgPath(){return this.imgPath}
-    getModel(){return this.model}
-    getPrice(){return this.price}
-    getDescription(){return this.description}
+    // setters
+    setBrand(brand){this.brand = brand}
+    setModel(model){this.model = model}
+    setDescription(description){this.description = description}
+    setImgPath(imgPath){this.imgPath = imgPath}
+    setMaterial(material){this.material = material}
+    setSize(size){this.size = size}
+    setPrice(price){this.price = price}
+    setWarranty(warranty){this.warranty = warranty}
+    setStock(stock){this.stock = stock}
+
+    // getters
     getBrand(){return this.brand}
-    getWarranty(){return this.warranty}
-    getStock(){return this.stock}
+    getModel(){return this.model}
+    getDescription(){return this.description}
+    getImgPath(){return this.imgPath}
     getMaterial(){return this.material}
     getSize(){return this.size}
+    getPrice(){return this.price}
+    getWarranty(){return this.warranty}
+    getStock(){return this.stock}
 }
 
 module.exports = Product

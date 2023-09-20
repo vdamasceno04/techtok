@@ -4,17 +4,31 @@ class Earphone extends Product{
     constructor(){
         super()
 
-        this.battery = -1
+        // string
+        this.channels = null
         this.connection = null
-        this.channels = -1
-        this.mic = false
+
+        // int
+        this.battery = -1
         this.power = -1
+        
+        // boolean
+        this.mic = false
     }
-    getBattery(){return this.battery}
-    getConnection(){return this.connection}
+
+    // setters
+    setChannels(channels){this.channels = channels}
+    setConnection(connection){this.connection = connection}
+    setBattery(battery){this.battery = battery}
+    setPower(power){this.power = power}
+    setMic(mic){this.mic = mic}
+
+    // getters
     getChannels(){return this.channels}
-    getMic(){return this.mic}
+    getConnection(){return this.connection}
+    getBattery(){return this.battery}
     getPower(){return this.power}
+    getMic(){return this.mic}
 }
 
 module.exports = Earphone
