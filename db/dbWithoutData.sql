@@ -26,7 +26,7 @@ DROP TABLE IF EXISTS `categories`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 CREATE TABLE `categories` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `products` varchar(255) COLLATE utf8mb4_0900_as_cs NOT NULL,
+  `products` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `tipos_de_produtos_UNIQUE` (`products`)
@@ -56,6 +56,7 @@ CREATE TABLE `earphones` (
   `channels` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
   `led` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
   `connection` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
+  `microphone` binary(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   CONSTRAINT `earphones_ibfk_1` FOREIGN KEY (`id`) REFERENCES `products` (`id`)
@@ -72,6 +73,30 @@ LOCK TABLES `earphones` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `ids`
+--
+
+DROP TABLE IF EXISTS `ids`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `ids` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `type` enum('user','product') COLLATE utf8mb4_0900_as_cs NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_as_cs;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ids`
+--
+
+LOCK TABLES `ids` WRITE;
+/*!40000 ALTER TABLE `ids` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ids` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `keyboards`
 --
 
@@ -85,6 +110,7 @@ CREATE TABLE `keyboards` (
   `layout` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
   `switch` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
   `led` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
+  `numpad` binary(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   CONSTRAINT `keyboards_ibfk_1` FOREIGN KEY (`id`) REFERENCES `products` (`id`)
@@ -138,18 +164,19 @@ DROP TABLE IF EXISTS `products`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `products` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `category` varchar(255) COLLATE utf8mb4_0900_as_cs NOT NULL,
-  `brand` varchar(255) COLLATE utf8mb4_0900_as_cs NOT NULL,
-  `model` varchar(255) COLLATE utf8mb4_0900_as_cs NOT NULL,
+  `category` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL,
+  `brand` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL,
+  `model` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL,
   `stock` int unsigned NOT NULL,
   `price` int unsigned NOT NULL,
-  `description` varchar(255) COLLATE utf8mb4_0900_as_cs NOT NULL,
-  `image_path` varchar(255) COLLATE utf8mb4_0900_as_cs NOT NULL,
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL,
+  `image_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL,
   `warranty` int unsigned NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `category` (`category`),
-  CONSTRAINT `products_ibfk_1` FOREIGN KEY (`category`) REFERENCES `categories` (`products`)
+  CONSTRAINT `products_ibfk_1` FOREIGN KEY (`category`) REFERENCES `categories` (`products`),
+  CONSTRAINT `products_ibfk_2` FOREIGN KEY (`id`) REFERENCES `ids` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_as_cs;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -176,6 +203,7 @@ CREATE TABLE `speakers` (
   `power` int unsigned DEFAULT NULL,
   `protection` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
   `led` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
+  `channels` varchar(255) COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   CONSTRAINT `speakers_ibfk_1` FOREIGN KEY (`id`) REFERENCES `products` (`id`)
@@ -202,8 +230,8 @@ CREATE TABLE `usb_flash_drives` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `capacity` int unsigned DEFAULT NULL,
   `usb_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
-  `write` int unsigned DEFAULT NULL,
-  `read` int unsigned DEFAULT NULL,
+  `write_speed` int unsigned DEFAULT NULL,
+  `read_speed` int unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   CONSTRAINT `usb_flash_drives_ibfk_1` FOREIGN KEY (`id`) REFERENCES `products` (`id`)
@@ -231,6 +259,7 @@ CREATE TABLE `users` (
   `login` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL,
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
+  `birth_date` date DEFAULT NULL,
   `document` int unsigned DEFAULT NULL,
   `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
   `telephone` int DEFAULT NULL,
@@ -242,7 +271,8 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `login_UNIQUE` (`login`),
-  UNIQUE KEY `document_UNIQUE` (`document`)
+  UNIQUE KEY `document_UNIQUE` (`document`),
+  CONSTRAINT `users_ibfk_1` FOREIGN KEY (`id`) REFERENCES `ids` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_as_cs;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -264,4 +294,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-09-19 20:20:01
+-- Dump completed on 2023-09-19 22:26:38
