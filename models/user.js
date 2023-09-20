@@ -48,6 +48,70 @@ class User extends Model{
     getDocument(){return this.document}
     getTelephone(){return this.telephone}
     getCellphone(){return this.cellphone}
+
+    load = async()=>{// load from database
+        this.loadProduct()
+        const db = require('../db/db.js')
+        const [info] = await db.getRow({table:'users',key:'id',keyVal:this.id})
+        this.login = info[0]['login']
+        this.password = info[0]['password']
+        this.name = info[0]['name']
+        this.birthDate = info[0]['birth_date']
+        this.address = info[0]['address']
+        this.email = info[0]['email']
+        this.occupation = info[0]['occupation']
+        this.workplace = info[0]['workplace']
+        this.photoPath = info[0]['photo_path']
+        this.document = info[0]['document']
+        this.telephone = info[0]['telephone']
+        this.cellphone = info[0]['cellphone']
+    }
+
+    save = async()=>{// save new product to database
+        this.generateId('user')
+        const db = require('../db/db.js')
+        await db.insertRows({
+            table:'users',
+            info:{
+                'id':this.id,
+                'login':this.login,
+                'password':this.password,
+                'name':this.name,
+                'birth_date':this.birthDate,
+                'address':this.address,
+                'email':this.email,
+                'occupation':this.occupation,
+                'workplace':this.workplace,
+                'photo_path':this.photoPath,
+                'document':this.document,
+                'telephone':this.telephone,
+                'cellphone':this.cellphone
+            }
+        })
+    }
+
+    checkLogin = async()=>{
+        const db = require('../db/db.js')
+        return await db.checkIfExists({
+            qty:1,
+            table:'users',
+            info:{
+                'login':this.login
+            }
+        })
+    }
+
+    checkPassword = async()=>{
+        const db = require('../db/db.js')
+        return await db.checkIfExists({
+            qty:2,
+            table:'users',
+            info:{
+                'login':this.login
+                'password':this.password
+            }
+        })
+    }
 }
 
 module.exports = User

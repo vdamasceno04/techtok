@@ -27,6 +27,33 @@ class Speaker extends Product{
     getProtection(){return this.protection}
     getBattery(){return this.battery}
     getPower(){return this.power}
+
+    load = async()=>{// load from database
+        this.loadProduct()
+        const db = require('../db/db.js')
+        const [info] = await db.getRow({table:'speakers',key:'id',keyVal:this.id})
+        this.connection = info[0]['connection']
+        this.channels = info[0]['channels']
+        this.protection = info[0]['protection']
+        this.battery = info[0]['battery']
+        this.power = info[0]['power']
+    }
+
+    save = async()=>{// save new product to database
+        this.saveProduct('speakers')
+        const db = require('../db/db.js')
+        await db.insertRows({
+            table:'speakers',
+            info:{
+                'id':this.id,
+                'connection':this.connection,
+                'channels':this.channels,
+                'protection':this.protection,
+                'battery':this.battery,
+                'power':this.power
+            }
+        })
+    }
 }
 
 module.exports = Speaker

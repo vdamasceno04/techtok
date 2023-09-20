@@ -1,4 +1,9 @@
 /* Database functions */
+/* TODO: 
+receber quantidade de campos e um array de maps por parâmetro
+para tornar as funções insert, update e delete mais genéricas
+remover funções específicas de User e Product daqui
+*/
 
 let connectionPool
 
@@ -92,7 +97,7 @@ const deleteRow = async(info)=>{// Delete a row from database
     }
 }
 
-const updateCell = async(info)=>{// Update a cell in database
+const updateCells = async(info)=>{// Update a cell in database
     const sql = 'UPDATE ?? SET ??=? WHERE ??=?;'
     const values = [info.table,info.column,info.value,info.key,info.keyVal]
     try{
@@ -104,26 +109,15 @@ const updateCell = async(info)=>{// Update a cell in database
     }
 }
 
-const insertUser = async(user)=>{// Add an user to database
-    const sql0 = `INSERT INTO ids(type) VALUES ('user');`
-    const sql1 = 'SELECT LAST_INSERT_ID() AS lastId;'
-    const sql2 = 'INSERT INTO users(id,login,password) VALUES (?,?,?);'
-    try{
-        const con = await connectDb()
-        await con.query(sql0)
-        const [aux] = await con.query(sql1)
-        id = aux[0].lastId
-        const values2 = [id,user.login,user.password]
-        await con.query(sql2,values2)
-        await con.release()
-        return id
-    } catch(err) {
-        console.error('User not inserted: ' + err)
-        return -1
-    }
+const insertRows = async(info)=>{
 }
 
-const isUserExists = async(user)=>{// Verify an user from database
+const checkIfExists = async(data)=>{// Verify fields in database
+    data.shift().
+    i = 0
+    data.forEach((value,key)=>{
+
+    })
     const sql = 'SELECT id FROM users WHERE login=? AND password=?;'
     const values = [user.login,user.password]
     try{
@@ -137,51 +131,84 @@ const isUserExists = async(user)=>{// Verify an user from database
     }
 }
 
-const insertProduct = async(product)=>{// Insert product into database
-    const sql0 = `INSERT INTO ids(type) VALUES ('product');`
-    const sql1 = 'SELECT LAST_INSERT_ID() AS lastId;'
-    const sql2 = `INSERT INTO products(
-        id,
-        category,
-        brand,
-        model,
-        stock,
-        price,
-        image_path,
-        description,
-        warranty,
-        material,
-        size
-    ) VALUES (?,?,?,?,?,?,?,?,?,?,?);`
-    const sql3 = 'INSERT INTO ??(id) VALUES (?);'
-    try{
-        const con = await connectDb()
-        await con.query(sql0)
-        const [aux] = await con.query(sql1)
-        const id = aux[0]['lastId']
-        const values2 = [
-            id,
-            product.category,
-            product.brand,
-            product.model,
-            product.stock,
-            product.price,
-            product.imgPath,
-            product.description,
-            product.warranty,
-            product.material,
-            product.size
-        ]
-        await con.query(sql2,values2)
-        const values3 = [product.category,id]
-        await con.query(sql3,values3)
-        await con.release()
-        return id
-    } catch(err) {
-        console.error('Product not inserted: ' + err)
-        return -1
-    }
-}
+// const insertUser = async(user)=>{// Add an user to database
+//     const sql0 = `INSERT INTO ids(type) VALUES ('user');`
+//     const sql1 = 'SELECT LAST_INSERT_ID() AS lastId;'
+//     const sql2 = 'INSERT INTO users(id,login,password) VALUES (?,?,?);'
+//     try{
+//         const con = await connectDb()
+//         await con.query(sql0)
+//         const [aux] = await con.query(sql1)
+//         id = aux[0].lastId
+//         const values2 = [id,user.login,user.password]
+//         await con.query(sql2,values2)
+//         await con.release()
+//         return id
+//     } catch(err) {
+//         console.error('User not inserted: ' + err)
+//         return -1
+//     }
+// }
+
+// const isUserExists = async(user)=>{// Verify an user from database
+//     const sql = 'SELECT id FROM users WHERE login=? AND password=?;'
+//     const values = [user.login,user.password]
+//     try{
+//         const con = await connectDb()
+//         const [data] = await con.query(sql,values)
+//         await con.release()
+//         return data.length > 0// True if user exists and password is correct
+//     } catch(err) {
+//         console.error('User not found: ' + err)
+//         return false
+//     }
+// }
+
+// const insertProduct = async(product)=>{// Insert product into database
+//     const sql0 = `INSERT INTO ids(type) VALUES ('product');`
+//     const sql1 = 'SELECT LAST_INSERT_ID() AS lastId;'
+//     const sql2 = `INSERT INTO products(
+//         id,
+//         category,
+//         brand,
+//         model,
+//         stock,
+//         price,
+//         image_path,
+//         description,
+//         warranty,
+//         material,
+//         size
+//     ) VALUES (?,?,?,?,?,?,?,?,?,?,?);`
+//     const sql3 = 'INSERT INTO ??(id) VALUES (?);'
+//     try{
+//         const con = await connectDb()
+//         await con.query(sql0)
+//         const [aux] = await con.query(sql1)
+//         const id = aux[0]['lastId']
+//         const values2 = [
+//             id,
+//             product.category,
+//             product.brand,
+//             product.model,
+//             product.stock,
+//             product.price,
+//             product.imgPath,
+//             product.description,
+//             product.warranty,
+//             product.material,
+//             product.size
+//         ]
+//         await con.query(sql2,values2)
+//         const values3 = [product.category,id]
+//         await con.query(sql3,values3)
+//         await con.release()
+//         return id
+//     } catch(err) {
+//         console.error('Product not inserted: ' + err)
+//         return -1
+//     }
+// }
 
 module.exports = {
     getTable,
@@ -189,7 +216,9 @@ module.exports = {
     getCell,
     deleteRow,
     updateCell,
-    insertUser,
-    isUserExists,
-    insertProduct
+    insertRow,
+    checkIfExists
+    // insertUser,
+    // isUserExists,
+    // insertProduct
 }

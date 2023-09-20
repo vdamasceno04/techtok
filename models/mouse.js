@@ -28,6 +28,33 @@ class Mouse extends Product{
     getButtons(){return this.buttons}
     getBattery(){return this.battery}
     getDpi(){return this.dpi}
+
+    load = async()=>{// load from database
+        this.loadProduct()
+        const db = require('../db/db.js')
+        const [info] = await db.getRow({table:'mouses',key:'id',keyVal:this.id})
+        this.connection = info[0]['connection']
+        this.led = info[0]['led']
+        this.buttons = info[0]['buttons']
+        this.battery = info[0]['battery']
+        this.dpi = info[0]['dpi']
+    }
+
+    save = async()=>{// save new product to database
+        this.saveProduct('mouses')
+        const db = require('../db/db.js')
+        await db.insertRows({
+            table:'mouses',
+            info:{
+                'id':this.id,
+                'connection':this.connection,
+                'led':this.led,
+                'buttons':this.buttons,
+                'battery':this.battery,
+                'dpi':this.dpi
+            }
+        })
+    }
 }
 
 module.exports = Mouse

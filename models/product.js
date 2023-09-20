@@ -44,6 +44,41 @@ class Product extends Model{
     getPrice(){return this.price}
     getWarranty(){return this.warranty}
     getStock(){return this.stock}
+
+    const loadProduct = async()=>{// load common info from database
+        const db = require('../db/db.js')
+        const [info] = await db.getRow(table:'products',key:'id',keyVal:this.id)
+        this.brand = info[0]['brand']
+        this.model = info[0]['model']
+        this.description = info[0]['stock']
+        this.imgPath = info[0]['image_path']
+        this.material = info[0]['material']
+        this.size = info[0]['size']
+        this.price = info[0]['price']
+        this.warranty = info[0]['warranty']
+        this.stock = info[0]['stock']
+    }
+
+    const saveProduct = async(category)=>{// save common info into database
+        this.generateId('product')
+        const db = require('../db/db.js')
+        await db.insertRows({
+            table:'products',
+            info:{
+                'id':this.id,
+                'category':category
+                'brand':this.brand,
+                'model':this.model,
+                'description':this.description,
+                'image_path':this.imgPath,
+                'material':this.material,
+                'size':this.size,
+                'price':this.price,
+                'warranty':this.warranty,
+                'stock':this.stock
+            }
+        })
+    }
 }
 
 module.exports = Product
