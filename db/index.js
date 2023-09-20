@@ -3,8 +3,7 @@
 (async()=>{
     const db = require('./db.js')
     userId = await db.insertUser({login:'User9',password:'@pAs/_1%'})
-    userExists = await db.isUserExists({login:'User9',password:'@pAs/_1%'})
-    console.log(userExists)
+    console.log(await db.isUserExists({login:'User9',password:'@pAs/_1%'}))
     await db.deleteRow({table:'users',key:'id',keyVal:userId})
     idTeclado = await db.insertProduct({
         category:'keyboards',

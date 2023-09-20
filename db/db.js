@@ -22,7 +22,7 @@ const getConnection = async(pool)=>{
     return pool.getConnection()// Connect to database
 }
 
-const db = async()=>{// Connect to database
+const connectDb = async()=>{// Connect to database
     try{
         if(global.connection && global.connection.state != 'disconnected'){
             return global.connection
@@ -31,7 +31,6 @@ const db = async()=>{// Connect to database
             connectionPool = await createConnectionPool()
         }
         global.connection = await getConnection(connectionPool)
-        console.log('Connected to database')
         return global.connection
     } catch(err) {
         console.error('Database connection failed: ' + err)
@@ -43,8 +42,9 @@ const getTable = async(table)=>{// Return a table from database
     const sql = 'SELECT * FROM ??;'
     const values = [table]
     try{
-        const con = await db()
+        const con = await connectDb()
         const [data] = await con.query(sql,values)
+        await con.release()
         return data
     } catch(err) {
         console.error('Table not found: ' + err)
@@ -56,8 +56,9 @@ const getRow = async(info)=>{// Return a row from database
     const sql = 'SELECT * FROM ?? WHERE ??=?;'
     const values = [info.table,info.key,info.keyVal]
     try{
-        const con = await db()
+        const con = await connectDb()
         const [data] = await con.query(sql,values)
+        await con.release()
         return data
     } catch(err) {
         console.error('Row not found: ' + err)
@@ -69,8 +70,9 @@ const getCell = async(info)=>{// Return a cell from database
     const sql = 'SELECT ?? FROM ?? WHERE ??=?;'
     const values = [info.column,info.table,info.key,info.keyVal]
     try{
-        const con = await db()
+        const con = await connectDb()
         const [data] = await con.query(sql,values)
+        await con.release()
         return data[0][info.column]
     } catch(err) {
         console.error('Cell not found: ' + err)
@@ -82,8 +84,9 @@ const deleteRow = async(info)=>{// Delete a row from database
     const sql = 'DELETE FROM ?? WHERE ??=?;'
     const values = [info.table,info.key,info.keyVal]
     try{
-        const con = await db()
+        const con = await connectDb()
         await con.query(sql,values)
+        await con.release()
     } catch(err) {
         console.error('Row not found: ' + err)
     }
@@ -93,8 +96,9 @@ const updateCell = async(info)=>{// Update a cell in database
     const sql = 'UPDATE ?? SET ??=? WHERE ??=?;'
     const values = [info.table,info.column,info.value,info.key,info.keyVal]
     try{
-        const con = await db()
+        const con = await connectDb()
         await con.query(sql,values)
+        await con.release()
     } catch(err) {
         console.error('Cell not found: ' + err)
     }
@@ -104,11 +108,11 @@ const insertUser = async(user)=>{// Add an user to database
     const sql = 'INSERT INTO users(login,password) VALUES (?,?);'
     const values = [user.login,user.password]
     try{
-        const con = await db()
+        const con = await connectDb()
         await con.query(sql,values)
         const [aux] = await con.query('SELECT LAST_INSERT_ID() AS lastId;')
         id = aux[0].lastId
-        console.log(`User ${user.login} inserted into database with ID = ${id}`)
+        await con.release()
         return id
     } catch(err) {
         console.error('User not inserted: ' + err)
@@ -120,8 +124,9 @@ const isUserExists = async(user)=>{// Verify an user from database
     const sql = 'SELECT id FROM users WHERE login=? AND password=?;'
     const values = [user.login,user.password]
     try{
-        const con = await db()
+        const con = await connectDb()
         const [data] = await con.query(sql,values)
+        await con.release()
         return data.length > 0// True if user exists and password is correct
     } catch(err) {
         console.error('User not found: ' + err)
@@ -153,13 +158,13 @@ const insertProduct = async(product)=>{// Insert product into database
     const sql2 = 'SELECT LAST_INSERT_ID() AS lastId;'
     const sql3 = 'INSERT INTO ??(id) VALUES (?);'
     try{
-        const con = await db()
+        const con = await connectDb()
         await con.query(sql,values)
         const [aux] = await con.query(sql2)
         const id = aux[0]['lastId']
         const values3 = [product.category,id]
         await con.query(sql3,values3)
-        console.log(`${product.brand} ${product.model} inserted into database with ID = ${id}`)
+        await con.release()
         return id
     } catch(err) {
         console.error('Product not inserted: ' + err)
