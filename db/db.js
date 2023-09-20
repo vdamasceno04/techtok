@@ -105,13 +105,16 @@ const updateCell = async(info)=>{// Update a cell in database
 }
 
 const insertUser = async(user)=>{// Add an user to database
-    const sql = 'INSERT INTO users(login,password) VALUES (?,?);'
-    const values = [user.login,user.password]
+    const sql0 = `INSERT INTO ids(type) VALUES ('user');`
+    const sql1 = 'SELECT LAST_INSERT_ID() AS lastId;'
+    const sql2 = 'INSERT INTO users(id,login,password) VALUES (?,?,?);'
     try{
         const con = await connectDb()
-        await con.query(sql,values)
-        const [aux] = await con.query('SELECT LAST_INSERT_ID() AS lastId;')
+        await con.query(sql0)
+        const [aux] = await con.query(sql1)
         id = aux[0].lastId
+        const values2 = [id,user.login,user.password]
+        await con.query(sql2,values2)
         await con.release()
         return id
     } catch(err) {
@@ -135,33 +138,41 @@ const isUserExists = async(user)=>{// Verify an user from database
 }
 
 const insertProduct = async(product)=>{// Insert product into database
-    const sql = `INSERT INTO products(
-            category,
-            brand,
-            model,
-            stock,
-            price,
-            image_path,
-            description,
-            warranty
-        ) VALUES (?,?,?,?,?,?,?,?);`
-    const values = [
-        product.category,
-        product.brand,
-        product.model,
-        product.stock,
-        product.price,
-        product.imgpath,
-        product.description,
-        product.warranty
-    ]
-    const sql2 = 'SELECT LAST_INSERT_ID() AS lastId;'
+    const sql0 = `INSERT INTO ids(type) VALUES ('product');`
+    const sql1 = 'SELECT LAST_INSERT_ID() AS lastId;'
+    const sql2 = `INSERT INTO products(
+        id,
+        category,
+        brand,
+        model,
+        stock,
+        price,
+        image_path,
+        description,
+        warranty,
+        material,
+        size
+    ) VALUES (?,?,?,?,?,?,?,?,?,?,?);`
     const sql3 = 'INSERT INTO ??(id) VALUES (?);'
     try{
         const con = await connectDb()
-        await con.query(sql,values)
-        const [aux] = await con.query(sql2)
+        await con.query(sql0)
+        const [aux] = await con.query(sql1)
         const id = aux[0]['lastId']
+        const values2 = [
+            id,
+            product.category,
+            product.brand,
+            product.model,
+            product.stock,
+            product.price,
+            product.imgPath,
+            product.description,
+            product.warranty,
+            product.material,
+            product.size
+        ]
+        await con.query(sql2,values2)
         const values3 = [product.category,id]
         await con.query(sql3,values3)
         await con.release()

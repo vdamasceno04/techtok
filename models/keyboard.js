@@ -2,20 +2,22 @@ const Product = require('./product.js')
 
 class Keyboard extends Product{
     constructor(){
-        super();
+        super()
 
         this.connection = null
         this.battery = -1
-        this.numericpad = false
+        this.numpad = false
         this.layout = null
-        this.mechanical = false
+        this.switch = null
+        this.led = null
     }
 
-    getConnection(){return this.connection;}
-    getBattery(){return this.battery;}
-    getNumericpad(){return this.numericpad;}
+    getConnection(){return this.connection}
+    getBattery(){return this.battery}
+    getNumpad(){return this.numpad}
     getLayout(){return this.layout}
-    getMechanial(){return this.mechanical;}
+    getSwitch(){return this.switch}
+    getLed(){return this.led}
 }
 
-module.exports = Keyboard;
+module.exports = Keyboard

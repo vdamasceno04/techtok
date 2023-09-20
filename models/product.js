@@ -3,25 +3,32 @@ dos produtos de uma tabela e enviá-lo na construtora
 das instancias dos produtos seja o melhor jeito
 de instanciar tudo*/
 
-class Product{ 
+const Model = require('./model.js')
+
+class Product extends Model{ 
     constructor() {
-        this.id = -1
-        this.imgpath = null
+        super()
+
+        this.imgPath = null
         this.price = -1
         this.brand = null
         this.model = null
         this.description = null
         this.warranty = -1
         this.stock = -1
+        this.material = null
+        this.size = null
     }
 
-    getId(){return this.id;}
-    getImgPath(){return this.imgpath; }
-    getModel(){return this.model;}
-    getPrice(){return this.price;}
-    getDescription(){return this.description;}
-    getBrand(){return this.brand;}
-    getWarranty(){return this.warranty;}
-    getStock(){return this.stock;}
+    getImgPath(){return this.imgPath}
+    getModel(){return this.model}
+    getPrice(){return this.price}
+    getDescription(){return this.description}
+    getBrand(){return this.brand}
+    getWarranty(){return this.warranty}
+    getStock(){return this.stock}
+    getMaterial(){return this.material}
+    getSize(){return this.size}
 }
-module.exports = Product;
+
+module.exports = Product
