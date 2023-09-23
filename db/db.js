@@ -152,7 +152,7 @@ const checkIfExists = async(table,info)=>{// Verify fields in database
         await con.release()
         return data.length > 0// True if user exists and password is correct
     } catch(err) {
-        console.error('User not found: ' + err)
+        console.error('Info not found: ' + err)
         return false
     }
 }
