@@ -32,7 +32,6 @@ class Earphone extends Product{
 
     load = async()=>{// load from database
         this.loadProduct()
-        const db = require('../db/db.js')
         const [info] = await db.getRow({table:'earphones',key:'id',keyVal:this.id})
         this.channels = info[0]['channels']
         this.connection = info[0]['connection']
@@ -43,7 +42,6 @@ class Earphone extends Product{
 
     save = async()=>{// save new product to database
         this.saveProduct('earphones')
-        const db = require('../db/db.js')
         await db.insertRow({
             'earphones',{
                 'id':this.id,

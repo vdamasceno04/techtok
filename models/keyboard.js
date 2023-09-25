@@ -35,7 +35,6 @@ class Keyboard extends Product{
 
     load = async()=>{// load from database
         this.loadProduct()
-        const db = require('../db/db.js')
         const [info] = await db.getRow({table:'keyboards',key:'id',keyVal:this.id})
         this.connection = info[0]['connection']
         this.layout = info[0]['layout']
@@ -47,7 +46,6 @@ class Keyboard extends Product{
 
     save = async()=>{// save new product to database
         this.saveProduct('keyboards')
-        const db = require('../db/db.js')
         await db.insertRow({
             'keyboards',{
                 'id':this.id,

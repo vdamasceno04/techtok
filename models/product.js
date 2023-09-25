@@ -46,7 +46,6 @@ class Product extends Model{
     getStock(){return this.stock}
 
     const loadProduct = async()=>{// load common info from database
-        const db = require('../db/db.js')
         const [info] = await db.getRow(table:'products',key:'id',keyVal:this.id)
         this.brand = info[0]['brand']
         this.model = info[0]['model']
@@ -61,7 +60,6 @@ class Product extends Model{
 
     const saveProduct = async(category)=>{// save common info into database
         this.generateId('product')
-        const db = require('../db/db.js')
         await db.insertRow({
             'products',{
                 'id':this.id,

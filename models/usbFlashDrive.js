@@ -27,7 +27,6 @@ class UsbFlashDrive extends Product{
 
     load = async()=>{// load from database
         this.loadProduct()
-        const db = require('../db/db.js')
         const [info] = await db.getRow({table:'usb_flash_drives',key:'id',keyVal:this.id})
         this.usbType = info[0]['usb_type']
         this.capacity = info[0]['capacity']
@@ -37,7 +36,6 @@ class UsbFlashDrive extends Product{
 
     save = async()=>{// save new product to database
         this.saveProduct('usb_flash_drives')
-        const db = require('../db/db.js')
         await db.insertRow({
             'usb_flash_drives',{
                 'id':this.id,

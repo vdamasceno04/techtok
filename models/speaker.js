@@ -30,7 +30,6 @@ class Speaker extends Product{
 
     load = async()=>{// load from database
         this.loadProduct()
-        const db = require('../db/db.js')
         const [info] = await db.getRow({table:'speakers',key:'id',keyVal:this.id})
         this.connection = info[0]['connection']
         this.channels = info[0]['channels']
@@ -41,7 +40,6 @@ class Speaker extends Product{
 
     save = async()=>{// save new product to database
         this.saveProduct('speakers')
-        const db = require('../db/db.js')
         await db.insertRow({
             'speakers',{
                 'id':this.id,

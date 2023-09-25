@@ -49,10 +49,13 @@ class User extends Model{
     getTelephone(){return this.telephone}
     getCellphone(){return this.cellphone}
 
-    load = async()=>{// load from database
-        this.loadProduct()
-        const db = require('../db/db.js')
-        const [info] = await db.getRow({table:'users',key:'id',keyVal:this.id})
+    async load(){// load from database
+        const [info] = await this.db.getRow(
+            'users',{
+                key:'id',
+                keyVal:this.id
+            }
+        )
         this.login = info[0]['login']
         this.password = info[0]['password']
         this.name = info[0]['name']
@@ -67,10 +70,9 @@ class User extends Model{
         this.cellphone = info[0]['cellphone']
     }
 
-    save = async()=>{// save new product to database
-        this.generateId('user')
-        const db = require('../db/db.js')
-        await db.insertRow({
+    async save(){// save new product to database
+        await this.generateId('user')
+        await this.db.insertRow(
             'users',{
                 'id':this.id,
                 'login':this.login,
@@ -86,29 +88,27 @@ class User extends Model{
                 'telephone':this.telephone,
                 'cellphone':this.cellphone
             }
-        })
+        )
     }
 
-    checkLogin = async()=>{
-        const db = require('../db/db.js')
-        return await db.checkIfExists({
-            'users',
-            info:{
-                'login':this.login
-            }
-        })
-    }
+    // checkLogin = async()=>{
+    //     return await this.db.checkIfExists(
+    //         'users',
+    //         {
+    //             'login':this.login
+    //         }
+    //     )
+    // }
 
-    checkPassword = async()=>{
-        const db = require('../db/db.js')
-        return await db.checkIfExists({
-            'users',
-            info:{
-                'login':this.login
-                'password':this.password
-            }
-        })
-    }
+    // checkPassword = async()=>{
+    //     return await this.db.checkIfExists(
+    //         'users',
+    //         {
+    //             'login':this.login
+    //             'password':this.password
+    //         }
+    //     )
+    // }
 }
 
 module.exports = User

@@ -1,12 +1,18 @@
 /* Script for database tests only */
 
-// (async()=>{
-//     const db = require('./db.js')
-//     const userLogin = 'User9'
-//     userId = await db.insertUser({login:userLogin,password:'@pAs/_1%'})
-//     console.log(await db.isUserExists({login:userLogin,password:'@pAs/_1%'}))
-//     await db.deleteRow({table:'users',key:'login',keyVal:userLogin})
-//     await db.deleteRow({table:'ids',key:'id',keyVal:userId})
+(async()=>{
+    const db = require('./db.js')
+    const User = require('../models/user.js')
+    const usr = new User()
+    usr.setLogin('admn')
+    usr.setPassword('123')
+    usr.save()
+    // console.log(db.checkIfExists('users',{
+    //     'login':'admn',
+    //     'password':'123'
+    // }))
+    // await db.deleteRow('users',{column:'login',value:usr.getLogin()})
+    // await db.deleteRow('ids',{column:'id',value:usr.getId()})
 //     keyboardId = await db.insertProduct({
 //         category:'keyboards',
 //         brand:'Pichau',
@@ -26,5 +32,5 @@
 //     console.log(await db.getTable('keyboards'))
 //     console.log(await db.getTable('products'))
 //     console.log(await db.getTable('ids'))
-//     process.exit(0)
-// })()
+    // process.exit(0)
+})()

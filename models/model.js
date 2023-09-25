@@ -4,23 +4,26 @@ class Model{
         this.id = -1
     }
 
+    static db = require('../db/db.js')
+
     // setters
     setId(id){this.id = id}
 
     // getters
     getId(){return this.id}
 
-    const generateId(type){// generate id
-        this.id = await db.insertRow({
-            'ids',{
-                'type':type
-            }
-        })
+    async generateId(type){// generate id
+        if(this.id < 0){
+            this.id = await this.db.insertRow(
+                'ids',{
+                    'type':type
+                }
+            )
+        }
     }
 
-    const update = async(info)=>{// update info in database
-        const db = require('../db/db.js')
-        await db.updateCell({
+    async update(info){// update info in database
+        await this.db.updateCell({
             table:info.table,
             column:info.column,
             value:info.value,
@@ -30,4 +33,4 @@ class Model{
     }
 }
 
-module.exports = Model;
+module.exports = Model

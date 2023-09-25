@@ -44,8 +44,11 @@ const connectDb = async()=>{// Connect to database
 }
 
 const getTable = async(table)=>{// Return a table from database
+    console.log('getTable')
     const sql = 'SELECT * FROM ??;'
     const values = [table]
+    console.log(sql)
+    console.log(values)
     try{
         const con = await connectDb()
         const [data] = await con.query(sql,values)
@@ -57,9 +60,12 @@ const getTable = async(table)=>{// Return a table from database
     }
 }
 
-const getRow = async(info)=>{// Return a row from database
+const getRow = async(table,key)=>{// Return a row from database
+    console.log('getRow')
     const sql = 'SELECT * FROM ?? WHERE ??=?;'
-    const values = [info.table,info.key,info.keyVal]
+    const values = [table,key.column,key.value]
+    console.log(sql)
+    console.log(values)
     try{
         const con = await connectDb()
         const [data] = await con.query(sql,values)
@@ -71,9 +77,12 @@ const getRow = async(info)=>{// Return a row from database
     }
 }
 
-const getCell = async(info)=>{// Return a cell from database
+const getCell = async(table,key,info)=>{// Return a cell from database
+    console.log('getCell')
     const sql = 'SELECT ?? FROM ?? WHERE ??=?;'
-    const values = [info.column,info.table,info.key,info.keyVal]
+    const values = [info,table,key.column,key.value]
+    console.log(sql)
+    console.log(values)
     try{
         const con = await connectDb()
         const [data] = await con.query(sql,values)
@@ -85,9 +94,12 @@ const getCell = async(info)=>{// Return a cell from database
     }
 }
 
-const deleteRow = async(info)=>{// Delete a row from database
+const deleteRow = async(table,key)=>{// Delete a row from database
+    console.log('deleteRow')
     const sql = 'DELETE FROM ?? WHERE ??=?;'
-    const values = [info.table,info.key,info.keyVal]
+    const values = [table,key.column,key.value]
+    console.log(sql)
+    console.log(values)
     try{
         const con = await connectDb()
         await con.query(sql,values)
@@ -97,9 +109,23 @@ const deleteRow = async(info)=>{// Delete a row from database
     }
 }
 
-const updateCell = async(info)=>{// Update a cell in database
-    const sql = 'UPDATE ?? SET ??=? WHERE ??=?;'
-    const values = [info.table,info.column,info.value,info.key,info.keyVal]
+const updateCell = async(table,key,info)=>{// Update cells in database
+    console.log('updateCell')
+    let sql = 'UPDATE ?? SET '
+    for(let i=0; i<info.length-1; i++){
+        sql += '??=?, '
+    }
+    sql += '??=? WHERE ??=?;'
+    const entries = Object.entries(info)
+    let values = [table]
+    for(const [key, value] of entries){
+        values.push(key)
+        values.push(value)
+    }
+    values.push(key.column)
+    values.push(key.value)
+    console.log(sql)
+    console.log(values)
     try{
         const con = await connectDb()
         await con.query(sql,values)
@@ -110,14 +136,9 @@ const updateCell = async(info)=>{// Update a cell in database
 }
 
 const insertRow = async(table,info)=>{
-    sql = 'INSERT INTO ??('
-    values = [table]
-    info.foreach((value,key)=>{
-        values.push(key)
-    })
-    info.foreach((value,key)=>{
-        values.push(value)
-    })
+    console.log('insertRow')
+    let values = [table]
+    let sql = 'INSERT INTO ??('
     for(let i=0; i<info.length-1; i++){
         sql += '??,'
     }
@@ -126,6 +147,15 @@ const insertRow = async(table,info)=>{
         sql += '?,'
     }
     sql += '?);'
+    const entries = Object.entries(info)
+    for(const [key, value] of entries){
+        values.push(key)
+    }
+    for(const [key, value] of entries){
+        values.push(value)
+    }
+    console.log(sql)
+    console.log(values)
     try{
         const con = await connectDb()
         await con.query(sql,values)
@@ -136,16 +166,20 @@ const insertRow = async(table,info)=>{
 }
 
 const checkIfExists = async(table,info)=>{// Verify fields in database
-    const sql = 'SELECT * FROM ?? WHERE '
-    values = [table]
-    data.forEach((value,key)=>{
+    console.log('checkIfExists')
+    let values = [table]
+    const entries = Object.entries(info)
+    for(const [key, value] of entries){
         values.push(key)
         values.push(value)
-    })
-    for(let i=0; i<info.length-1){
+    }
+    let sql = 'SELECT * FROM ?? WHERE '
+    for(let i=0; i<info.length-1; i++){
         sql += '??=? AND '
     }
     sql += '??=?;'
+    console.log(sql)
+    console.log(values)
     try{
         const con = await connectDb()
         const [data] = await con.query(sql,values)
