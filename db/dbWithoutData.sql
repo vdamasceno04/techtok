@@ -18,12 +18,42 @@ USE `company`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `carts`
+--
+
+DROP TABLE IF EXISTS `carts`;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+CREATE TABLE `carts` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int unsigned NOT NULL,
+  `product_id` int unsigned NOT NULL,
+  `quantity` int unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `product_id` (`product_id`),
+  CONSTRAINT `carts_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `carts_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_as_cs;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `carts`
+--
+
+LOCK TABLES `carts` WRITE;
+/*!40000 ALTER TABLE `carts` DISABLE KEYS */;
+/*!40000 ALTER TABLE `carts` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `categories`
 --
 
 DROP TABLE IF EXISTS `categories`;
-/*!50503 SET character_set_client = utf8mb4 */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `categories` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `products` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL,
@@ -81,7 +111,7 @@ DROP TABLE IF EXISTS `ids`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `ids` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `type` enum('user','product') COLLATE utf8mb4_0900_as_cs NOT NULL,
+  `type` enum('user','product') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_as_cs;
@@ -205,7 +235,7 @@ CREATE TABLE `speakers` (
   `power` int unsigned DEFAULT NULL,
   `protection` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
   `led` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
-  `channels` varchar(255) COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
+  `channels` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   CONSTRAINT `speakers_ibfk_1` FOREIGN KEY (`id`) REFERENCES `products` (`id`)
@@ -297,4 +327,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-09-19 22:26:38
+-- Dump completed on 2023-09-26  2:51:09
