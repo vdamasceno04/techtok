@@ -19,6 +19,9 @@ class User extends Model{
         this.document = null
         this.telephone = null
         this.cellphone = null
+
+        // boolean
+        this.employee = false
     }
 
     // setters
@@ -34,6 +37,7 @@ class User extends Model{
     setDocument(document){this.document = document}
     setTelephone(telephone){this.telephone = telephone}
     setCellphone(cellphone){this.cellphone = cellphone}
+    setEmployee(employee){this.employee = employee}
 
     // getters
     getLogin(){return this.login}
@@ -48,6 +52,7 @@ class User extends Model{
     getDocument(){return this.document}
     getTelephone(){return this.telephone}
     getCellphone(){return this.cellphone}
+    getEmployee(){return this.employee}
 
     async load(){// load from database
         const db = require('../db/db.js')
@@ -69,6 +74,7 @@ class User extends Model{
         this.document = info[0]['document']
         this.telephone = info[0]['telephone']
         this.cellphone = info[0]['cellphone']
+        this.employee = info[0]['employee']
     }
 
     async save(){// save new product to database
@@ -89,6 +95,7 @@ class User extends Model{
                 'document':this.document,
                 'telephone':this.telephone,
                 'cellphone':this.cellphone
+                'employee':this.employee
             }
         )
     }
@@ -109,6 +116,7 @@ class User extends Model{
         this.document = null
         this.telephone = null
         this.cellphone = null
+        this.employee = null
     }
 }
 
