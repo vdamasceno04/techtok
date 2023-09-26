@@ -39,7 +39,7 @@ CREATE TABLE `categories` (
 
 LOCK TABLES `categories` WRITE;
 /*!40000 ALTER TABLE `categories` DISABLE KEYS */;
-INSERT INTO `categories` VALUES (2,'earphones'),(3,'keyboards'),(4,'mouses'),(1,'speakers'),(5,'usb_flash_drives');
+INSERT INTO `categories` VALUES (2,'earphones'),(3,'keyboards'),(4,'mice'),(1,'speakers'),(5,'usb_flash_drives');
 /*!40000 ALTER TABLE `categories` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -127,13 +127,13 @@ LOCK TABLES `keyboards` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `mouses`
+-- Table structure for table `mice`
 --
 
-DROP TABLE IF EXISTS `mouses`;
+DROP TABLE IF EXISTS `mice`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `mouses` (
+CREATE TABLE `mice` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `buttons` int unsigned DEFAULT NULL,
   `connection` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
@@ -147,12 +147,12 @@ CREATE TABLE `mouses` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `mouses`
+-- Dumping data for table `mice`
 --
 
-LOCK TABLES `mouses` WRITE;
-/*!40000 ALTER TABLE `mouses` DISABLE KEYS */;
-/*!40000 ALTER TABLE `mouses` ENABLE KEYS */;
+LOCK TABLES `mice` WRITE;
+/*!40000 ALTER TABLE `mice` DISABLE KEYS */;
+/*!40000 ALTER TABLE `mice` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --

@@ -1,10 +1,8 @@
 class Model{
     constructor(){
         // int
-        this.id = -1
+        this.id = null
     }
-
-    static db = require('../db/db.js')
 
     // setters
     setId(id){this.id = id}
@@ -13,8 +11,9 @@ class Model{
     getId(){return this.id}
 
     async generateId(type){// generate id
-        if(this.id < 0){
-            this.id = await this.db.insertRow(
+        const db = require('../db/db.js')
+        if(this.id == null){
+            this.id = await db.insertRow(
                 'ids',{
                     'type':type
                 }
@@ -22,14 +21,10 @@ class Model{
         }
     }
 
-    async update(info){// update info in database
-        await this.db.updateCell({
-            table:info.table,
-            column:info.column,
-            value:info.value,
-            key:'id',
-            keyVal:this.id
-        })
+    async dropId(){// delete id
+        const db = require('../db/db.js')
+        await db.deleteRow('ids',{'id':this.id})
+        this.id = null
     }
 }
 

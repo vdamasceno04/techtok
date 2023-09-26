@@ -10,8 +10,8 @@ class Speaker extends Product{
         this.protection = null
 
         // int
-        this.battery = -1
-        this.power = -1
+        this.battery = null
+        this.power = null
     }
 
     // setters
@@ -28,9 +28,10 @@ class Speaker extends Product{
     getBattery(){return this.battery}
     getPower(){return this.power}
 
-    load = async()=>{// load from database
-        this.loadProduct()
-        const [info] = await db.getRow({table:'speakers',key:'id',keyVal:this.id})
+    async load(){// load from database
+        const db = require('../db/db.js')
+        await this.loadProduct()
+        const [info] = await db.getRow('speakers',{'id':this.id})
         this.connection = info[0]['connection']
         this.channels = info[0]['channels']
         this.protection = info[0]['protection']
@@ -38,9 +39,10 @@ class Speaker extends Product{
         this.power = info[0]['power']
     }
 
-    save = async()=>{// save new product to database
-        this.saveProduct('speakers')
-        await db.insertRow({
+    async save(){// save new product to database
+        const db = require('../db/db.js')
+        await this.saveProduct('speakers')
+        await db.insertRow(
             'speakers',{
                 'id':this.id,
                 'connection':this.connection,
@@ -49,7 +51,23 @@ class Speaker extends Product{
                 'battery':this.battery,
                 'power':this.power
             }
-        })
+        )
+    }
+
+    async drop(){// delete speaker
+        const db = require('../db/db.js')
+        await db.deleteRow('speakers',{'id':this.id})
+        await this.dropProduct()
+        this.connection = null
+        this.channels = null
+        this.protection = null
+        this.battery = null
+        this.power = null
+    }
+
+    async update(info){// update speaker info={'column':value} in database
+        const db = require('../db/db.js')
+        await db.updateCell('speakers',{'id':this.id},info)
     }
 }
 

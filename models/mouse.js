@@ -9,10 +9,9 @@ class Mouse extends Product{
         this.led = null
 
         // int
-        this.buttons = -1
-        this.battery = -1
-        this.dpi = -1
-        
+        this.buttons = null
+        this.battery = null
+        this.dpi = null
     }
 
     // settters
@@ -29,9 +28,9 @@ class Mouse extends Product{
     getBattery(){return this.battery}
     getDpi(){return this.dpi}
 
-    load = async()=>{// load from database
-        this.loadProduct()
-        const [info] = await db.getRow({table:'mouses',key:'id',keyVal:this.id})
+    async load(){// load from database
+        await this.loadProduct()
+        const [info] = await db.getRow('mice',{'id':this.id})
         this.connection = info[0]['connection']
         this.led = info[0]['led']
         this.buttons = info[0]['buttons']
@@ -39,10 +38,10 @@ class Mouse extends Product{
         this.dpi = info[0]['dpi']
     }
 
-    save = async()=>{// save new product to database
-        this.saveProduct('mouses')
-        await db.insertRow({
-            'mouses',{
+    async save(){// save new product to database
+        await this.saveProduct('mice')
+        await db.insertRow(
+            'mice',{
                 'id':this.id,
                 'connection':this.connection,
                 'led':this.led,
@@ -50,7 +49,23 @@ class Mouse extends Product{
                 'battery':this.battery,
                 'dpi':this.dpi
             }
-        })
+        )
+    }
+
+    async drop(){// delete mouse
+        const db = require('../db/db.js')
+        await db.deleteRow('mice',{'id':this.id})
+        await this.dropProduct()
+        this.connection = null
+        this.led = null
+        this.buttons = null
+        this.battery = null
+        this.dpi = null
+    }
+
+    async update(info){// update mouse info={'column':value} in database
+        const db = require('../db/db.js')
+        await db.updateCell('mice',{'id':this.id},info)
     }
 }
 

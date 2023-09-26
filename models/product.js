@@ -18,9 +18,9 @@ class Product extends Model{
         this.size = null
 
         // int
-        this.price = -1
-        this.warranty = -1
-        this.stock = -1
+        this.price = null
+        this.warranty = null
+        this.stock = null
     }
 
     // setters
@@ -45,8 +45,8 @@ class Product extends Model{
     getWarranty(){return this.warranty}
     getStock(){return this.stock}
 
-    const loadProduct = async()=>{// load common info from database
-        const [info] = await db.getRow(table:'products',key:'id',keyVal:this.id)
+    async loadProduct(){// load common info from database
+        const [info] = await db.getRow('products',{'id':this.id})
         this.brand = info[0]['brand']
         this.model = info[0]['model']
         this.description = info[0]['stock']
@@ -58,12 +58,13 @@ class Product extends Model{
         this.stock = info[0]['stock']
     }
 
-    const saveProduct = async(category)=>{// save common info into database
-        this.generateId('product')
-        await db.insertRow({
+    async saveProduct(category){// save common info into database
+        const db = require('../db/db.js')
+        await this.generateId('product')
+        await db.insertRow(
             'products',{
                 'id':this.id,
-                'category':category
+                'category':category,
                 'brand':this.brand,
                 'model':this.model,
                 'description':this.description,
@@ -74,7 +75,27 @@ class Product extends Model{
                 'warranty':this.warranty,
                 'stock':this.stock
             }
-        })
+        )
+    }
+
+    async dropProduct(){// delete product
+        const db = require('../db/db.js')
+        await db.deleteRow('products',{'id':this.id})
+        await this.dropId()
+        this.brand = null
+        this.model = null
+        this.description = null
+        this.imgPath = null
+        this.material = null
+        this.size = null
+        this.price = null
+        this.warranty = null
+        this.stock = null
+    }
+
+    async updateProduct(info){// update common product info in database
+        const db = require('../db/db.js')
+        await db.updateCell('products',{'id':this.id},info)
     }
 }
 

@@ -9,8 +9,8 @@ class Earphone extends Product{
         this.connection = null
 
         // int
-        this.battery = -1
-        this.power = -1
+        this.battery = null
+        this.power = null
         
         // boolean
         this.mic = false
@@ -31,8 +31,8 @@ class Earphone extends Product{
     getMic(){return this.mic}
 
     load = async()=>{// load from database
-        this.loadProduct()
-        const [info] = await db.getRow({table:'earphones',key:'id',keyVal:this.id})
+        await this.loadProduct()
+        const [info] = await db.getRow('earphones',{'id':this.id})
         this.channels = info[0]['channels']
         this.connection = info[0]['connection']
         this.battery = info[0]['battery']
@@ -41,8 +41,8 @@ class Earphone extends Product{
     }
 
     save = async()=>{// save new product to database
-        this.saveProduct('earphones')
-        await db.insertRow({
+        await this.saveProduct('earphones')
+        await db.insertRow(
             'earphones',{
                 'id':this.id,
                 'channels':this.channels,
@@ -51,7 +51,23 @@ class Earphone extends Product{
                 'power':this.power,
                 'microphone':this.mic
             }
-        })
+        )
+    }
+
+    async drop(){// delete earphone
+        const db = require('../db/db.js')
+        await db.deleteRow('earphones',{'id':this.id})
+        await this.dropProduct()
+        this.channels = null
+        this.connection = null
+        this.battery = null
+        this.power = null
+        this.mic = false
+    }
+
+    async update(info){// update earphone info={'column':value} in database
+        const db = require('../db/db.js')
+        await db.updateCell('earphones',{'id':this.id},info)
     }
 }
 

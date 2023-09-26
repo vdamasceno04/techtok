@@ -16,9 +16,9 @@ class User extends Model{
         this.photoPath = null
 
         // int
-        this.document = -1
-        this.telephone = -1
-        this.cellphone = -1
+        this.document = null
+        this.telephone = null
+        this.cellphone = null
     }
 
     // setters
@@ -50,7 +50,8 @@ class User extends Model{
     getCellphone(){return this.cellphone}
 
     async load(){// load from database
-        const [info] = await this.db.getRow(
+        const db = require('../db/db.js')
+        const [info] = await db.getRow(
             'users',{
                 key:'id',
                 keyVal:this.id
@@ -71,8 +72,9 @@ class User extends Model{
     }
 
     async save(){// save new product to database
+        const db = require('../db/db.js')
         await this.generateId('user')
-        await this.db.insertRow(
+        await db.insertRow(
             'users',{
                 'id':this.id,
                 'login':this.login,
@@ -91,24 +93,23 @@ class User extends Model{
         )
     }
 
-    // checkLogin = async()=>{
-    //     return await this.db.checkIfExists(
-    //         'users',
-    //         {
-    //             'login':this.login
-    //         }
-    //     )
-    // }
-
-    // checkPassword = async()=>{
-    //     return await this.db.checkIfExists(
-    //         'users',
-    //         {
-    //             'login':this.login
-    //             'password':this.password
-    //         }
-    //     )
-    // }
+    async drop(){
+        const db = require('../db/db.js')
+        await db.deleteRow('users',{'id':this.id})
+        await this.dropId()
+        this.login = null
+        this.password = null
+        this.name = null
+        this.birthDate = null
+        this.address = null
+        this.email = null
+        this.occupation = null
+        this.workplace = null
+        this.photoPath = null
+        this.document = null
+        this.telephone = null
+        this.cellphone = null
+    }
 }
 
 module.exports = User

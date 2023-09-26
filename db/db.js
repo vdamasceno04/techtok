@@ -1,9 +1,4 @@
 /* Database functions */
-/* TODO: 
-receber quantidade de campos e um array de maps por parâmetro
-para tornar as funções insert, update e delete mais genéricas
-remover funções específicas de User e Product daqui
-*/
 
 let connectionPool
 
@@ -15,11 +10,11 @@ const createConnectionPool = async()=>{
         database: 'company',
         user: 'root',
         password: 'admin',
-        connectionLimit: 10,// max users
+        connectionLimit: 10,// Max simultaneous users connected
         connectTimeout: 10000,// ms
         idleTimeout: 180000,// ms
-        waitForConnections: false,// wait till connected to db?
-        queueLimit: 5,// max awaiting connections
+        waitForConnections: false,// Wait till connected to db?
+        queueLimit: 5,// Max simultaneous users awaiting connection
     })
 }
 
@@ -45,7 +40,7 @@ const connectDb = async()=>{// Connect to database
 
 const getTable = async(table)=>{// Return a table from database
     console.log('getTable')
-    const sql = 'SELECT * FROM ??;'
+    const sql = `SELECT * FROM ??;`
     const values = [table]
     console.log(sql)
     console.log(values)
@@ -60,10 +55,10 @@ const getTable = async(table)=>{// Return a table from database
     }
 }
 
-const getRow = async(table,key)=>{// Return a row from database
+const getRow = async(table,match)=>{// Return a row from database
     console.log('getRow')
-    const sql = 'SELECT * FROM ?? WHERE ??=?;'
-    const values = [table,key.column,key.value]
+    const sql = `SELECT * FROM ?? WHERE ??=?;`
+    const values = [table,Object.keys(match)[0],Object.values(match)[0]]
     console.log(sql)
     console.log(values)
     try{
@@ -77,10 +72,10 @@ const getRow = async(table,key)=>{// Return a row from database
     }
 }
 
-const getCell = async(table,key,info)=>{// Return a cell from database
+const getCell = async(table,match,info)=>{// Return a cell from database
     console.log('getCell')
-    const sql = 'SELECT ?? FROM ?? WHERE ??=?;'
-    const values = [info,table,key.column,key.value]
+    const sql = `SELECT ?? FROM ?? WHERE ??=?;`
+    const values = [info,table,Object.keys(match)[0],Object.values(match)[0]]
     console.log(sql)
     console.log(values)
     try{
@@ -94,60 +89,65 @@ const getCell = async(table,key,info)=>{// Return a cell from database
     }
 }
 
-const deleteRow = async(table,key)=>{// Delete a row from database
+const deleteRow = async(table,match)=>{// Delete a row from database
     console.log('deleteRow')
-    const sql = 'DELETE FROM ?? WHERE ??=?;'
-    const values = [table,key.column,key.value]
+    const sql = `DELETE FROM ?? WHERE ??=?;`
+    const values = [table,Object.keys(match)[0],Object.values(match)[0]]
     console.log(sql)
     console.log(values)
     try{
         const con = await connectDb()
         await con.query(sql,values)
         await con.release()
+        return true
     } catch(err) {
         console.error('Row not found: ' + err)
+        return false
     }
 }
 
-const updateCell = async(table,key,info)=>{// Update cells in database
+const updateCell = async(table,match,info)=>{// Update cells in database
     console.log('updateCell')
-    let sql = 'UPDATE ?? SET '
-    for(let i=0; i<info.length-1; i++){
-        sql += '??=?, '
-    }
-    sql += '??=? WHERE ??=?;'
     const entries = Object.entries(info)
     let values = [table]
+    let sql = `UPDATE ?? SET `
+    for(let i=0; i<Object.keys(info).length-1; i++){
+        sql += `??=?, `
+    }
+    sql += `??=? WHERE ??=?;`
     for(const [key, value] of entries){
         values.push(key)
         values.push(value)
     }
-    values.push(key.column)
-    values.push(key.value)
+
+    values.push(Object.keys(match)[0])
+    values.push(Object.values(match)[0])
     console.log(sql)
     console.log(values)
     try{
         const con = await connectDb()
         await con.query(sql,values)
         await con.release()
+        return true
     } catch(err) {
         console.error('Cell not found: ' + err)
+        return false
     }
 }
 
 const insertRow = async(table,info)=>{
     console.log('insertRow')
-    let values = [table]
-    let sql = 'INSERT INTO ??('
-    for(let i=0; i<info.length-1; i++){
-        sql += '??,'
-    }
-    sql += '??) VALUES ('
-    for(let i=0; i<info.length-1; i++){
-        sql += '?,'
-    }
-    sql += '?);'
     const entries = Object.entries(info)
+    let values = [table]
+    let sql = `INSERT INTO ??(`
+    for(let i=0; i<Object.keys(info).length-1; i++){
+        sql += `??,`
+    }
+    sql += `??) VALUES (`
+    for(let i=0; i<Object.keys(info).length-1; i++){
+        sql += `?,`
+    }
+    sql += `?);`
     for(const [key, value] of entries){
         values.push(key)
     }
@@ -159,25 +159,28 @@ const insertRow = async(table,info)=>{
     try{
         const con = await connectDb()
         await con.query(sql,values)
+        const [aux] = await con.query(`SELECT LAST_INSERT_ID() AS lastId;`)
         await con.release()
+        return aux[0]['lastId']
     } catch(err) {
         console.error('Row not inserted: ' + err)
+        return null
     }
 }
 
 const checkIfExists = async(table,info)=>{// Verify fields in database
     console.log('checkIfExists')
-    let values = [table]
     const entries = Object.entries(info)
+    let values = [table]
+    let sql = `SELECT * FROM ?? WHERE `
+    for(let i=0; i<Object.keys(info).length-1; i++){
+        sql += `??=? AND `
+    }
+    sql += `??=?;`
     for(const [key, value] of entries){
         values.push(key)
         values.push(value)
     }
-    let sql = 'SELECT * FROM ?? WHERE '
-    for(let i=0; i<info.length-1; i++){
-        sql += '??=? AND '
-    }
-    sql += '??=?;'
     console.log(sql)
     console.log(values)
     try{

@@ -8,9 +8,9 @@ class UsbFlashDrive extends Product{
         this.usbType = null
 
         // int
-        this.capacity = -1
-        this.writeSpeed = -1
-        this.readSpeed = -1
+        this.capacity = null
+        this.writeSpeed = null
+        this.readSpeed = null
     }
 
     // setters
@@ -25,18 +25,20 @@ class UsbFlashDrive extends Product{
     getWriteSpeed(){return this.writeSpeed}
     getReadSpeed(){return this.readSpeed}
 
-    load = async()=>{// load from database
-        this.loadProduct()
-        const [info] = await db.getRow({table:'usb_flash_drives',key:'id',keyVal:this.id})
+    async load(){// load from database
+        const db = require('../db/db.js')
+        await this.loadProduct()
+        const [info] = await db.getRow('usb_flash_drives',{'id':this.id})
         this.usbType = info[0]['usb_type']
         this.capacity = info[0]['capacity']
         this.writeSpeed = info[0]['write_speed']
         this.readSpeed = info[0]['read_speed']
     }
 
-    save = async()=>{// save new product to database
-        this.saveProduct('usb_flash_drives')
-        await db.insertRow({
+    async save(){// save new product to database
+        const db = require('../db/db.js')
+        await this.saveProduct('usb_flash_drives')
+        await db.insertRow(
             'usb_flash_drives',{
                 'id':this.id,
                 'usb_type':this.usbType,
@@ -44,7 +46,22 @@ class UsbFlashDrive extends Product{
                 'write_speed':this.writeSpeed,
                 'read_speed':this.readSpeed
             }
-        })
+        )
+    }
+
+    async drop(){// delete usbFlashDrive
+        const db = require('../db/db.js')
+        await db.deleteRow('usb_flash_drives',{'id':this.id})
+        await this.dropProduct()
+        this.usbType = null
+        this.capacity = null
+        this.writeSpeed = null
+        this.readSpeed = null
+    }
+
+    async update(info){// update usbFlashDrive info={'column':value} in database
+        const db = require('../db/db.js')
+        await db.updateCell('usb_flash_drives',{'id':this.id},info)
     }
 }
 
