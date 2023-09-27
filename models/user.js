@@ -129,6 +129,7 @@ class User extends Model{
         }
         this.cart.push({productId:quantity})
     }
+    
     removeFromCart(productId){// remove from cart array
         const entries = Object.entries(this.cart)
         for(const [key, value] of entries){
