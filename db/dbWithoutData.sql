@@ -69,7 +69,7 @@ CREATE TABLE `categories` (
 
 LOCK TABLES `categories` WRITE;
 /*!40000 ALTER TABLE `categories` DISABLE KEYS */;
-INSERT INTO `categories` VALUES (2,'earphones'),(3,'keyboards'),(4,'mice'),(1,'speakers'),(5,'usb_flash_drives');
+INSERT INTO `categories` VALUES (1,'mice'),(2,'keyboards'),(3,'usb_flash_drives'),(4,'earphones'),(5,'speakers');
 /*!40000 ALTER TABLE `categories` ENABLE KEYS */;
 UNLOCK TABLES;
 
