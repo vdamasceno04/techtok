@@ -69,7 +69,7 @@ CREATE TABLE `categories` (
 
 LOCK TABLES `categories` WRITE;
 /*!40000 ALTER TABLE `categories` DISABLE KEYS */;
-INSERT INTO `categories` VALUES (2,'earphones'),(3,'keyboards'),(4,'mice'),(1,'speakers'),(5,'usb_flash_drives');
+INSERT INTO `categories` VALUES (1,'mice'),(2,'keyboards'),(3,'usb_flash_drives'),(4,'earphones'),(5,'speakers');
 /*!40000 ALTER TABLE `categories` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -82,11 +82,11 @@ DROP TABLE IF EXISTS `earphones`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `earphones` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `battery` int unsigned DEFAULT NULL,
-  `channels` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
-  `led` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
   `connection` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
+  `channels` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
+  `battery` int unsigned DEFAULT NULL,
   `microphone` binary(1) DEFAULT NULL,
+  `waterproof` binary(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   CONSTRAINT `earphones_ibfk_1` FOREIGN KEY (`id`) REFERENCES `products` (`id`)
@@ -136,10 +136,10 @@ DROP TABLE IF EXISTS `keyboards`;
 CREATE TABLE `keyboards` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `connection` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
-  `battery` int unsigned DEFAULT NULL,
   `layout` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
-  `switch` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
-  `led` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
+  `key_switch` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
+  `led` binary(1) DEFAULT NULL,
+  `battery` int unsigned DEFAULT NULL,
   `numpad` binary(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
@@ -165,11 +165,11 @@ DROP TABLE IF EXISTS `mice`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `mice` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `buttons` int unsigned DEFAULT NULL,
   `connection` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
+  `buttons` int unsigned DEFAULT NULL,
   `battery` int unsigned DEFAULT NULL,
   `dpi` int unsigned DEFAULT NULL,
-  `led` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
+  `led` binary(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   CONSTRAINT `mouses_ibfk_1` FOREIGN KEY (`id`) REFERENCES `products` (`id`)
@@ -202,7 +202,6 @@ CREATE TABLE `products` (
   `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL,
   `image_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL,
   `warranty` int unsigned NOT NULL,
-  `material` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL,
   `size` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
@@ -230,12 +229,11 @@ DROP TABLE IF EXISTS `speakers`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `speakers` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `battery` int unsigned DEFAULT NULL,
   `connection` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
-  `power` int unsigned DEFAULT NULL,
-  `protection` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
-  `led` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
   `channels` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
+  `power` int unsigned DEFAULT NULL,
+  `audio_input` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
+  `battery` int unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   CONSTRAINT `speakers_ibfk_1` FOREIGN KEY (`id`) REFERENCES `products` (`id`)
@@ -260,8 +258,8 @@ DROP TABLE IF EXISTS `usb_flash_drives`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `usb_flash_drives` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `capacity` int unsigned DEFAULT NULL,
   `usb_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
+  `capacity` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
   `write_speed` int unsigned DEFAULT NULL,
   `read_speed` int unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
