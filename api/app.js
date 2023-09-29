@@ -17,11 +17,10 @@ app.get("/products", (req,res) => {
        id: 2,
        name: "screwdriver",
      },
-     ,
      {
        id: 3,
        name: "wrench",
-     },
+     }
    ];
    console.log("caiu na rota")
   res.json(products);

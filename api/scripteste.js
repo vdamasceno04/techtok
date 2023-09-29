@@ -1,8 +1,15 @@
-
 async function logprod(){
     fetch('http://localhost:3000/products')
-    .then(response => response.json())
-    .then(response => console.log(JSON.stringify(response)))
+    .then(res => res.json())
+    .then(data => {
+        // Acesse o elemento HTML onde você deseja exibir os dados
+        const conteudoDiv = document.getElementById('dados');
+
+        // Defina o texto do parágrafo com os dados obtidos da API
+        conteudoDiv.textContent = JSON.stringify(data);
+        console.log(JSON.stringify(data))
+    })
+    .catch(error => console.log(error))
 }
 
 logprod()
