@@ -31,7 +31,7 @@ class User extends Model{
     getEmail(){return this.email}
     getSuperuser(){return this.superuser}
 
-    async load(){// load from database
+    async loadUser(){// load from database
         const db = require('../db/db.js')
         const [info] = await db.getRow('users',{'id':this.id})
         this.login = info[0]['login']
@@ -41,7 +41,7 @@ class User extends Model{
         this.superuser = info[0]['superuser']
     }
 
-    async save(){// save new product to database
+    async saveUser(){// save new product to database
         const db = require('../db/db.js')
         await this.generateId('user')
         await db.insertRow(
@@ -56,7 +56,7 @@ class User extends Model{
         )
     }
 
-    async drop(){
+    async dropUser(){
         const db = require('../db/db.js')
         await db.deleteRow('users',{'id':this.id})
         await this.dropId()
