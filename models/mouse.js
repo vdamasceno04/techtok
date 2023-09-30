@@ -6,36 +6,38 @@ class Mouse extends Product{
 
         // string
         this.connection = null
-        this.led = null
+        this.dpi = null
 
         // int
         this.buttons = null
         this.battery = null
-        this.dpi = null
+
+        // boolean
+        this.led = null
     }
 
     // settters
     setConnection(connection){this.connection = connection}
-    setLed(led){this.led = led}
+    setDpi(dpi){this.dpi = dpi}
     setButtons(buttons){this.buttons = buttons}
     setBattery(battery){this.battery = battery}
-    setDpi(dpi){this.dpi = dpi}
+    setLed(led){this.led = led}
 
     // getters
     getConnection(){return this.connection}
-    getLed(){return this.led}
+    getDpi(){return this.dpi}
     getButtons(){return this.buttons}
     getBattery(){return this.battery}
-    getDpi(){return this.dpi}
+    getLed(){return this.led}
 
     async load(){// load from database
         await this.loadProduct()
         const [info] = await db.getRow('mice',{'id':this.id})
         this.connection = info[0]['connection']
-        this.led = info[0]['led']
+        this.dpi = info[0]['dpi']
         this.buttons = info[0]['buttons']
         this.battery = info[0]['battery']
-        this.dpi = info[0]['dpi']
+        this.led = info[0]['led']
     }
 
     async save(){// save new product to database
@@ -44,10 +46,10 @@ class Mouse extends Product{
             'mice',{
                 'id':this.id,
                 'connection':this.connection,
-                'led':this.led,
+                'dpi':this.dpi,
                 'buttons':this.buttons,
                 'battery':this.battery,
-                'dpi':this.dpi
+                'led':this.led
             }
         )
     }
@@ -57,10 +59,10 @@ class Mouse extends Product{
         await db.deleteRow('mice',{'id':this.id})
         await this.dropProduct()
         this.connection = null
-        this.led = null
+        this.dpi = null
         this.buttons = null
         this.battery = null
-        this.dpi = null
+        this.led = null
     }
 
     async update(info){// update mouse info={'column':value} in database

@@ -63,8 +63,6 @@ class Product extends Model{
                 'model':this.model,
                 'description':this.description,
                 'image_path':this.imgPath,
-                'material':this.material,
-                'size':this.size,
                 'price':this.price,
                 'warranty':this.warranty,
                 'stock':this.stock
@@ -80,8 +78,6 @@ class Product extends Model{
         this.model = null
         this.description = null
         this.imgPath = null
-        this.material = null
-        this.size = null
         this.price = null
         this.warranty = null
         this.stock = null

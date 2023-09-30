@@ -8,29 +8,29 @@ class Keyboard extends Product{
         this.connection = null
         this.layout = null
         this.keySwitch = null
-        this.led = null
 
         // int
         this.battery = null
 
         // boolean
-        this.numpad = false
+        this.led = null
+        this.numpad = null
     }
 
     // setters
     setConnection(connection){this.connection = connection}
     setLayout(layout){this.layout = layout}
     setKeySwitch(keySwitch){this.keySwitch = keySwitch}
-    setLed(led){this.led = led}
     setBattery(battery){this.battery = battery}
+    setLed(led){this.led = led}
     setNumpad(numpad){this.numpad = numpad}    
 
     // getters
     getConnection(){return this.connection}
     getLayout(){return this.layout}
     getKeySwitch(){return this.keySwitch}
-    getLed(){return this.led}
     getBattery(){return this.battery}
+    getLed(){return this.led}
     getNumpad(){return this.numpad}
 
     async load(){// load from database
@@ -40,8 +40,8 @@ class Keyboard extends Product{
         this.connection = info[0]['connection']
         this.layout = info[0]['layout']
         this.keySwitch = info[0]['switch']
-        this.led = info[0]['led']
         this.battery = info[0]['battery']
+        this.led = info[0]['led']
         this.numpad = info[0]['numpad']
     }
 
@@ -54,8 +54,8 @@ class Keyboard extends Product{
                 'connection':this.connection,
                 'layout':this.layout,
                 'switch':this.keySwitch,
-                'led':this.led,
                 'battery':this.battery,
+                'led':this.led,
                 'numpad':this.numpad
             }
         )
@@ -68,9 +68,9 @@ class Keyboard extends Product{
         this.connection = null
         this.layout = null
         this.switch = null
-        this.led = null
         this.battery = null
-        this.numpad = false
+        this.led = null
+        this.numpad = null
     }
 
     async update(info){// update keyboard info={'column':value} in database
