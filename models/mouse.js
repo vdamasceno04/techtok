@@ -1,4 +1,4 @@
-const Product = require('./product.js')
+const Product = require('./Product.js')
 
 class Mouse extends Product{
     constructor(){
