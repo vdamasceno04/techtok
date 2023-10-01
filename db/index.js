@@ -2,29 +2,30 @@
 
 (async()=>{
     const db = require('./db.js')
-    const userLogin = 'User9'
-    userId = await db.insertUser({login:userLogin,password:'@pAs/_1%'})
-    console.log(await db.isUserExists({login:userLogin,password:'@pAs/_1%'}))
-    await db.deleteRow({table:'users',key:'login',keyVal:userLogin})
-    await db.deleteRow({table:'ids',key:'id',keyVal:userId})
-    keyboardId = await db.insertProduct({
-        category:'keyboards',
-        brand:'Pichau',
-        model:'P631K',
-        description:'Teclado mecânico',
-        price:400,
-        stock:10,
-        imgPath:'../imgs/keyboard.png',
-        warranty:12
-    })
-    await db.updateCell({table:'keyboards',column:'led',value:'rgb',key:'id',keyVal:keyboardId})
-    console.log(await db.getCell({table:'keyboards',column:'led',key:'id',keyVal:keyboardId}))
-    console.log(await db.getRow({table:'keyboards',key:'id',keyVal:keyboardId}))
-    await db.deleteRow({table:'keyboards',key:'id',keyVal:keyboardId})
-    await db.deleteRow({table:'products',key:'id',keyVal:keyboardId})
-    await db.deleteRow({table:'ids',key:'id',keyVal:keyboardId})
-    console.log(await db.getTable('keyboards'))
-    console.log(await db.getTable('products'))
-    console.log(await db.getTable('ids'))
-    process.exit(0)
+    const User = require('../models/user.js')
+    const usr = new User()
+    usr.setLogin('admin')
+    usr.setPassword('123')
+    await usr.save()
+    await console.log(await db.checkIfExists('users',{
+        'login':'admin',
+        'password':'123'
+    }))
+    await usr.drop()
+    const Keyboard = require('../models/keyboard.js')
+    const kybd = new Keyboard()
+    kybd.setBrand('Redragon')
+    kybd.setModel('Kumara')
+    kybd.setDescription('Lorem ipsum')
+    kybd.setPrice(249.99)
+    kybd.setStock(5)
+    kybd.setImgPath('../imgs/keyboard.png')
+    kybd.setWarranty(12)
+    await kybd.save()
+    await kybd.update({'led':'rgb'})
+    await console.log(await db.getRow('keyboards',{'id':kybd.getId()}))
+    await kybd.drop()
+    await console.log(await db.getTable('keyboards'))
+    await console.log(await db.getTable('products'))
+    await console.log(await db.getTable('ids'))
 })()

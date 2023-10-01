@@ -10,11 +10,11 @@ const createConnectionPool = async()=>{
         database: 'company',
         user: 'root',
         password: 'admin',
-        connectionLimit: 10,// max users
+        connectionLimit: 10,// Max simultaneous users connected
         connectTimeout: 10000,// ms
         idleTimeout: 180000,// ms
-        waitForConnections: false,// wait till connected to db?
-        queueLimit: 5,// max awaiting connections
+        waitForConnections: false,// Wait till connected to db?
+        queueLimit: 5,// Max simultaneous users awaiting connection
     })
 }
 
@@ -39,8 +39,11 @@ const connectDb = async()=>{// Connect to database
 }
 
 const getTable = async(table)=>{// Return a table from database
-    const sql = 'SELECT * FROM ??;'
+    console.log('getTable')
+    const sql = `SELECT * FROM ??;`
     const values = [table]
+    console.log(sql)
+    console.log(values)
     try{
         const con = await connectDb()
         const [data] = await con.query(sql,values)
@@ -52,9 +55,12 @@ const getTable = async(table)=>{// Return a table from database
     }
 }
 
-const getRow = async(info)=>{// Return a row from database
-    const sql = 'SELECT * FROM ?? WHERE ??=?;'
-    const values = [info.table,info.key,info.keyVal]
+const getRow = async(table,match)=>{// Return a row from database
+    console.log('getRow')
+    const sql = `SELECT * FROM ?? WHERE ??=?;`
+    const values = [table,Object.keys(match)[0],Object.values(match)[0]]
+    console.log(sql)
+    console.log(values)
     try{
         const con = await connectDb()
         const [data] = await con.query(sql,values)
@@ -66,9 +72,12 @@ const getRow = async(info)=>{// Return a row from database
     }
 }
 
-const getCell = async(info)=>{// Return a cell from database
-    const sql = 'SELECT ?? FROM ?? WHERE ??=?;'
-    const values = [info.column,info.table,info.key,info.keyVal]
+const getCell = async(table,match,info)=>{// Return a cell from database
+    console.log('getCell')
+    const sql = `SELECT ?? FROM ?? WHERE ??=?;`
+    const values = [info,table,Object.keys(match)[0],Object.values(match)[0]]
+    console.log(sql)
+    console.log(values)
     try{
         const con = await connectDb()
         const [data] = await con.query(sql,values)
@@ -80,106 +89,108 @@ const getCell = async(info)=>{// Return a cell from database
     }
 }
 
-const deleteRow = async(info)=>{// Delete a row from database
-    const sql = 'DELETE FROM ?? WHERE ??=?;'
-    const values = [info.table,info.key,info.keyVal]
+const deleteRow = async(table,match)=>{// Delete a row from database
+    console.log('deleteRow')
+    const sql = `DELETE FROM ?? WHERE ??=?;`
+    const values = [table,Object.keys(match)[0],Object.values(match)[0]]
+    console.log(sql)
+    console.log(values)
     try{
         const con = await connectDb()
         await con.query(sql,values)
         await con.release()
+        return true
     } catch(err) {
         console.error('Row not found: ' + err)
+        return false
     }
 }
 
-const updateCell = async(info)=>{// Update a cell in database
-    const sql = 'UPDATE ?? SET ??=? WHERE ??=?;'
-    const values = [info.table,info.column,info.value,info.key,info.keyVal]
+const updateCell = async(table,match,info)=>{// Update cells in database
+    console.log('updateCell')
+    const entries = Object.entries(info)
+    let values = [table]
+    let sql = `UPDATE ?? SET `
+    for(let i=0; i<Object.keys(info).length-1; i++){
+        sql += `??=?, `
+    }
+    sql += `??=? WHERE ??=?;`
+    for(const [key, value] of entries){
+        values.push(key)
+        values.push(value)
+    }
+
+    values.push(Object.keys(match)[0])
+    values.push(Object.values(match)[0])
+    console.log(sql)
+    console.log(values)
     try{
         const con = await connectDb()
         await con.query(sql,values)
         await con.release()
+        return true
     } catch(err) {
         console.error('Cell not found: ' + err)
+        return false
     }
 }
 
-const insertUser = async(user)=>{// Add an user to database
-    const sql0 = `INSERT INTO ids(type) VALUES ('user');`
-    const sql1 = 'SELECT LAST_INSERT_ID() AS lastId;'
-    const sql2 = 'INSERT INTO users(id,login,password) VALUES (?,?,?);'
+const insertRow = async(table,info)=>{
+    console.log('insertRow')
+    const entries = Object.entries(info)
+    let values = [table]
+    let sql = `INSERT INTO ??(`
+    for(let i=0; i<Object.keys(info).length-1; i++){
+        sql += `??,`
+    }
+    sql += `??) VALUES (`
+    for(let i=0; i<Object.keys(info).length-1; i++){
+        sql += `?,`
+    }
+    sql += `?);`
+    for(const [key, value] of entries){
+        values.push(key)
+    }
+    for(const [key, value] of entries){
+        values.push(value)
+    }
+    console.log(sql)
+    console.log(values)
     try{
         const con = await connectDb()
-        await con.query(sql0)
-        const [aux] = await con.query(sql1)
-        id = aux[0].lastId
-        const values2 = [id,user.login,user.password]
-        await con.query(sql2,values2)
+        await con.query(sql,values)
+        const [aux] = await con.query(`SELECT LAST_INSERT_ID() AS lastId;`)
         await con.release()
-        return id
+        return aux[0]['lastId']
     } catch(err) {
-        console.error('User not inserted: ' + err)
-        return -1
+        console.error('Row not inserted: ' + err)
+        return null
     }
 }
 
-const isUserExists = async(user)=>{// Verify an user from database
-    const sql = 'SELECT id FROM users WHERE login=? AND password=?;'
-    const values = [user.login,user.password]
+const checkIfExists = async(table,info)=>{// Verify fields in database
+    console.log('checkIfExists')
+    const entries = Object.entries(info)
+    let values = [table]
+    let sql = `SELECT * FROM ?? WHERE `
+    for(let i=0; i<Object.keys(info).length-1; i++){
+        sql += `??=? AND `
+    }
+    sql += `??=?;`
+    for(const [key, value] of entries){
+        values.push(key)
+        values.push(value)
+    }
+    console.log(sql)
+    console.log(values)
     try{
         const con = await connectDb()
         const [data] = await con.query(sql,values)
         await con.release()
         return data.length > 0// True if user exists and password is correct
     } catch(err) {
-        console.error('User not found: ' + err)
+        console.error('Info not found: ' + err)
         return false
-    }
-}
-
-const insertProduct = async(product)=>{// Insert product into database
-    const sql0 = `INSERT INTO ids(type) VALUES ('product');`
-    const sql1 = 'SELECT LAST_INSERT_ID() AS lastId;'
-    const sql2 = `INSERT INTO products(
-        id,
-        category,
-        brand,
-        model,
-        stock,
-        price,
-        image_path,
-        description,
-        warranty,
-        material,
-        size
-    ) VALUES (?,?,?,?,?,?,?,?,?,?,?);`
-    const sql3 = 'INSERT INTO ??(id) VALUES (?);'
-    try{
-        const con = await connectDb()
-        await con.query(sql0)
-        const [aux] = await con.query(sql1)
-        const id = aux[0]['lastId']
-        const values2 = [
-            id,
-            product.category,
-            product.brand,
-            product.model,
-            product.stock,
-            product.price,
-            product.imgPath,
-            product.description,
-            product.warranty,
-            product.material,
-            product.size
-        ]
-        await con.query(sql2,values2)
-        const values3 = [product.category,id]
-        await con.query(sql3,values3)
-        await con.release()
-        return id
-    } catch(err) {
-        console.error('Product not inserted: ' + err)
-        return -1
     }
 }
 
@@ -189,7 +200,6 @@ module.exports = {
     getCell,
     deleteRow,
     updateCell,
-    insertUser,
-    isUserExists,
-    insertProduct
+    insertRow,
+    checkIfExists
 }

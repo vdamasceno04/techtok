@@ -8,3 +8,5 @@ lembrar de criar o banco de dados local e ajustar as configurações no db.js
 
 MySQL Workbench:
 Edit -> Preferences... -> SQL Editor -> Desmarcar Safe Updates
+
+funções que usam db: await pra chamar e async pra declarar
