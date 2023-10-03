@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>TechTok</title>
+  </head>
+  <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin-top: 50px;
+      }
+
+      h1 {
+        margin-bottom: 30px;
+      }
+
+      div#passwordBox {
+        margin-top: 7px;
+      }
+
+      div#submitMessage {
+        margin-top: 2px;
+        color: red;
+        display: none;
+      }
+
+      div#loginButton {
+        margin-top: 20px;
+      }
+
+      input[type="submit"] {
+        margin-top: 20px;
+      }
+  </style>
+  <body>
+      <div id="mainPage" onClick="redirectToMainPage()"> <h1>TechTok</h1> </div>
+      <h1>Choose new product type</h1>
+      <button onclick="redirectToCategory('?cat=Mouse')">Mouses</button> 
+      <button onclick="redirectToCategory('?cat=Keyboard')">Keyboards</button>
+      <button onclick="redirectToCategory('?cat=USBFlashDrive')">USB Flash Drives</button>
+      <button onclick="redirectToCategory('?cat=Earphone')">Earphones</button>
+      <button onclick="redirectToCategory('?cat=Speaker')">Speakers</button>
+      <h1>Insert product info</h1>
+      <div class="login-box">
+          <form onsubmit="validateUserCreation(); return false;">
+            <div id="brandBox">
+              <label for="brand">Brand:</label>
+              <input id="brand" placeholder="Branch">
+            </div>
+      
+            <div id="Model">
+              <label for="model">Model:</label>
+              <input id="model" type="model" placeholder="Model">
+            </div>
+      
+            <div id="description">
+              <label for="description">Description:</label>
+              <input id="description" type="description" placeholder="Description">
+            </div>
+
+            <div id="imgpath">
+                <label for="imgpath">Image Path:</label>
+                <input id="imgpath" type="imgpath" placeholder="Image Path">
+              </div>
+
+            <div id="Price">
+              <label for="price">Price:</label>
+              <input id="price" type="price" placeholder="Price">
+            </div>
+
+            <div id="Warranty">
+             <label for="warranty">Warranty:</label>
+              <input id="warranty" type="warranty" placeholder="Warranty">
+            </div>
+            
+            <input type="submit" value="Create product">
+          </form>
+      </div>
+  </body>
+  <script src="login.js"></script>
+</html> 
