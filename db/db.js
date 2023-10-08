@@ -119,7 +119,6 @@ const updateCell = async(table,match,info)=>{// Update cells in database
         values.push(key)
         values.push(value)
     }
-
     values.push(Object.keys(match)[0])
     values.push(Object.values(match)[0])
     console.log(sql)

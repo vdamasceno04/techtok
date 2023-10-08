@@ -111,7 +111,7 @@ DROP TABLE IF EXISTS `ids`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `ids` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `type` enum('user','product') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL,
+  `type` enum('users','products') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_as_cs;
@@ -199,9 +199,9 @@ CREATE TABLE `products` (
   `model` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
   `stock` int unsigned DEFAULT NULL,
   `price` decimal(8,2) DEFAULT NULL,
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
+  `description` varchar(8000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
   `image_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
-  `warranty` int unsigned NOT NULL,
+  `warranty` int unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `category` (`category`),
