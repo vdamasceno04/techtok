@@ -13,6 +13,10 @@
         <button onclick="redirectToProduct('?prod=mouse4')">mouse4</button>
         <button onclick="redirectToProduct('?prod=mouse5')">mouse5</button>
     </body>
+    <body>
+        <div id="dados"></div>
+    </body>
+
     <script src ="htmlRedirect.js"></script>
     <script>
     url = window.location.search
@@ -20,5 +24,6 @@
     cat = param.get('cat') //should match db table name
     console.log(cat)
     </script>
+    <script src ="category.js"></script>
 
 </html>
