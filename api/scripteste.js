@@ -12,7 +12,22 @@ async function logprod(){
     .catch(error => console.log(error))
 }
 
+async function getplayers(){
+    fetch('http://localhost:3000/dados')
+    .then(res => res.json())
+    .then(data => {
+        // Acesse o elemento HTML onde você deseja exibir os dados
+        const conteudoDiv = document.getElementById('dados');
+
+        // Defina o texto do parágrafo com os dados obtidos da API
+        conteudoDiv.textContent = JSON.stringify(data);
+        console.log(JSON.stringify(data))
+    })
+    .catch(error => console.log(error))
+}
+
 logprod()
+getplayers()
 /*
 // Fazer uma solicitação à sua API
 fetch('http://localhost:3000/products') // Substitua com a rota da sua API

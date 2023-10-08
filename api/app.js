@@ -1,7 +1,9 @@
 const express = require("express");
 const cors = require('cors');
+const db = require("../db/db.js")
 const app = express();
 const port = 3000;
+
 
 app.use(cors());
 
@@ -26,11 +28,13 @@ app.get("/products", (req,res) => {
   res.json(products);
 })
 
-app.get('/dados', (req, res) => {
+app.get('/dados', async (req, res) => {
     // Aqui, você pode buscar os dados de alguma fonte, como um banco de dados
-    const dados = obterDados(); // Substitua com sua própria lógica
-    res.json(dados);
+    try{
+      const dados = await db.getTable('keyboards'); // Substitua com sua própria lógica
+      res.json(dados);
+    } catch(error){res.status(500).json({error: "falha ao acessar db"})}
   });
 
-  
+
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
