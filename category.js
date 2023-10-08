@@ -5,14 +5,8 @@ function getCategory(url){
     return cat
 }
 
-async function printTable(url){
-    console.log("vai")
-    const db = require('./db/db.js')
-    tablename = getCategory(url)
-    //const table = db.getTable(tablename)
-    await console.log(db.getTable(tablename))
-}
-
+//fetches the whole category table as a json
+//need make buttons for each fetched product
 async function getProductsfromCategory(category){
     const endpoint = 'http://localhost:3000/product/'+ category
     fetch(endpoint)
