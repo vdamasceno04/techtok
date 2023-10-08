@@ -2,7 +2,7 @@
 
 (async()=>{
     const db = require('./db.js')
-    const User = require('../models/user.js')
+  /*  const User = require('../models/user.js')
     const usr = new User()
     usr.setLogin('admin')
     usr.setPassword('123')
@@ -10,8 +10,8 @@
     await console.log(await db.checkIfExists('users',{
         'login':'admin',
         'password':'123'
-    }))
-    await usr.drop()
+    }))*/
+  //  await usr.drop()
     const Keyboard = require('../models/keyboard.js')
     const kybd = new Keyboard()
     kybd.setBrand('Redragon')
