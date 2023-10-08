@@ -1,43 +1,43 @@
-const Product = require('./product.js')
+const Product = require('./Product.js')
 
 class Earphone extends Product{
     constructor(){
         super()
 
         // string
-        this.channels = null
         this.connection = null
+        this.channels = null
 
         // int
         this.battery = null
-        this.power = null
         
         // boolean
-        this.mic = false
+        this.mic = null
+        this.waterproof = null
     }
 
     // setters
-    setChannels(channels){this.channels = channels}
     setConnection(connection){this.connection = connection}
+    setChannels(channels){this.channels = channels}
     setBattery(battery){this.battery = battery}
-    setPower(power){this.power = power}
     setMic(mic){this.mic = mic}
+    setWaterproof(waterproof){this.waterproof = waterproof}
 
     // getters
-    getChannels(){return this.channels}
     getConnection(){return this.connection}
+    getChannels(){return this.channels}
     getBattery(){return this.battery}
-    getPower(){return this.power}
     getMic(){return this.mic}
+    getWaterproof(){return this.waterproof}
 
     load = async()=>{// load from database
         await this.loadProduct()
         const [info] = await db.getRow('earphones',{'id':this.id})
-        this.channels = info[0]['channels']
         this.connection = info[0]['connection']
+        this.channels = info[0]['channels']
         this.battery = info[0]['battery']
-        this.power = info[0]['power']
         this.mic = info[0]['microphone']
+        this.waterproof = info[0]['waterproof']
     }
 
     save = async()=>{// save new product to database
@@ -45,11 +45,11 @@ class Earphone extends Product{
         await db.insertRow(
             'earphones',{
                 'id':this.id,
-                'channels':this.channels,
                 'connection':this.connection,
+                'channels':this.channels,
                 'battery':this.battery,
-                'power':this.power,
-                'microphone':this.mic
+                'microphone':this.mic,
+                'waterproof':this.waterproof
             }
         )
     }
@@ -58,11 +58,11 @@ class Earphone extends Product{
         const db = require('../db/db.js')
         await db.deleteRow('earphones',{'id':this.id})
         await this.dropProduct()
-        this.channels = null
         this.connection = null
+        this.channels = null
         this.battery = null
-        this.power = null
-        this.mic = false
+        this.mic = null
+        this.waterproof = null
     }
 
     async update(info){// update earphone info={'column':value} in database

@@ -3,7 +3,7 @@ dos produtos de uma tabela e enviá-lo na construtora
 das instancias dos produtos seja o melhor jeito
 de instanciar tudo*/
 
-const Model = require('./model.js')
+const Model = require('./Model.js')
 
 class Product extends Model{ 
     constructor() {
@@ -14,11 +14,11 @@ class Product extends Model{
         this.model = null
         this.description = null
         this.imgPath = null
-        this.material = null
-        this.size = null
+
+        // float
+        this.price = null
 
         // int
-        this.price = null
         this.warranty = null
         this.stock = null
     }
@@ -28,8 +28,6 @@ class Product extends Model{
     setModel(model){this.model = model}
     setDescription(description){this.description = description}
     setImgPath(imgPath){this.imgPath = imgPath}
-    setMaterial(material){this.material = material}
-    setSize(size){this.size = size}
     setPrice(price){this.price = price}
     setWarranty(warranty){this.warranty = warranty}
     setStock(stock){this.stock = stock}
@@ -39,8 +37,6 @@ class Product extends Model{
     getModel(){return this.model}
     getDescription(){return this.description}
     getImgPath(){return this.imgPath}
-    getMaterial(){return this.material}
-    getSize(){return this.size}
     getPrice(){return this.price}
     getWarranty(){return this.warranty}
     getStock(){return this.stock}
@@ -51,8 +47,6 @@ class Product extends Model{
         this.model = info[0]['model']
         this.description = info[0]['stock']
         this.imgPath = info[0]['image_path']
-        this.material = info[0]['material']
-        this.size = info[0]['size']
         this.price = info[0]['price']
         this.warranty = info[0]['warranty']
         this.stock = info[0]['stock']
@@ -69,8 +63,6 @@ class Product extends Model{
                 'model':this.model,
                 'description':this.description,
                 'image_path':this.imgPath,
-                'material':this.material,
-                'size':this.size,
                 'price':this.price,
                 'warranty':this.warranty,
                 'stock':this.stock
@@ -86,8 +78,6 @@ class Product extends Model{
         this.model = null
         this.description = null
         this.imgPath = null
-        this.material = null
-        this.size = null
         this.price = null
         this.warranty = null
         this.stock = null

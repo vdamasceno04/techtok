@@ -5,38 +5,38 @@ class Speaker extends Product{
         super()
 
         // string
-        this.connection = null
+        this.source = null
         this.channels = null
-        this.protection = null
+        this.audioInput = null
 
         // int
-        this.battery = null
         this.power = null
+        this.battery = null
     }
 
     // setters
-    setConnection(connection){this.connection = connection}
+    setSource(source){this.source = source}
     setChannels(channels){this.channels = channels}
-    setProtection(protection){this.protection = protection}
-    setBattery(battery){this.battery = battery}
+    setAudioInput(audioInput){this.audioInput = audioInput}
     setPower(power){this.power = power}
+    setBattery(battery){this.battery = battery}
 
     // getters
-    getConnection(){return this.connection}
+    getSource(){return this.source}
     getChannels(){return this.channels}
-    getProtection(){return this.protection}
-    getBattery(){return this.battery}
+    getAudioInput(){return this.audioInput}
     getPower(){return this.power}
+    getBattery(){return this.battery}
 
     async load(){// load from database
         const db = require('../db/db.js')
         await this.loadProduct()
         const [info] = await db.getRow('speakers',{'id':this.id})
-        this.connection = info[0]['connection']
+        this.source = info[0]['source']
         this.channels = info[0]['channels']
-        this.protection = info[0]['protection']
-        this.battery = info[0]['battery']
+        this.audioInput = info[0]['audio_input']
         this.power = info[0]['power']
+        this.battery = info[0]['battery']
     }
 
     async save(){// save new product to database
@@ -45,11 +45,11 @@ class Speaker extends Product{
         await db.insertRow(
             'speakers',{
                 'id':this.id,
-                'connection':this.connection,
+                'source':this.source,
                 'channels':this.channels,
-                'protection':this.protection,
-                'battery':this.battery,
-                'power':this.power
+                'audio_input':this.audioInput,
+                'power':this.power,
+                'battery':this.battery
             }
         )
     }
@@ -58,11 +58,11 @@ class Speaker extends Product{
         const db = require('../db/db.js')
         await db.deleteRow('speakers',{'id':this.id})
         await this.dropProduct()
-        this.connection = null
+        this.source = null
         this.channels = null
-        this.protection = null
-        this.battery = null
+        this.audioInput = null
         this.power = null
+        this.battery = null
     }
 
     async update(info){// update speaker info={'column':value} in database
