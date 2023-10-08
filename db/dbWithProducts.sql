@@ -112,8 +112,8 @@ CREATE TABLE `earphones` (
   `connection` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
   `channels` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
   `battery` int unsigned DEFAULT NULL,
-  `microphone` tinyint(1) DEFAULT NULL,
-  `waterproof` tinyint(1) DEFAULT NULL,
+  `microphone` tinyint DEFAULT NULL,
+  `waterproof` tinyint DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   CONSTRAINT `earphones_ibfk_1` FOREIGN KEY (`id`) REFERENCES `products` (`id`)
@@ -168,8 +168,8 @@ CREATE TABLE `keyboards` (
   `layout` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
   `key_switch` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
   `battery` int unsigned DEFAULT NULL,
-  `led` tinyint(1) DEFAULT NULL,
-  `numpad` tinyint(1) DEFAULT NULL,
+  `led` tinyint DEFAULT NULL,
+  `numpad` tinyint DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   CONSTRAINT `keyboards_ibfk_1` FOREIGN KEY (`id`) REFERENCES `products` (`id`)
@@ -199,7 +199,7 @@ CREATE TABLE `mice` (
   `dpi` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
   `buttons` int unsigned DEFAULT NULL,
   `battery` int unsigned DEFAULT NULL,
-  `led` tinyint(1) DEFAULT NULL,
+  `led` tinyint DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   CONSTRAINT `mouses_ibfk_1` FOREIGN KEY (`id`) REFERENCES `products` (`id`)
