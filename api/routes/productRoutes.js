@@ -2,6 +2,20 @@ const express = require('express');
 const db = require("../../db/db.js")
 const router = express.Router();
 
+router.get('/products', async (req, res) => {
+  try{
+    const dados = await db.getTable('products');
+    res.json(dados);
+  } catch(error){res.status(500).json({error: "falha ao acessar db"})}
+  });
+
+router.get('/products/keyboards', async (req, res) => {
+  try{
+    const dados = await db.getRow('products', {'category':'keyboards'});
+    res.json(dados);
+  } catch(error){res.status(500).json({error: "falha ao acessar db"})}
+  });
+
 router.get('/keyboards', async (req, res) => {
   try{
     const dados = await db.getTable('keyboards');
@@ -9,11 +23,25 @@ router.get('/keyboards', async (req, res) => {
   } catch(error){res.status(500).json({error: "falha ao acessar db"})}
   });
 
+router.get('/products/mouses', async (req, res) => {
+try{
+  const dados = await db.getRow('products', {'category':'mice'});
+  res.json(dados);
+} catch(error){res.status(500).json({error: "falha ao acessar db"})}
+});
+
 router.get('/mouses', async (req, res) => {
   try{
     const dados = await db.getTable('mice');
     res.json(dados);
   } catch(error){res.status(500).json({error: "falha ao acessar db"})}
+});
+
+router.get('/products/earphones', async (req, res) => {
+try{
+  const dados = await db.getRow('products', {'category':'earphones'});
+  res.json(dados);
+} catch(error){res.status(500).json({error: "falha ao acessar db"})}
 });
 
 router.get('/earphones', async (req, res) => {
@@ -23,11 +51,25 @@ router.get('/earphones', async (req, res) => {
   } catch(error){res.status(500).json({error: "falha ao acessar db"})}
 });
 
+router.get('/products/usbflash', async (req, res) => {
+try{
+  const dados = await db.getRow('products', {'category':'usb_flash_drives'});
+  res.json(dados);
+} catch(error){res.status(500).json({error: "falha ao acessar db"})}
+});
+
 router.get('/usbflash', async (req, res) => {
   try{
     const dados = await db.getTable('usb_flash_drives');
     res.json(dados);
   } catch(error){res.status(500).json({error: "falha ao acessar db"})}
+});
+
+router.get('/products/speakers', async (req, res) => {
+try{
+  const dados = await db.getRow('products', {'category':'speakers'});
+  res.json(dados);
+} catch(error){res.status(500).json({error: "falha ao acessar db"})}
 });
 
 router.get('/speakers', async (req, res) => {

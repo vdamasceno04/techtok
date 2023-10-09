@@ -12,9 +12,9 @@ app.use(cors());
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
-/*THE FOLLOWING EXAMPLE SENDS "products", which can be
-ACCESSED AS A .JSON IN http://localhost:3000/products   */
-app.get("/products", (req,res) => {   
+/*THE FOLLOWING EXAMPLE SENDS THESE TOOLS, which can be
+ACCESSED AS A .JSON IN http://localhost:3000/example   */
+app.get("/example", (req,res) => {   
    const products = [
      {id: 1, name: "hammer"},
      {id: 2,name: "screwdriver"},

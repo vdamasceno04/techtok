@@ -7,8 +7,9 @@ function getCategory(url){
 
 //fetches the whole category table as a json
 //need make buttons for each fetched product
+//deve buscar na tabela produtos o produto da tal categoria
 async function getProductsfromCategory(category){
-    const endpoint = 'http://localhost:3000/product/'+ category
+    const endpoint = 'http://localhost:3000/product/products/' + category
     fetch(endpoint)
     .then(res => res.json())
     .then(data => {
