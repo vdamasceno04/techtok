@@ -13,7 +13,7 @@ function redirectToLogin(){
 }
 
 function redirectToMainPage() {
-    window.location.href = 'paginicial.html'
+    window.location.href = 'initialpage.html'
 }
 
 function redirectToRegister(){
@@ -21,3 +21,7 @@ function redirectToRegister(){
 }
 
 //function redirectToUserArea(){}
+
+function redirectToCart() {
+    window.location.href = 'cart.html'
+}
