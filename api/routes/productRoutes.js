@@ -79,6 +79,18 @@ router.get('/speakers', async (req, res) => {
   } catch(error){res.status(500).json({error: "falha ao acessar db"})}
 });
 
+const path = require('path')// Make sure to include the 'path' module.
+
+router.get('/:filename',(req,res)=>{
+  const filePath = path.join(__dirname, '../../imgs', req.params.filename)// Construct the absolute path to the image file.
+  res.sendFile(filePath,(err)=>{// Send the image file to the client.
+    if(err){
+      console.error(err)
+      res.status(404).send('File not found')
+    }
+  })
+})
+
 module.exports = router;
 
 /*rotas relacionadas

@@ -46,7 +46,8 @@ function setName(info){// set html product name field
 }
 
 function setImgPath(info){// set html product img field
-    document.getElementById("productImg").src = 'imgs/' + info.image_path
+    // document.getElementById("productImg").src = 'imgs/' + info.image_path
+    document.getElementById("productImg").src = `http://localhost:3000/product/${info.image_path}`
     document.getElementById("productImg").alt = getName(info)
 }
 
