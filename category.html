@@ -3,22 +3,21 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
+        <title>TechTok</title>
     </head>
     <body>
-        <h1>LOJA ONLINE TOP</h1>
+        <h1>TechTok</h1>
         <button onclick="redirectToProduct('?prod=mouse1')">mouse1</button> 
         <button onclick="redirectToProduct('?prod=mouse2')">mouse2</button>
         <button onclick="redirectToProduct('?prod=mouse3')">mouse3</button>
         <button onclick="redirectToProduct('?prod=mouse4')">mouse4</button>
         <button onclick="redirectToProduct('?prod=mouse5')">mouse5</button>
     </body>
+    <body>
+        <div id="dados"></div>
+    </body>
+
     <script src ="htmlRedirect.js"></script>
-    <script>
-    url = window.location.search
-    param = new URLSearchParams(url)
-    cat = param.get('cat') //should match db table name
-    console.log(cat)
-    </script>
+    <script src ="category.js"></script>
 
 </html>
