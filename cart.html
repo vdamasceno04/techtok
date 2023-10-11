@@ -26,14 +26,26 @@
         }
 
         li {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
+            display: grid;
+            grid-template-columns: 1fr auto auto auto auto; /* Added one more column for the price */
             align-items: center;
+            margin-bottom: 10px;
         }
 
         input[type="number"] {
-            width: 30px;
+            width: 40px;
+        }
+
+        .price {
+            width: 70px; /* Fixed width for the price display */
+        }
+
+        button {
+            background-color: #ff4f4f;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -47,9 +59,10 @@
     <script>
         // Product data
         const products = [
-            { name: "Mouse Logitech", price: 10.00 },
-            { name: "Teclado gaymer", price: 15.00 },
-            { name: "Plug anal", price: 420.69 },
+            { name: "Mouse Logitech", price: 78.67 },
+            { name: "Teclado gamer", price: 573.21 },
+            { name: "Headset rgb 7.1", price: 312.53 },
+            { name: "Speaker JBL", price: 230.11 }
         ];
 
         const cart = [];
@@ -84,7 +97,7 @@
                 li.innerHTML = `
                     <span>${item.name}</span>
                     <input type="number" value="${item.quantity}" min="1" onchange="updateQuantity(${index}, this.value)">
-                    <span>R$${(item.price * item.quantity).toFixed(2)}</span>
+                    <span class="price">R$${(item.price * item.quantity).toFixed(2)}</span>
                     <button onclick="removeFromCart(${index})">Remove</button>
                 `;
                 cartItems.appendChild(li);
