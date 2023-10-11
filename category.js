@@ -47,6 +47,9 @@ function createProductButton(product){
     return button
   }
 
+
+/* Incomplete product boxes
+TODO: CSS, validation, DOM, HTML container
   function createProductBox(product){
     // Create a new div element.
     const box = document.createElement('div')
@@ -75,3 +78,4 @@ function createProductButton(product){
     // Return the box element.
     return box
   }
+*/
