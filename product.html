@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>PRODUCT</title>
+        <!-- <title>PRODUCT</title>
     </head>
     <body>
         <body>
@@ -21,9 +21,23 @@
             <h1>DPI: 800/1600</h1>
             <h1>LED: None</h1>
             <hi></hi>
+    </body> -->
+        <title>"Techtok"</title>
+    </head>
+    <body>
+        <h1 id="productName"></h1><br>
+        <img id="productImg" src="" alt="" width="200"><br>
+        <button onclick>Add to cart</button><br>
+        <p id="brand">" "</p>
+        <p id="model">" "</p>
+        <p id="price">" "</p>
+        <p id="stock">" "</p>
+        <p id="description">" "</p>
+        <p id="warranty">" "</p>
     </body>
     <script src="productInfo.js"></script>
     <script>
-        setProduct(window.location.search, 'productname', 'productimg')
+        const info = getProductInfo(getProductId(window.location.search))
+        setProduct(info)
     </script>
 </html>

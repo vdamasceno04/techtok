@@ -13,11 +13,11 @@ async function getProductsfromCategory(category){
     fetch(endpoint)
     .then(res => res.json())
     .then(data => {
-        const conteudoDiv = document.getElementById('dados');
+        const conteudoDiv = document.getElementById('dados')
         
         data.forEach((product)=>{
-            const button = createProductButton(product);
-            conteudoDiv.appendChild(button);
+            const button = createProductButton(product)
+            conteudoDiv.appendChild(button)
         });
         // Defina o texto do parágrafo com os dados obtidos da API
         // conteudoDiv.textContent = JSON.stringify(data);
@@ -30,16 +30,18 @@ getProductsfromCategory(getCategory(window.location.search))
 
 function createProductButton(product){
     // Create a new button element.
-    const button = document.createElement('button');
+    const button = document.createElement('button')
   
     // Set the button element's text to the product's brand and model.
-    button.textContent = product.brand + ' ' + product.model;
+    button.textContent = product.brand + ' ' + product.model
   
     // Add an event listener to the button so that you can respond to user interaction.
-    button.addEventListener('click', () => {
-      // Do something with the product.
-    });
+    button.addEventListener('click',()=>{
+        // Temporarily save the product JSON and open the product page.
+        sessionStorage.setItem(String(product.id), JSON.stringify(product))
+        redirectToProduct(`?prod=${product.id}`)
+    })
   
     // Return the button element.
-    return button;
+    return button
   }
