@@ -55,3 +55,17 @@ function validateUserCreation() {
     }
 }
 
+async function getUsers(){
+    const endpoint = 'http://localhost:3000/user/users'
+    fetch(endpoint)
+    .then(res => res.json())
+    .then(data => {
+        // Defina o texto do parágrafo com os dados obtidos da API
+        // conteudoDiv.textContent = JSON.stringify(data);
+        console.log("cavalo")
+        console.log(JSON.stringify(data))
+    })
+    .catch(error => console.log(error))
+}
+
+getUsers()
