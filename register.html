@@ -37,7 +37,7 @@
   <body>
       <div id="mainPage" onClick="redirectToMainPage()"> <h1>TechTok</h1> </div>
       <div class="login-box">
-          <form onsubmit="validateUserCreation(); return false;">
+          <form onsubmit="validateRegister(); return false;">
             <div id="usernameBox">
               <label for="username">Username:</label>
               <input id="username" placeholder="Your username">
@@ -48,9 +48,9 @@
               <input id="password" type="password" placeholder="Your password">
             </div>
 
-            <div id="name">
-              <label for="name">Name:</label>
-              <input id="name" placeholder="Name">
+            <div id="uname">
+              <label for="uname">Name:</label>
+              <input id="uname" placeholder="Name">
             </div>
       
             <div id="email">
@@ -64,7 +64,7 @@
           </form>
       </div>
   </body>
-  <script src="login.js"></script>
+  <script src="register.js"></script>
   <body>
     <div id="loginButton">
       Already have an account?

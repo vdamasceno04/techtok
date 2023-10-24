@@ -19,4 +19,14 @@ router.get('/users:username', async (req, res) => {
     } catch(error){res.status(500).json({error: "falha ao acessar db"})}
   });
 
+router.post('users/register', async (req, res) =>{
+    try{
+        info = {id: 4, login: 'rafa', password: 'rafa123', name: 'rafael',
+        email: 'rafael@gmail.com', superuser: 0x01};
+        req.body = JSON.stringify(info);
+        const newUser = req.body;
+        const logs = await db.insertRow('users', newUser);
+        console.log(logs);
+    } catch(error){res.status(500).json({error: "falha ao acessar db"})}
+});
 module.exports = router;
