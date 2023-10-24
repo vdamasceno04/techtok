@@ -55,10 +55,10 @@ const getTable = async(table)=>{// Return a table from database
     }
 }
 
-const getRow = async(table,match)=>{// Return a row from database
+const getRow = async(table, col, info)=>{// Return a row from database
     console.log('getRow')
     const sql = `SELECT * FROM ?? WHERE ??=?;`
-    const values = [table,Object.keys(match)[0],Object.values(match)[0]]
+    const values = [table, col, info]
     console.log(sql)
     console.log(values)
     try{
