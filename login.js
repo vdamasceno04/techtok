@@ -47,14 +47,6 @@ async function validateLogin(){
     }
 }
 
-function validateUserCreation() {
-    username = getUsername()
-    password = getPassword()
-    if (!hasBlankText(username, password)) {
-
-    }
-}
-
 //Gets user's row from users table by its login and check if password matches
 async function checkLoginData(username, password){ 
     const endpoint = 'http://localhost:3000/user/users' + username;
