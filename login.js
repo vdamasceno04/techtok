@@ -28,10 +28,11 @@ function hasBlankText(username, password) {
     return true;
 }
 
-function validateLogin(){ 
+async function validateLogin(){ 
     username = getUsername()
     password = getPassword()
-
+    console.log(username, password);
+    console.log(await checkLoginData(username, password));
     if (!hasBlankText(username, password)) {
         //if (checarNoBancoDeDados(username, password)) {
             //redirectToUserArea()
@@ -49,23 +50,24 @@ function validateLogin(){
 function validateUserCreation() {
     username = getUsername()
     password = getPassword()
-
     if (!hasBlankText(username, password)) {
 
     }
 }
 
-async function getUsers(){
-    const endpoint = 'http://localhost:3000/user/users'
+//Gets user's row from users table by its login and check if password matches
+async function checkLoginData(username, password){ 
+    const endpoint = 'http://localhost:3000/user/users' + username;
     fetch(endpoint)
     .then(res => res.json())
     .then(data => {
-        // Defina o texto do parágrafo com os dados obtidos da API
-        // conteudoDiv.textContent = JSON.stringify(data);
-        console.log("cavalo")
         console.log(JSON.stringify(data))
+/*        if(password == data[0].password){
+            infoMatch = true;
+            console.log("dentro: ")
+            console.log(infoMatch)
+        }
+*/
     })
     .catch(error => console.log(error))
 }
-
-getUsers()
