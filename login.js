@@ -31,8 +31,7 @@ function hasBlankText(username, password) {
 async function validateLogin(){ 
     username = getUsername()
     password = getPassword()
-    console.log(username, password);
-    console.log(await checkLoginData(username, password));
+    console.log('check' + await checkLoginData(username, password));
     if (!hasBlankText(username, password)) {
         //if (checarNoBancoDeDados(username, password)) {
             //redirectToUserArea()
@@ -47,13 +46,6 @@ async function validateLogin(){
     }
 }
 
-function validateUserCreation() {
-    username = getUsername()
-    password = getPassword()
-    if (!hasBlankText(username, password)) {
-
-    }
-}
 
 //Gets user's row from users table by its login and check if password matches
 async function checkLoginData(username, password){ 
@@ -61,13 +53,14 @@ async function checkLoginData(username, password){
     fetch(endpoint)
     .then(res => res.json())
     .then(data => {
-        console.log(JSON.stringify(data))
-/*        if(password == data[0].password){
-            infoMatch = true;
-            console.log("dentro: ")
-            console.log(infoMatch)
-        }
-*/
+        console.log('fetched data: ' + JSON.stringify(data))
+        if(data.length == 0)
+            console.log("user doesnt exist")
+        else if(password == data[0].password)
+            console.log("password match")
+        else
+            console.log("wrong password")
+        
     })
     .catch(error => console.log(error))
 }
