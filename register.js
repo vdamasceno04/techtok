@@ -10,7 +10,6 @@ function getPassword(){ //get password from html's filled box
 
 function getName(){ //get name from html's filled box 
     const uname = document.getElementById("uname").value;
-    console.log('name= ' + uname);
     return uname;
 }
 
@@ -19,22 +18,13 @@ function getEmail(){ //get email from html's filled box
     return email;
 }
 
-async function sendRegisterData(username, password, uname, email){ 
-    const endpoint = 'http://localhost:3000/user/users/register';
-    fetch(endpoint)
-    .then(res => res.json())
-    .then(data => {
-        console.log(JSON.stringify(data))
-//        if(data == null)
-  //          console.log("nemtem")
-/*        if(password == data[0].password){
-            infoMatch = true;
-            console.log("dentro: ")
-            console.log(infoMatch)
-        }
-*/
+async function sendRegisterData(usname, pass, uname, em){
+    const info = {username: usname, password: pass, name: uname, email: em}; 
+    await axios.post('http://localhost:3000/user/register', info)
+    .then((response) => {
+      console.log(response);
     })
-    .catch(error => console.log(error))
+    .catch(error => console.log(error));
 }
 
 async function validateRegister(){ 
@@ -43,7 +33,7 @@ async function validateRegister(){
     uname = getName();
     email = getEmail();
     console.log(username, password, uname, email);
-    console.log(await sendRegisterData(username, password, uname, email));
+    await sendRegisterData(username, password, uname, email);
     if (!hasBlankText(username, password, email, uname)) {
         //if (checarNoBancoDeDados(username, password)) {
             //redirectToUserArea()
