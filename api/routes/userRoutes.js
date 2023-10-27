@@ -22,13 +22,8 @@ router.get('/users:username', async (req, res) => {
 
 router.post('/register', bodyParser.json(), async (req, res) =>{
     try{
-        //info = {id: 4, login: 'rafa', password: 'rafa123', name: 'rafael',
-        //email: 'rafael@gmail.com', superuser: 0x01};
-        //req.body = JSON.stringify(info);
-        //const newUser = info;
-        console.log('reqbody: ' + req.body)
         await db.insertRow('users', req.body);
-        res.json(info)
+        res.json(res.status(200));
     } catch(error){res.status(500).json({error: "falha ao acessar db"})}
 });
 

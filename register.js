@@ -19,12 +19,9 @@ function getEmail(){ //get email from html's filled box
 }
 
 async function sendRegisterData(usname, pass, uname, em){
-    const info = {login: usname, password: pass, name: uname, email: em}; 
+    const info = {login: usname, password: pass, name: uname, email: em, superuser: 0}; 
     console.log(info)
     await axios.post('http://localhost:3000/user/register', info)
-    .then((response) => {
-      console.log(response);
-    })
     .catch(error => console.log(error));
 }
 
