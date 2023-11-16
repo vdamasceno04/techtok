@@ -31,7 +31,7 @@ function hasBlankText(username, password) {
 async function validateLogin(){ 
     username = getUsername()
     password = getPassword()
-    console.log('check' + await checkLoginData(username, password));
+    console.log(checkLoginData(username, password));
     if (!hasBlankText(username, password)) {
         //if (checarNoBancoDeDados(username, password)) {
             //redirectToUserArea()
@@ -53,7 +53,7 @@ async function checkLoginData(username, password){
     fetch(endpoint)
     .then(res => res.json())
     .then(data => {
-        console.log('fetched data: ' + JSON.stringify(data))
+        //console.log('fetched data: ' + JSON.stringify(data))
         if(data.length == 0)
             console.log("user doesnt exist")
         else if(password == data[0].password)
