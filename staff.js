@@ -1,11 +1,14 @@
 document.addEventListener('DOMContentLoaded', function() {
     const selectCategory = document.getElementById('product');
     const productInfoContainer = document.getElementById('productInfo');
+    const submitButton = document.getElementById('submitInfo');
+    const productInfoContainers = [];
   
     // Adiciona um ouvinte de eventos para o evento de mudança no select
     selectCategory.addEventListener('change', function() {
       // Remove caixas de entrada existentes
       productInfoContainer.innerHTML = '';
+      productInfoContainers.length = 0;
   
         const selectedCategory = selectCategory.value;
   
@@ -87,6 +90,13 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   
+    submitButton.addEventListener('click', function() {
+        // Itera sobre as caixas de entrada e exibe os valores no console
+        productInfoContainers.forEach(function(caixa) {
+          console.log(`Valor da caixa ${caixa.id}: ${caixa.value}`);
+        });
+      });
+
     function addProductAttribute(labelText, inputId) {
       const label = document.createElement('label');
       label.textContent = labelText;
@@ -94,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const input = document.createElement('input');
       input.type = 'text';
       input.id = inputId;
-  
+        productInfoContainers.push(input);
       productInfoContainer.appendChild(label);
       productInfoContainer.appendChild(input);
     }
