@@ -1,19 +1,18 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
     const selectCategory = document.getElementById('product');
     const productInfoContainer = document.getElementById('productInfo');
     const submitButton = document.getElementById('submitInfo');
     const productInfoContainers = [];
   
-    // Adiciona um ouvinte de eventos para o evento de mudança no select
     selectCategory.addEventListener('change', function() {
-      // Remove caixas de entrada existentes
+
       productInfoContainer.innerHTML = '';
       productInfoContainers.length = 0;
   
         const selectedCategory = selectCategory.value;
   
       switch (selectedCategory) {
-        case 'Mouse':
+        case 'mice':
             addProductAttribute('Brand', 'brand');
             addProductAttribute('Model:', 'model');
             addProductAttribute('Stock:', 'stock');
@@ -28,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
             addProductAttribute('LED:', 'led');
           break;
           
-        case 'Keyboard':
+        case 'keyboards':
             addProductAttribute('Brand', 'brand');
             addProductAttribute('Model:', 'model');
             addProductAttribute('Stock:', 'stock');
@@ -43,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
             addProductAttribute('LED:', 'led');
             addProductAttribute('Numpad:', 'numpad');
             break;
-        case 'USB Flash Drive':
+        case 'usb_flash_drives':
             addProductAttribute('Brand', 'brand');
             addProductAttribute('Model:', 'model');
             addProductAttribute('Stock:', 'stock');
@@ -56,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
             addProductAttribute('Write Speed:', 'write_speed');
             addProductAttribute('Read Speed:', 'read_speed');
           break;
-        case 'Speaker':
+        case 'speakers':
             addProductAttribute('Brand', 'brand');
             addProductAttribute('Model:', 'model');
             addProductAttribute('Stock:', 'stock');
@@ -71,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
             addProductAttribute('Battery:', 'battery');
           break;
 
-        case 'Earphone':
+        case 'earphones':
             addProductAttribute('Brand', 'brand');
             addProductAttribute('Model:', 'model');
             addProductAttribute('Stock:', 'stock');
@@ -86,21 +85,12 @@ document.addEventListener('DOMContentLoaded', function() {
             addProductAttribute('Waterproof:', 'waterproof');
           break;
         default:
-          // Não faz nada se a opção 'selecione' for escolhida
       }
     });
-  
-    submitButton.addEventListener('click', function() {
-        // Itera sobre as caixas de entrada e exibe os valores no console
-        productInfoContainers.forEach(function(caixa) {
-          console.log(`Valor da caixa ${caixa.id}: ${caixa.value}`);
-        });
-      });
-
     function addProductAttribute(labelText, inputId) {
       const label = document.createElement('label');
       label.textContent = labelText;
-  
+    
       const input = document.createElement('input');
       input.type = 'text';
       input.id = inputId;
@@ -108,4 +98,21 @@ document.addEventListener('DOMContentLoaded', function() {
       productInfoContainer.appendChild(label);
       productInfoContainer.appendChild(input);
     }
-  });
+
+async function sendProductToDb(){
+    // Iterate each attribute box
+    categoryOption = document.getElementById('product');
+    const info = {category: categoryOption.value}; 
+    productInfoContainers.forEach(function(box) {
+      info[box.id] = box.value
+    });
+    await axios.post(sendProductData, info)
+    .catch(error => console.log(error))
+    console.log(info)
+  };
+
+async function sendProductData(info){
+  await axios.post('http://localhost:3000/insert', info)
+  .catch(error => console.log(error));
+}
+});

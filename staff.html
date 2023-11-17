@@ -41,14 +41,14 @@
       <form>
         <select id="product" name="product">
                 <option>Choose an option</option>
-                <option value="Mouse">Mouse</option>
-                <option value="Keyboard">Keyboard</option>
-                <option value="USB Flash Drive">USB Flash Drive</option>
-                <option value="Speaker">Speaker</option>
-                <option value="Earphone">Earphone</option>
+                <option value="mice">Mouse</option>
+                <option value="keyboards">Keyboard</option>
+                <option value="usb_flash_drives">USB Flash Drive</option>
+                <option value="speakers">Speaker</option>
+                <option value="earphones">Earphone</option>
             </select>
             <div id="productInfo"></div>
-            <button id="submitInfo">Submit</button>
+            <button onclick="sendProductToDb()"id="submitInfo">Submit</button>
         </form>
   </body>
   <script src ="staff.js"></script>
