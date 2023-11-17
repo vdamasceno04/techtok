@@ -20,8 +20,6 @@ async function getProductsfromCategory(category){
             // const box = createProductBox(product)
             conteudoDiv.appendChild(button)
         });
-        // Defina o texto do parágrafo com os dados obtidos da API
-        // conteudoDiv.textContent = JSON.stringify(data);
         console.log(JSON.stringify(data))
     })
     .catch(error => console.log(error))
@@ -36,14 +34,12 @@ function createProductButton(product){
     // Set the button element's text to the product's brand and model.
     button.textContent = product.brand + ' ' + product.model
   
-    // Add an event listener to the button so that you can respond to user interaction.
     button.addEventListener('click',()=>{
         // Temporarily save the product JSON and open the product page.
         sessionStorage.setItem(String(product.id), JSON.stringify(product))
         redirectToProduct(`?prod=${product.id}`)
     })
   
-    // Return the button element.
     return button
   }
 
