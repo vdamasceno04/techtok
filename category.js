@@ -5,9 +5,8 @@ function getCategory(url){
     return cat
 }
 
-//fetches the whole category table as a json
+//fetches the whole category table as a json (TO BE OPTIMIZED)
 //need make buttons for each fetched product
-//deve buscar na tabela produtos o produto da tal categoria
 async function getProductsfromCategory(category){
     const endpoint = 'http://localhost:3000/product/products/' + category
     fetch(endpoint)
