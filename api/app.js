@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require('cors');
 const productRoutes = require('./routes/productRoutes');
 const userRoutes = require('./routes/userRoutes');
-const staffRoutes = requite('./routes/staffRoutes.js')
+const staffRoutes = require('./routes/staffRoutes.js')
 const app = express();
 const port = 3000;
 //app ís an Express instance
