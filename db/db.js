@@ -9,7 +9,7 @@ const createConnectionPool = async()=>{
         port: 3306,
         database: 'company',
         user: 'root',
-        password: 'admin',
+        password: 'batatinha',
         connectionLimit: 10,// Max simultaneous users connected
         connectTimeout: 10000,// ms
         idleTimeout: 180000,// ms
@@ -166,7 +166,39 @@ const insertRow = async(table,info)=>{
         return null
     }
 }
-
+/*
+const insertProduct = async(table, info)=>{
+    console.log('insertProduct')
+    const entries = Object.entries(info)
+    let values = [table]
+    let sql = `START TRANSACTION; INSERT INTO products (category,
+         brand, model, stock, price, description, image_path, warranty) VALUES (`
+    for(let i=0; i<Object.keys(info).length-1; i++){
+        sql += `?,`
+    }
+    sql += `?); SET @genId = LAST_INSERT_ID(); INSERT INTO `
+    
+    sql += `) VALUES (`;
+    for(const [key, value] of entries){
+        values.push(key)
+    }
+    for(const [key, value] of entries){
+        values.push(value)
+    }
+    console.log(sql)
+    console.log(values)
+    try{
+        const con = await connectDb()
+        await con.query(sql,values)
+        const [aux] = await con.query(`SELECT LAST_INSERT_ID() AS lastId;`)
+        await con.release()
+        return aux[0]['lastId']
+    } catch(err) {
+        console.error('Row not inserted: ' + err)
+        return null
+    }
+}
+*/
 const checkIfExists = async(table,info)=>{// Verify fields in database
     console.log('checkIfExists')
     const entries = Object.entries(info)
