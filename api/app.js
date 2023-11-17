@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require('cors');
 const productRoutes = require('./routes/productRoutes');
 const userRoutes = require('./routes/userRoutes');
+const staffRoutes = requite('./routes/staffRoutes.js')
 const app = express();
 const port = 3000;
 //app ís an Express instance
@@ -26,3 +27,4 @@ app.get("/example", (req,res) => {
 //use routes for products, defined in ./routes/productRoutes.js
 app.use('/product', productRoutes);
 app.use('/user', userRoutes);
+app.use('/staff', staffRoutes);
