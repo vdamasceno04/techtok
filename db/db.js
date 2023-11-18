@@ -9,7 +9,7 @@ const createConnectionPool = async()=>{
         port: 3306,
         database: 'company',
         user: 'root',
-        password: 'admin',
+        password: 'batatinha',
         connectionLimit: 10,// Max simultaneous users connected
         connectTimeout: 10000,// ms
         idleTimeout: 180000,// ms

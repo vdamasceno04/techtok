@@ -91,28 +91,23 @@ document.addEventListener('DOMContentLoaded', async function() {
       const label = document.createElement('label');
       label.textContent = labelText;
     
-      const input = document.createElement('input');
-      input.type = 'text';
-      input.id = inputId;
-        productInfoContainers.push(input);
-      productInfoContainer.appendChild(label);
-      productInfoContainer.appendChild(input);
-    }
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.id = inputId;
+      productInfoContainers.push(input);
+    productInfoContainer.appendChild(label);
+    productInfoContainer.appendChild(input);
+   }
 
-async function sendProductToDb(){
     // Iterate each attribute box
     categoryOption = document.getElementById('product');
     const info = {category: categoryOption.value}; 
     productInfoContainers.forEach(function(box) {
       info[box.id] = box.value
     });
-    await axios.post(sendProductData, info)
-    .catch(error => console.log(error))
-    console.log(info)
-  };
 
-async function sendProductData(info){
-  await axios.post('http://localhost:3000/insert', info)
+  await axios.post('http://localhost:3000/staff/insert', info)
   .catch(error => console.log(error));
-}
+
+
 });
