@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', async function() {
+    const prodForm = document.getElementById('form');
     const selectCategory = document.getElementById('product');
     const productInfoContainer = document.getElementById('productInfo');
     const submitButton = document.getElementById('submitInfo');
@@ -65,7 +66,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             addProductAttribute('Warranty', 'warranty');            
             addProductAttribute('Source:', 'source');
             addProductAttribute('Channels:', 'channels');
-            addProductAttribute('Audio Input:', 'Audio Input');
+            addProductAttribute('Audio Input:', 'audio_input');
             addProductAttribute('Power:', 'power');
             addProductAttribute('Battery:', 'battery');
           break;
@@ -99,15 +100,17 @@ document.addEventListener('DOMContentLoaded', async function() {
     productInfoContainer.appendChild(input);
    }
 
-    // Iterate each attribute box
+   prodForm.addEventListener('submit', async function(event) {
+    event.preventDefault();
     categoryOption = document.getElementById('product');
-    const info = {category: categoryOption.value}; 
-    productInfoContainers.forEach(function(box) {
-      info[box.id] = box.value
+    info = { category: categoryOption.value };
+    productInfoContainers.forEach(function (box) {
+      info[box.id] = box.value;
+  //    console.log(box.id, box.value);
     });
-
-  await axios.post('http://localhost:3000/staff/insert', info)
-  .catch(error => console.log(error));
-
-
+ //   console.log('info = ', info);
+    await axios.post('http://localhost:3000/staff/insert', info)
+      .catch(error => console.log(error.response.data));
+  });
 });
+

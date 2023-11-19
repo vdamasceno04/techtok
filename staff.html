@@ -38,17 +38,17 @@
   </style>
   <body>
       <h1>TechTok</h1>
-      <form>
-        <select id="product" name="product">
-                <option>Choose an option</option>
-                <option value="mice">Mouse</option>
-                <option value="keyboards">Keyboard</option>
-                <option value="usb_flash_drives">USB Flash Drive</option>
-                <option value="speakers">Speaker</option>
-                <option value="earphones">Earphone</option>
-            </select>
+      <form id="form">
+        <label for="product">Choose a category:</label>
+        <select id="product">
+          <option value="mice">Mice</option>
+          <option value="keyboards">Keyboards</option>
+          <option value="usb_flash_drives">USB Flash Drives</option>
+          <option value="speakers">Speakers</option>
+          <option value="earphones">Earphones</option>
+        </select>
             <div id="productInfo"></div>
-            <button id="submitInfo">Submit</button>
+            <button type ="submit" id="submitInfo">Submit</button>
         </form>
   </body>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>

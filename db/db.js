@@ -169,32 +169,46 @@ const insertRow = async(table,info)=>{
 
 const insertProduct = async(info)=>{
     console.log('insertProduct')
-    const entries = Object.entries(info)
-    const prodEntries = entries.slice(0, 8)
-    const specEntries = entries.slice(9)
-    let sql = `START TRANSACTION; INSERT INTO products (category,
-         brand, model, stock, price, description, image_path, warranty) VALUES (`
-    for(let i=0; i<Object.keys(info).length-1; i++)
-        sql += `?,`
-    sql += `?); SET @genId = LAST_INSERT_ID(); INSERT INTO ??(`
-    for(let i=0; i<Object.keys(info).length-1; i++)
-        sql += `??,`
-    sql += `??) VALUES (`
-    for(let i=0; i<Object.keys(info).length-1; i++)
-        sql += `?,`
-    sql += `?); COMMIT; ROLLBACK;`
-    for(const[key, value] of prodEntries)
-        values.push(value)
-    values.push(prodEntries[0])
-    for(const [key, value] of specEntries)
-        values.push(key)    
-    for(const [key, value] of specEntries)
-        values.push(value)
-    console.log(sql)
-    console.log(values)
+    const entries = Object.entries(info) //req received
+    const prodEntries = entries.slice(0, 8) //info to product table
+    const specEntries = entries.slice(8) //info to specific category table
+    var valuesP =[]
+    var valuesS =[]
+
+    let sqlP = `INSERT INTO products(category,
+         brand, model, stock, price, description, image_path, warranty) VALUES(`
+    sqlP += `?,?,?,?,?,?,?,?);`
+    
+    let sqlS = `INSERT INTO ??(id,`
+    for(let i=0; i<specEntries.length-1; i++)
+        sqlS += `??,`
+    sqlS += `??) VALUES (LAST_INSERT_ID(),`
+    for(let i=0; i<specEntries.length-1; i++)
+        sqlS += `?,`
+    sqlS += `?);`
+
+    for(i=0; i<8; i++)
+        valuesP.push(prodEntries[i][1])
+    valuesS.push(prodEntries[0][1])
+    for(i=0; i<specEntries.length; i++)
+        valuesS.push(specEntries[i][0])
+    for(i=0; i<specEntries.length; i++)
+        valuesS.push(specEntries[i][1])
+
+    console.log('prod= ', prodEntries)
+    console.log('spec = ', specEntries)
+    console.log('sqlP=   ' + sqlP)
+    console.log('P=  ' + valuesP)
+    console.log('sqlS=   ' + sqlS)
+    console.log('S=   ' + valuesS)
+    
     try{
         const con = await connectDb()
-        await con.query(sql,values)
+        con.beginTransaction(function(err){if(err){throw err;}})
+        await con.query(sqlP,valuesP)
+        await con.query(sqlS,valuesS)
+        con.commit(function(err){
+            if(err){return con.rollback(function(){throw err;})}}) 
     } catch(err) {
         console.error('Row not inserted: ' + err)
         return null
@@ -234,5 +248,6 @@ module.exports = {
     deleteRow,
     updateCell,
     insertRow,
-    checkIfExists
+    checkIfExists,
+    insertProduct
 }
