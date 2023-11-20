@@ -106,6 +106,23 @@ const deleteRow = async(table,match)=>{// Delete a row from database
     }
 }
 
+const deleteRow2Condition = async(table,match1,match2)=>{//Delete with 2 conditions 
+    console.log('deleteRow2Condition')
+    const sql = `DELETE FROM ? WHERE (?=? AND ?=?);`
+    const values = [table,match1[0][0],match1[0][1], match2[0][0], match2[0][1]]
+    console.log(sql)
+    console.log(values)
+    try{
+        const con = await connectDb()
+        await con.query(sql,values)
+        await con.release()
+        return true
+    } catch(err) {
+        console.error('Row not found: ' + err)
+        return false
+    }
+}
+
 const updateCell = async(table,match,info)=>{// Update cells in database
     console.log('updateCell')
     const entries = Object.entries(info)
@@ -249,5 +266,6 @@ module.exports = {
     updateCell,
     insertRow,
     checkIfExists,
-    insertProduct
+    insertProduct,
+    deleteRow2Condition
 }
