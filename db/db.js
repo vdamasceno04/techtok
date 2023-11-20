@@ -106,10 +106,11 @@ const deleteRow = async(table,match)=>{// Delete a row from database
     }
 }
 
-const deleteRow2Condition = async(table,match1,match2)=>{//Delete with 2 conditions 
+const deleteRow2Condition = async(table,info)=>{//Delete with 2 conditions 
     console.log('deleteRow2Condition')
+    const entries = Object.entries(info)
     const sql = `DELETE FROM ? WHERE (?=? AND ?=?);`
-    const values = [table,match1[0][0],match1[0][1], match2[0][0], match2[0][1]]
+    const values = [table,entries[0][0],entries[0][1], entries[1][0], entries[1][1]]
     console.log(sql)
     console.log(values)
     try{

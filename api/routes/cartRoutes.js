@@ -25,9 +25,9 @@ router.put('/update', bodyParser.json(), async (req, res) =>{ //TODO
     } catch(error){res.status(500).json({error: "falha ao acessar db"})}
 });
 
-router.delete('/', bodyParser.json(), async (req, res) =>{ //TODO QUERY DELETE 2 CONDITIONS
+router.delete('/', bodyParser.json(), async (req, res) =>{
     try{
-       //await db.insertProduct(req.body);
+       await db.deleteRow2Condition('cart', req.body);
         res.json(res.status(200));
     } catch(error){res.status(500).json({error: "falha ao acessar db"})}
 });
