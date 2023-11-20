@@ -12,6 +12,10 @@ function redirectToLogin(){
     window.location.href = 'login.html'
 }
 
+function redirectToStaff(){
+    window.location.href = 'staff.html'
+}
+
 function redirectToMainPage() {
     window.location.href = 'initialpage.html'
 }
