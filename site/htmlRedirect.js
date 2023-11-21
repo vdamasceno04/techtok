@@ -17,7 +17,7 @@ function redirectToStaff(){
 }
 
 function redirectToMainPage() {
-    window.location.href = 'initialpage.html'
+    window.location.href = 'initialPage.html'
 }
 
 function redirectToRegister(){

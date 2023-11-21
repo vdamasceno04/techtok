@@ -1,3 +1,5 @@
+const jwt = require('jsonwebtoken')
+
 function getUsername(){ //get username from html's filled box
     const username = document.getElementById("username").value;
     return username
@@ -55,12 +57,13 @@ async function checkLoginData(username, password){
     .then(data => {
         //console.log('fetched data: ' + JSON.stringify(data))
         if(data.length == 0)
-            console.log("user doesnt exist")
-        else if(password == data[0].password)
-            console.log("password match")
+            console.log("User does not exist.")
+        else if(password == data[0].password){
+            const token = jwt.sign({ username }, "your-secret-key")
+            console.log("Password match, JWT token: " + token)
+        }
         else
-            console.log("wrong password")
-        
+            console.log("Wrong password.")
     })
     .catch(error => console.log(error))
 }

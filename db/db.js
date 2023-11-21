@@ -1,20 +1,21 @@
 /* Database functions */
+require('dotenv').config()
 
 let connectionPool
 
 const createConnectionPool = async()=>{
     const mysql = require('mysql2/promise')
     return mysql.createPool({// Pool to allow multiple simultaneous database users
-        host: 'localhost',
-        port: 3306,
-        database: 'company',
-        user: 'root',
-        password: 'batatinha',
-        connectionLimit: 10,// Max simultaneous users connected
-        connectTimeout: 10000,// ms
-        idleTimeout: 180000,// ms
-        waitForConnections: false,// Wait till connected to db?
-        queueLimit: 5,// Max simultaneous users awaiting connection
+        host: process.env.DB_HOST,
+        port: process.env.DB_PORT,
+        database: process.env.DB_NAME,
+        user: process.env.DB_USER,
+        password: process.env.DB_PASSWORD,
+        connectionLimit: process.env.DB_CONNECTION_LIMIT,// Max simultaneous users connected
+        connectTimeout: process.env.DB_CONNECT_TIMEOUT,// ms
+        idleTimeout: process.env.DB_IDLE_TIMEOUT,// ms
+        waitForConnections: process.env.DB_WAIT_FOR_CONNECTIONS,// Wait till connected to db?
+        queueLimit: process.env.DB_QUEUE_LIMIT,// Max simultaneous users awaiting connection
     })
 }
 

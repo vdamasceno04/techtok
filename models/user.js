@@ -1,21 +1,28 @@
 const Model = require('./Model.js')
 
 class User extends Model{
-    constructor(){
-        super()
+    constructor(
+            login = null,
+            password = null,
+            name = null,
+            email = null,
+            superuser = null,
+            cart = []
+        ){
+            super()
 
-        // string
-        this.login = null
-        this.password = null
-        this.name = null
-        this.email = null
+            // string
+            this.login = login
+            this.password = password
+            this.name = name
+            this.email = email
 
-        // boolean
-        this.superuser = null
+            // boolean
+            this.superuser = superuser
 
-        // array
-        this.cart = []
-    }
+            // array
+            this.cart = cart
+        }
 
     // setters
     setLogin(login){this.login = login}
@@ -43,7 +50,7 @@ class User extends Model{
 
     async saveUser(){// save new product to database
         const db = require('../db/db.js')
-        await this.generateId('user')
+        await this.generateId('users')
         await db.insertRow(
             'users',{
                 'id':this.id,
@@ -68,37 +75,37 @@ class User extends Model{
     }
 
     // Cart
-    insertIntoCart(productId,quantity){// insert into cart array
-        const entries = Object.entries(info)
-        for(const [key, value] of entries){
-            if(key == productId){
-                this.info[key] = quantity
-                return
-            }
-        }
-        this.cart.push({productId:quantity})
-    }
+    // insertIntoCart(productId,quantity){// insert into cart array
+    //     const entries = Object.entries(info)
+    //     for(const [key, value] of entries){
+    //         if(key == productId){
+    //             this.info[key] = quantity
+    //             return
+    //         }
+    //     }
+    //     this.cart.push({productId:quantity})
+    // }
     
-    removeFromCart(productId){// remove from cart array
-        const entries = Object.entries(this.cart)
-        for(const [key, value] of entries){
-            if(key == productId){
-                delete this.info[key]
-                return
-            }
-        }
-    }
+    // removeFromCart(productId){// remove from cart array
+    //     const entries = Object.entries(this.cart)
+    //     for(const [key, value] of entries){
+    //         if(key == productId){
+    //             delete this.info[key]
+    //             return
+    //         }
+    //     }
+    // }
 
-    clearCart(){this.cart = []}// clear cart array
+    // clearCart(){this.cart = []}// clear cart array
 
-    async loadCart(){// load cart database into cart array
-        const db = require('../db/db.js')
-        this.clearCart()
-        const entries = Object.entries(await db.getRow('carts',{'user_id':this.id}))
-        for(const element of entries){
-            this.cart.push({element['product_id']:element['quantity']})
-        }
-    }
+    // async loadCart(){// load cart database into cart array
+    //     const db = require('../db/db.js')
+    //     this.clearCart()
+    //     const entries = Object.entries(await db.getRow('carts',{'user_id':this.id}))
+    //     for(const element of entries){
+    //         this.cart.push({element['product_id']:element['quantity']})
+    //     }
+    // }
 
     async saveCart(){// save cart array to cart database
         const db = require('../db/db.js')

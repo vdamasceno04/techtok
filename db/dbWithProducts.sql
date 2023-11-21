@@ -1,15 +1,17 @@
+CREATE DATABASE  IF NOT EXISTS `company` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `company`;
 -- MySQL dump 10.13  Distrib 8.0.34, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: company
 -- ------------------------------------------------------
--- Server version	8.0.34
+-- Server version	8.1.0
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8 */;
+/*!50503 SET NAMES utf8mb4 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40103 SET TIME_ZONE='-03:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
@@ -20,8 +22,8 @@
 --
 
 DROP TABLE IF EXISTS `carts`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
 CREATE TABLE `carts` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `customer_id` int unsigned NOT NULL,
@@ -30,7 +32,9 @@ CREATE TABLE `carts` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `customer_id` (`customer_id`),
-  CONSTRAINT `carts_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `product_id` (`product_id`),
+  CONSTRAINT `carts_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`),
+  CONSTRAINT `carts_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_as_cs;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -82,7 +86,8 @@ CREATE TABLE `customers` (
   `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
-  UNIQUE KEY `cellphone_UNIQUE` (`cellphone`)
+  UNIQUE KEY `cellphone_UNIQUE` (`cellphone`),
+  CONSTRAINT `customers_ibfk_1` FOREIGN KEY (`id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_as_cs;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -110,7 +115,8 @@ CREATE TABLE `earphones` (
   `microphone` tinyint DEFAULT NULL,
   `waterproof` tinyint DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`)
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  CONSTRAINT `earphones_ibfk_1` FOREIGN KEY (`id`) REFERENCES `products` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_as_cs;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -166,7 +172,7 @@ CREATE TABLE `keyboards` (
   `numpad` tinyint DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
-  CONSTRAINT `id_fk` FOREIGN KEY (`id`) REFERENCES `products` (`id`) ON UPDATE CASCADE
+  CONSTRAINT `keyboards_ibfk_1` FOREIGN KEY (`id`) REFERENCES `products` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_as_cs;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -194,7 +200,9 @@ CREATE TABLE `mice` (
   `buttons` int unsigned DEFAULT NULL,
   `battery` int unsigned DEFAULT NULL,
   `led` tinyint DEFAULT NULL,
-  UNIQUE KEY `id_UNIQUE` (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  CONSTRAINT `mouses_ibfk_1` FOREIGN KEY (`id`) REFERENCES `products` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_as_cs;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -204,7 +212,7 @@ CREATE TABLE `mice` (
 
 LOCK TABLES `mice` WRITE;
 /*!40000 ALTER TABLE `mice` DISABLE KEYS */;
-INSERT INTO `mice` VALUES (5,'Wireless','30000',5,300,0),(6,'USB Type-A 2.0','16000',10,0,1),(12,'Bluetooth','800/1600',7,14,0);
+INSERT INTO `mice` VALUES (5,'Wireless','30000',5,300,0),(6,'USB Type-A 2.0','16000',10,0,1);
 /*!40000 ALTER TABLE `mice` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -216,7 +224,7 @@ DROP TABLE IF EXISTS `products`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `products` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `id` int unsigned NOT NULL,
   `category` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL,
   `brand` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
   `model` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
@@ -227,8 +235,10 @@ CREATE TABLE `products` (
   `warranty` int unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
-  KEY `category` (`category`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_as_cs;
+  KEY `category` (`category`),
+  CONSTRAINT `products_ibfk_1` FOREIGN KEY (`category`) REFERENCES `categories` (`products`),
+  CONSTRAINT `products_ibfk_2` FOREIGN KEY (`id`) REFERENCES `ids` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_as_cs;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -237,7 +247,7 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` VALUES (1,'earphones','Logitech','G333 K/DA League of Legends',3,83.69,'G333 K/DA gaming earphones are designed with official League of Legends alt-universe K/DA art for a complete and immersive play experience.','logitechG333KDA.jpg',1),(2,'earphones','Sony','LinkBuds S',18,108.80,'Smart features and settings learn from your behavior and automatically adjust sound settings to provide the right sound for the moment.','sonyLinkBudsS.jpg',1),(3,'keyboards','Corsair','K100',99,199.99,'Powered by CORSAIR AXON Hyper-Processing Technology, enabling CORSAIRs most advanced gaming keyboard experience by delivering up to 4x faster throughput with native 4,000Hz hyper-polling and 4,000Hz key scanning, while simultaneously driving up to 20-layer lighting effects.','corsairK100.jpg',1),(4,'keyboards','MSI','Vigor GK20',123,27.99,'MSI Vigor GK20 Gaming Keyboard is a comfortable, ergonomic design, equally suitable for typing and gaming.','msiGK20.jpg',1),(5,'mice','Razer','DeathAdder V3 Pro White',10,149.99,'Optical Mouse Switches Gen-3: From an improved 90-million click lifecycle with zero double-clicking issues, to a blistering 0.2ms actuation with no debounce delay, the mouse has the reliability and speed built for esports.','razerDeathAdderV3ProWhite.jpg',1),(6,'mice','Thermaltake','Tt eSports LEVEL 10 M',5,208.87,'The Level 10 M gaming mouse is the first foray into gaming peripherals formed through the design collaboration by Thermaltake Group and BMW Group DesignworksUSA. The Level 10 M gaming mouse maintains the design aesthetic of the Level 10 projects, displaying elements of open spaced architecture and geometric modularity, as well as maintaining the highly functional aspects of any product made as a result of this collaboration.','thermaltakeLevel10M.jpg',2),(7,'speakers','Redragon','GS510 Waltz',22,39.99,'Equipped with advanced sound drive unit with full range 2.0 channel enhanced stereo core, GS510 offers you superior clear and rich sound.','redragonGS510Waltz.jpg',2),(8,'speakers','SteelSeries','Arena 9',1132,336.30,'Enjoy wire-free, immersive audio with widely compatible Bluetooth for your phone and other devices.','steelSeriesArena9.jpg',2),(9,'usb_flash_drives','Adata','Elite UE800',330,149.99,'Lanyard hole for attaching to keychains and bags.','adataEliteUE800.jpg',5),(10,'usb_flash_drives','SanDisk','Ultra Dual Drive Luxe',120,92.95,'Seamlessly move content between your USB Type-C smartphone, tablets and Macs and USB Type-A computers.','sanDiskUltraDualDriveLuxe.jpg',10),(12,'mice','Exbon','Mousezao Gamer',69,19.99,'Melhor e mais barato','imagemmousezao.jpg',0);
+INSERT INTO `products` VALUES (1,'earphones','Logitech','G333 K/DA League of Legends',3,83.69,'G333 K/DA gaming earphones are designed with official League of Legends alt-universe K/DA art for a complete and immersive play experience.','logitechG333KDA.jpg',1),(2,'earphones','Sony','LinkBuds S',18,108.80,'Smart features and settings learn from your behavior and automatically adjust sound settings to provide the right sound for the moment.','sonyLinkBudsS.jpg',1),(3,'keyboards','Corsair','K100',99,199.99,'Powered by CORSAIR AXON Hyper-Processing Technology, enabling CORSAIRs most advanced gaming keyboard experience by delivering up to 4x faster throughput with native 4,000Hz hyper-polling and 4,000Hz key scanning, while simultaneously driving up to 20-layer lighting effects.','corsairK100.jpg',1),(4,'keyboards','MSI','Vigor GK20',123,27.99,'MSI Vigor GK20 Gaming Keyboard is a comfortable, ergonomic design, equally suitable for typing and gaming.','msiGK20.jpg',1),(5,'mice','Razer','DeathAdder V3 Pro White',10,149.99,'Optical Mouse Switches Gen-3: From an improved 90-million click lifecycle with zero double-clicking issues, to a blistering 0.2ms actuation with no debounce delay, the mouse has the reliability and speed built for esports.','razerDeathAdderV3ProWhite.jpg',1),(6,'mice','Thermaltake','Tt eSports LEVEL 10 M',5,208.87,'The Level 10 M gaming mouse is the first foray into gaming peripherals formed through the design collaboration by Thermaltake Group and BMW Group DesignworksUSA. The Level 10 M gaming mouse maintains the design aesthetic of the Level 10 projects, displaying elements of open spaced architecture and geometric modularity, as well as maintaining the highly functional aspects of any product made as a result of this collaboration.','thermaltakeLevel10M.jpg',2),(7,'speakers','Redragon','GS510 Waltz',22,39.99,'Equipped with advanced sound drive unit with full range 2.0 channel enhanced stereo core, GS510 offers you superior clear and rich sound.','redragonGS510Waltz.jpg',2),(8,'speakers','SteelSeries','Arena 9',1132,336.30,'Enjoy wire-free, immersive audio with widely compatible Bluetooth for your phone and other devices.','steelSeriesArena9.jpg',2),(9,'usb_flash_drives','Adata','Elite UE800',330,149.99,'Lanyard hole for attaching to keychains and bags.','adataEliteUE800.jpg',5),(10,'usb_flash_drives','SanDisk','Ultra Dual Drive Luxe',120,92.95,'Seamlessly move content between your USB Type-C smartphone, tablets and Macs and USB Type-A computers.','sanDiskUltraDualDriveLuxe.jpg',10);
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -256,7 +266,8 @@ CREATE TABLE `speakers` (
   `power` int unsigned DEFAULT NULL,
   `battery` int unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`)
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  CONSTRAINT `speakers_ibfk_1` FOREIGN KEY (`id`) REFERENCES `products` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_as_cs;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -283,7 +294,9 @@ CREATE TABLE `usb_flash_drives` (
   `capacity` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
   `write_speed` int unsigned DEFAULT NULL,
   `read_speed` int unsigned DEFAULT NULL,
-  UNIQUE KEY `id_UNIQUE` (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  CONSTRAINT `usb_flash_drives_ibfk_1` FOREIGN KEY (`id`) REFERENCES `products` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_as_cs;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -305,16 +318,17 @@ DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `users` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `id` int unsigned NOT NULL,
   `login` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL,
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
   `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
-  `superuser` int DEFAULT NULL,
+  `superuser` binary(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
-  UNIQUE KEY `login_UNIQUE` (`login`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_as_cs;
+  UNIQUE KEY `login_UNIQUE` (`login`),
+  CONSTRAINT `users_ibfk_1` FOREIGN KEY (`id`) REFERENCES `ids` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_as_cs;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -323,7 +337,6 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (8,'vitao','vitao123','victor','victor@gmail.com',1),(9,'lucao','lucao123','lucas','lucas@gmail.com',1),(10,'rafa','rafa123','rafael','rafael@gmail.com',1),(11,'pedrao','pedro123','pedro','pedro@gmail.com',0),(12,'felipao','felipe123','felipe','felipe@gmail.com',0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -336,4 +349,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-11-17  8:36:12
+-- Dump completed on 2023-10-08 19:09:26
