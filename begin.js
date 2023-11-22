@@ -1,12 +1,13 @@
-/* Start api and website */
+/* Start API and website */
 
 require('dotenv').config()
 const { spawn } = require('child_process')
-const kill_port = require('kill-port')
+const killPort = require('kill-port')
 
+const API_PORT = process.env.API_PORT
 let cmd
 
-kill_port(process.env.API_PORT)
+killPort(API_PORT)
 
 if (process.platform === 'win32'){
     cmd = 'npm.cmd'

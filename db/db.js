@@ -3,6 +3,11 @@ require('dotenv').config()
 
 let connectionPool
 
+/**
+ * Creates a connection pool to allow multiple simultaneous database users.
+ *
+ * @return {Promise<Pool>} A Promise that resolves to a Pool object representing the connection pool.
+ */
 const createConnectionPool = async()=>{
     const mysql = require('mysql2/promise')
     return mysql.createPool({// Pool to allow multiple simultaneous database users
@@ -19,10 +24,21 @@ const createConnectionPool = async()=>{
     })
 }
 
+/**
+ * Connects to the database.
+ *
+ * @param {Object} pool - The database connection pool.
+ * @return {Promise<Object>} - A promise that resolves to a database connection.
+ */
 const getConnection = async(pool)=>{
     return pool.getConnection()// Connect to database
 }
 
+/**
+ * Connects to the database.
+ *
+ * @return {Promise<Connection>} The connection to the database.
+ */
 const connectDb = async()=>{// Connect to database
     try{
         if(global.connection && global.connection.state != 'disconnected'){
@@ -39,6 +55,12 @@ const connectDb = async()=>{// Connect to database
     }
 }
 
+/**
+ * Returns a table from the database.
+ *
+ * @param {string} table - The name of the table to retrieve.
+ * @return {Promise<Array>} - A promise that resolves to an array representing the table data.
+ */
 const getTable = async(table)=>{// Return a table from database
     console.log('getTable')
     const sql = `SELECT * FROM ??;`
@@ -56,6 +78,14 @@ const getTable = async(table)=>{// Return a table from database
     }
 }
 
+/**
+ * Return a row from the database.
+ *
+ * @param {string} table - The name of the table.
+ * @param {string} col - The name of the column.
+ * @param {any} info - The value of the column to search for.
+ * @return {Promise<any>} The data of the row if found, otherwise null.
+ */
 const getRow = async(table, col, info)=>{// Return a row from database
     console.log('getRow')
     const sql = `SELECT * FROM ?? WHERE ??=?;`
@@ -73,6 +103,14 @@ const getRow = async(table, col, info)=>{// Return a row from database
     }
 }
 
+/**
+ * Return a cell from database.
+ *
+ * @param {string} table - the name of the table to search
+ * @param {object} match - an object containing the column name and the value to match
+ * @param {object} info - an object containing the column name to return
+ * @return {Promise<any>} the value of the cell
+ */
 const getCell = async(table,match,info)=>{// Return a cell from database
     console.log('getCell')
     const sql = `SELECT ?? FROM ?? WHERE ??=?;`
@@ -90,6 +128,13 @@ const getCell = async(table,match,info)=>{// Return a cell from database
     }
 }
 
+/**
+ * Delete a row from the database.
+ *
+ * @param {string} table - The name of the table.
+ * @param {object} match - An object containing the column and value to match.
+ * @return {boolean} - Returns true if the row is deleted successfully, otherwise false.
+ */
 const deleteRow = async(table,match)=>{// Delete a row from database
     console.log('deleteRow')
     const sql = `DELETE FROM ?? WHERE ??=?;`
@@ -107,6 +152,14 @@ const deleteRow = async(table,match)=>{// Delete a row from database
     }
 }
 
+/**
+ * Update cells in database.
+ *
+ * @param {string} table - The table name.
+ * @param {object} match - An object containing the match conditions.
+ * @param {object} info - An object containing the new cell values.
+ * @return {boolean} Returns true if the cells were successfully updated, false otherwise.
+ */
 const updateCell = async(table,match,info)=>{// Update cells in database
     console.log('updateCell')
     const entries = Object.entries(info)
@@ -135,6 +188,13 @@ const updateCell = async(table,match,info)=>{// Update cells in database
     }
 }
 
+/**
+ * Inserts a new row into the specified table with the provided information.
+ *
+ * @param {string} table - The name of the table to insert the row into.
+ * @param {object} info - An object containing the information for the new row.
+ * @return {number} The ID of the newly inserted row, or `null` if the row was not inserted.
+ */
 const insertRow = async(table,info)=>{
     console.log('insertRow')
     const entries = Object.entries(info)
@@ -216,6 +276,13 @@ const insertProduct = async(info)=>{
     }
 }
 
+/**
+ * Verify fields in database.
+ *
+ * @param {string} table - the table to check in the database
+ * @param {object} info - the fields to verify in the table
+ * @return {boolean} true if the fields exist in the database, false otherwise
+ */
 const checkIfExists = async(table,info)=>{// Verify fields in database
     console.log('checkIfExists')
     const entries = Object.entries(info)

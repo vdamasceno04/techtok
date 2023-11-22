@@ -1,3 +1,7 @@
+require('dotenv').config()
+
+const API_ADDRESS = process.env.API_PROTOCOL + '://' + process.env.API_HOSTS + ':' + process.env.API_PORT + '/'
+
 function getCategory(url){
     param = new URLSearchParams(url)
     cat = param.get('cat') //should match db table name
@@ -8,7 +12,7 @@ function getCategory(url){
 //fetches the whole category table as a json (TO BE OPTIMIZED)
 //need make buttons for each fetched product
 async function getProductsfromCategory(category){
-    const endpoint = 'http://localhost:3000/product/products/' + category
+    const endpoint = API_ADDRESS + 'product/products/' + category
     fetch(endpoint)
     .then(res => res.json())
     .then(data => {

@@ -22,6 +22,8 @@ class User extends Model{
 
             // array
             this.cart = cart
+
+            this.token = null
         }
 
     // setters
@@ -29,7 +31,8 @@ class User extends Model{
     setPassword(password){this.password = password}
     setName(name){this.name = name}
     setEmail(email){this.email = email}
-    setSuperuser(){this.superuser = superuser}
+    setSuperuser(superuser){this.superuser = superuser}
+    setToken(token){this.token = token}
 
     // getters
     getLogin(){return this.login}
@@ -37,10 +40,16 @@ class User extends Model{
     getName(){return this.name}
     getEmail(){return this.email}
     getSuperuser(){return this.superuser}
+    getToken(){return this.token}
 
-    async loadUser(){// load from database
+    /**
+     * Loads user information from the database.
+     *
+     * @return {Promise} A promise that resolves with the loaded user information.
+     */
+    async load(){
         const db = require('../db/db.js')
-        const [info] = await db.getRow('users',{'id':this.id})
+        const [info] = await db.getRow('users', {'id':this.id})
         this.login = info[0]['login']
         this.password = info[0]['password']
         this.name = info[0]['name']
@@ -48,7 +57,12 @@ class User extends Model{
         this.superuser = info[0]['superuser']
     }
 
-    async saveUser(){// save new product to database
+    /**
+     * Save new product to database.
+     *
+     * @return {Promise<void>} - The function does not take any parameters and does not return anything.
+     */
+    async save(){
         const db = require('../db/db.js')
         await this.generateId('users')
         await db.insertRow(
@@ -63,9 +77,14 @@ class User extends Model{
         )
     }
 
-    async dropUser(){
+    /**
+     * Deletes the user from the database and resets the user object.
+     *
+     * @return {Promise} A promise that resolves when the user is successfully deleted.
+     */
+    async drop(){
         const db = require('../db/db.js')
-        await db.deleteRow('users',{'id':this.id})
+        await db.deleteRow('users', {'id':this.id})
         await this.dropId()
         this.login = null
         this.password = null
@@ -74,51 +93,24 @@ class User extends Model{
         this.superuser = null
     }
 
-    // Cart
-    // insertIntoCart(productId,quantity){// insert into cart array
-    //     const entries = Object.entries(info)
-    //     for(const [key, value] of entries){
-    //         if(key == productId){
-    //             this.info[key] = quantity
-    //             return
-    //         }
-    //     }
-    //     this.cart.push({productId:quantity})
-    // }
-    
-    // removeFromCart(productId){// remove from cart array
-    //     const entries = Object.entries(this.cart)
-    //     for(const [key, value] of entries){
-    //         if(key == productId){
-    //             delete this.info[key]
-    //             return
-    //         }
-    //     }
-    // }
-
-    // clearCart(){this.cart = []}// clear cart array
-
-    // async loadCart(){// load cart database into cart array
-    //     const db = require('../db/db.js')
-    //     this.clearCart()
-    //     const entries = Object.entries(await db.getRow('carts',{'user_id':this.id}))
-    //     for(const element of entries){
-    //         this.cart.push({element['product_id']:element['quantity']})
-    //     }
-    // }
-
-    async saveCart(){// save cart array to cart database
+    /**
+     * Verify if the user exists in the database.
+     *
+     * @return {Promise<boolean>} A promise that resolves to a boolean indicating if the user exists.
+     */
+    async validateLogin(){
         const db = require('../db/db.js')
-        await this.dropCart()
-        const entries = Object.entries(this.cart)
-        for(const [key, value] of entries){
-            await db.insertRow('carts',{'user_id':this.id,'product_id':key,'quantity':value})
-        }
+        return await db.checkIfExists('users', {'login':this.login})
     }
 
-    async dropCart(){// delete user's cart from database
+        /**
+     * Verify if the user's password is correct in the database.
+     *
+     * @return {Promise<boolean>} A promise that resolves to a boolean indicating if the user's password is correct.
+     */
+    async validatePassword(){
         const db = require('../db/db.js')
-        await db.deleteRow('carts',{'user_id':this.id})
+        return await db.checkIfExists('users', {'login':this.login, 'password':this.password})
     }
 }
 
