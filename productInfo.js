@@ -61,4 +61,5 @@ function setProduct(info){// run all functions above
     setWarranty(info)
 }
 
+
 //TODO: SHOW SPECIFIC ATTRIBUTES FROM EACH CATEGORY

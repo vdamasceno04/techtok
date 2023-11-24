@@ -2,7 +2,8 @@ const express = require("express");
 const cors = require('cors');
 const productRoutes = require('./routes/productRoutes');
 const userRoutes = require('./routes/userRoutes');
-const staffRoutes = require('./routes/staffRoutes.js')
+const staffRoutes = require('./routes/staffRoutes.js');
+const cartRoutes = require('./routes/cartRoutes.js');
 const app = express();
 const port = 3000;
 //app ís an Express instance
@@ -28,3 +29,4 @@ app.get("/example", (req,res) => {
 app.use('/product', productRoutes);
 app.use('/user', userRoutes);
 app.use('/staff', staffRoutes);
+app.use('/cart', cartRoutes);
