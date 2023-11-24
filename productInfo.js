@@ -61,5 +61,29 @@ function setProduct(info){// run all functions above
     setWarranty(info)
 }
 
-
+async function addToCart(url){
+    let userId = 8 //get user id (using cookies?)
+    let prodId = getProductId(url)
+    var quant = 1
+    const endpoint = 'http://localhost:3000/cart/get' + userId;
+    fetch(endpoint)
+    .then(res => res.json())
+    .then(data => {
+        console.log('fetched data: ' + JSON.stringify(data))
+        if(data.length == 0){
+            console.log("naoex")
+            const info = {customer_id: userId, product_id: prodId, quantity: quant};
+            axios.post('http://localhost:3000/cart/insert', info)
+            .catch(error => console.log(error));
+        }
+        else {
+            quant += data[0].quantity;
+            const info = {customer_id: userId, productId: prodId, quantity: quant};
+            axios.post('http://localhost:3000/cart/update', info)
+            .catch(error => console.log(error));
+        }
+        
+    })
+    .catch(error => console.log(error))
+}
 //TODO: SHOW SPECIFIC ATTRIBUTES FROM EACH CATEGORY
