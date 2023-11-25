@@ -65,13 +65,11 @@ async function addToCart(url){
     let userId = 8 //get user id (using cookies?)
     let prodId = getProductId(url)
     var quant = 1
-    const endpoint = 'http://localhost:3000/cart/get' + userId;
-    fetch(endpoint)
-    .then(res => res.json())
+    const match = {customer_id: userId, product_id: prodId}
+    axios.post('http://localhost:3000/cart/get' + userId + '&' + prodId, match)
     .then(data => {
         console.log('fetched data: ' + JSON.stringify(data))
-        if(data.length == 0){
-            console.log("naoex")
+        if(data.length == 0){ //testar se tem colu
             const info = {customer_id: userId, product_id: prodId, quantity: quant};
             axios.post('http://localhost:3000/cart/insert', info)
             .catch(error => console.log(error));

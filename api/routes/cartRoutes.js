@@ -3,9 +3,11 @@ const db = require("../../db/db.js");
 const bodyParser = require('body-parser');
 const router = express.Router();
 
-router.get('/get:userId', bodyParser.json(), async (req, res) =>{
+router.get('/get/:userId/:productId', bodyParser.json(), async (req, res) =>{
     try{
-        const data = await db.getRow('carts', 'customer_id', req.params.userId);
+        console.log("caiu")
+        req.body = {customer_id: req.params.userId, product_id: req.params.prodId}
+        const data = await db.getRow2Condition('carts', req.body);
         console.log(data)
         res.json(data);
     }   catch(error){res.status(500).json({error: "falha ao acessar db"})}
