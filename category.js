@@ -19,7 +19,7 @@ async function getProductsfromCategory(category){
             // const box = createProductBox(product)
             conteudoDiv.appendChild(button)
         });
-        console.log(JSON.stringify(data))
+        //console.log(JSON.stringify(data))
     })
     .catch(error => console.log(error))
 }
