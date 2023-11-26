@@ -70,7 +70,8 @@ async function addToCart(url){
     .then(res => res.json())
     .then(data => {
         console.log('fetched data: ' + JSON.stringify(data))
-        if(data[0].quantity > 0 ){ //testar se tem colu
+        if(data.length > 0 ){ //testar se tem colu
+        //if(data[0].quantity > 0 ){ //testar se tem colu
             quant += data[0].quantity;
             const info = {quantity: quant, id: data[0].id};
             console.log("chama post")
@@ -78,6 +79,7 @@ async function addToCart(url){
             .catch(error => console.log(error));
         }
         else {
+            console.log("cai no insert")
             const info = {customer_id: userId, product_id: prodId, quantity: quant};
             axios.post('http://localhost:3000/cart/insert', info)
             .catch(error => console.log(error));
