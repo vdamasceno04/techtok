@@ -65,26 +65,23 @@ async function addToCart(url){
     let userId = 8 //get user id (using cookies?)
     let prodId = getProductId(url)
     var quant = 1
-    const endpoint = ('http://localhost:3000/cart/get/' + userId + '/' + prodId)
+    const endpoint = ('http://localhost:3000/cart/get/' + userId + '/' + prodId) 
+    //check if user already has the specific product in the cart
     fetch(endpoint)
     .then(res => res.json())
     .then(data => {
         console.log('fetched data: ' + JSON.stringify(data))
-        if(data.length > 0 ){ //testar se tem colu
-        //if(data[0].quantity > 0 ){ //testar se tem colu
+        if(data.length > 0 ){ //if the product is in the cart
             quant += data[0].quantity;
             const info = {quantity: quant, id: data[0].id};
-            console.log("chama post")
             axios.put('http://localhost:3000/cart/update', info)
             .catch(error => console.log(error));
         }
         else {
-            console.log("cai no insert")
             const info = {customer_id: userId, product_id: prodId, quantity: quant};
             axios.post('http://localhost:3000/cart/insert', info)
             .catch(error => console.log(error));
         }
-
     })
     .catch(error => console.log(error))
 }
