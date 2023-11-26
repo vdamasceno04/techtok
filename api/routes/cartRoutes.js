@@ -18,10 +18,12 @@ router.post('/insert', bodyParser.json(), async (req, res) =>{
     } catch(error){res.status(500).json({error: "falha ao acessar db"})}
 });
 
-router.put('/update', bodyParser.json(), async (req, res) =>{ //TODO
+router.put('/update', bodyParser.json(), async (req, res) =>{
     try{
-       await db.updateCell(req.body);
-       console.log("rotacartupdate")
+        info = {quantity: req.body.quantity};
+        match = {id: req.body.id};
+        console.log('match = ' + match)
+       await db.updateCell('carts', match, info)
         res.json(res.status(200));
     } catch(error){res.status(500).json({error: "falha ao acessar db"})}
 });

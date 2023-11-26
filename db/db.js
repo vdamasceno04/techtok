@@ -144,7 +144,9 @@ const deleteRow2Condition = async(table,info)=>{//Delete with 2 conditions
 
 const updateCell = async(table,match,info)=>{// Update cells in database
     console.log('updateCell')
+    console.log('info = ' + info)
     const entries = Object.entries(info)
+    console.log('entri =    ' + entries)
     let values = [table]
     let sql = `UPDATE ?? SET `
     for(let i=0; i<Object.keys(info).length-1; i++){

@@ -72,9 +72,9 @@ async function addToCart(url){
         console.log('fetched data: ' + JSON.stringify(data))
         if(data[0].quantity > 0 ){ //testar se tem colu
             quant += data[0].quantity;
-            console.log(quant)
             const info = {quantity: quant, id: data[0].id};
-            axios.post('http://localhost:3000/cart/update', info)
+            console.log("chama post")
+            axios.put('http://localhost:3000/cart/update', info)
             .catch(error => console.log(error));
         }
         else {
