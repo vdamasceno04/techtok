@@ -59,8 +59,8 @@ const getRow = async(table, col, info)=>{// Return a row from database
     console.log('getRow')
     const sql = `SELECT * FROM ?? WHERE ??=?;`
     const values = [table, col, info]
-    //console.log(sql)
-    //console.log(values)
+  // console.log(sql)
+   // console.log(values)
     try{
         const con = await connectDb()
         const [data] = await con.query(sql,values)
@@ -75,21 +75,18 @@ const getRow = async(table, col, info)=>{// Return a row from database
 const getRow2Condition = async(table,info)=>{//Delete with 2 conditions 
     console.log('getRow2Condition')
     const entries = Object.entries(info)
-    console.log(entries)
-    const sql = `SELECT * FROM ? WHERE (?=? AND ?=?);`
-    const values = [table,entries[0][0],entries[0][1], entries[1][0], entries[1][1]]
-    console.log("aqui")
-    
-    console.log(sql)
-    console.log(values)
+    const sql = `SELECT * FROM ?? WHERE(??=? AND ??=?);`
+    const values = [table,entries[0][0], (entries[0][1]), entries[1][0], (entries[1][1])]
+    //console.log(sql)
+    //console.log(values)
     try{
         const con = await connectDb()
-        await con.query(sql,values)
+        const [data] = await con.query(sql,values)
         await con.release()
-        return true
+        return data
     } catch(err) {
         console.error('Row not found: ' + err)
-        return false
+        return null
     }
 }
 

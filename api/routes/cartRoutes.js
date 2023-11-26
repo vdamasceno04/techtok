@@ -3,12 +3,10 @@ const db = require("../../db/db.js");
 const bodyParser = require('body-parser');
 const router = express.Router();
 
-router.get('/get/:userId/:productId', bodyParser.json(), async (req, res) =>{
+router.get('/get/:userId/:prodId', async (req, res) =>{
     try{
-        console.log("caiu")
-        req.body = {customer_id: req.params.userId, product_id: req.params.prodId}
+        req.body = {customer_id: req.params.userId, product_id: req.params.prodId};
         const data = await db.getRow2Condition('carts', req.body);
-        console.log(data)
         res.json(data);
     }   catch(error){res.status(500).json({error: "falha ao acessar db"})}
 });
@@ -22,7 +20,8 @@ router.post('/insert', bodyParser.json(), async (req, res) =>{
 
 router.put('/update', bodyParser.json(), async (req, res) =>{ //TODO
     try{
-       //await db.insertProduct(req.body);
+       await db.updateCell(req.body);
+       console.log("rotacartupdate")
         res.json(res.status(200));
     } catch(error){res.status(500).json({error: "falha ao acessar db"})}
 });
