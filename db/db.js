@@ -7,9 +7,9 @@ const createConnectionPool = async()=>{
     return mysql.createPool({// Pool to allow multiple simultaneous database users
         host: 'localhost',
         port: 3306,
-        database: 'company',
+        database: 'techtok',
         user: 'root',
-        password: 'batatinha',
+        password: 'admin',
         connectionLimit: 10,// Max simultaneous users connected
         connectTimeout: 10000,// ms
         idleTimeout: 180000,// ms
@@ -42,8 +42,8 @@ const getTable = async(table)=>{// Return a table from database
     console.log('getTable')
     const sql = `SELECT * FROM ??;`
     const values = [table]
-    console.log(sql)
-    console.log(values)
+    //console.log(sql)
+    //console.log(values)
     try{
         const con = await connectDb()
         const [data] = await con.query(sql,values)
@@ -59,8 +59,26 @@ const getRow = async(table, col, info)=>{// Return a row from database
     console.log('getRow')
     const sql = `SELECT * FROM ?? WHERE ??=?;`
     const values = [table, col, info]
-    console.log(sql)
-    console.log(values)
+   //console.log(sql)
+   // console.log(values)
+    try{
+        const con = await connectDb()
+        const [data] = await con.query(sql,values)
+        await con.release()
+        return data
+    } catch(err) {
+        console.error('Row not found: ' + err)
+        return null
+    }
+}
+
+const getRow2Condition = async(table,info)=>{//Delete with 2 conditions 
+    console.log('getRow2Condition')
+    const entries = Object.entries(info)
+    const sql = `SELECT * FROM ?? WHERE(??=? AND ??=?);`
+    const values = [table,entries[0][0], (entries[0][1]), entries[1][0], (entries[1][1])]
+    //console.log(sql)
+    //console.log(values)
     try{
         const con = await connectDb()
         const [data] = await con.query(sql,values)
@@ -76,8 +94,8 @@ const getCell = async(table,match,info)=>{// Return a cell from database
     console.log('getCell')
     const sql = `SELECT ?? FROM ?? WHERE ??=?;`
     const values = [info,table,Object.keys(match)[0],Object.values(match)[0]]
-    console.log(sql)
-    console.log(values)
+    //console.log(sql)
+    //console.log(values)
     try{
         const con = await connectDb()
         const [data] = await con.query(sql,values)
@@ -93,8 +111,26 @@ const deleteRow = async(table,match)=>{// Delete a row from database
     console.log('deleteRow')
     const sql = `DELETE FROM ?? WHERE ??=?;`
     const values = [table,Object.keys(match)[0],Object.values(match)[0]]
-    console.log(sql)
-    console.log(values)
+    //console.log(sql)
+    //console.log(values)
+    try{
+        const con = await connectDb()
+        await con.query(sql,values)
+        await con.release()
+        return true
+    } catch(err) {
+        console.error('Row not found: ' + err)
+        return false
+    }
+}
+
+const deleteRow2Condition = async(table,info)=>{//Delete with 2 conditions 
+    console.log('deleteRow2Condition')
+    const entries = Object.entries(info)
+    const sql = `DELETE FROM ? WHERE (?=? AND ?=?);`
+    const values = [table,entries[0][0],entries[0][1], entries[1][0], entries[1][1]]
+    //console.log(sql)
+    //console.log(values)
     try{
         const con = await connectDb()
         await con.query(sql,values)
@@ -121,8 +157,8 @@ const updateCell = async(table,match,info)=>{// Update cells in database
     }
     values.push(Object.keys(match)[0])
     values.push(Object.values(match)[0])
-    console.log(sql)
-    console.log(values)
+    //console.log(sql)
+    //console.log(values)
     try{
         const con = await connectDb()
         await con.query(sql,values)
@@ -153,8 +189,8 @@ const insertRow = async(table,info)=>{
     for(const [key, value] of entries){
         values.push(value)
     }
-    console.log(sql)
-    console.log(values)
+    //console.log(sql)
+    //console.log(values)
     try{
         const con = await connectDb()
         await con.query(sql,values)
@@ -228,8 +264,8 @@ const checkIfExists = async(table,info)=>{// Verify fields in database
         values.push(key)
         values.push(value)
     }
-    console.log(sql)
-    console.log(values)
+    //console.log(sql)
+    //console.log(values)
     try{
         const con = await connectDb()
         const [data] = await con.query(sql,values)
@@ -249,5 +285,7 @@ module.exports = {
     updateCell,
     insertRow,
     checkIfExists,
-    insertProduct
+    insertProduct,
+    deleteRow2Condition,
+    getRow2Condition
 }
