@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get('/get/:userId', async (req, res) =>{
     try{
-        const data = await db.getRow2Condition('carts', 'customer_id', req.params.userId);
+        const data = await db.getRow('carts', 'customer_id', req.params.userId);
         res.json(data);
     }   catch(error){res.status(500).json({error: "falha ao acessar db"})}
 });
