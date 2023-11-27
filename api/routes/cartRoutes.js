@@ -3,12 +3,19 @@ const db = require("../../db/db.js");
 const bodyParser = require('body-parser');
 const router = express.Router();
 
+router.get('/get/:userId', async (req, res) =>{
+    try{
+        const data = await db.getRow2Condition('carts', 'customer_id', req.params.userId);
+        res.json(data);
+    }   catch(error){res.status(500).json({error: "falha ao acessar db"})}
+});
+
 router.get('/get/:userId/:prodId', async (req, res) =>{
     try{
         req.body = {customer_id: req.params.userId, product_id: req.params.prodId};
         const data = await db.getRow2Condition('carts', req.body);
         res.json(data);
-    }   catch(error){console.log("DEUMERDA");res.status(500).json({error: "falha ao acessar db"})}
+    }   catch(error){;res.status(500).json({error: "falha ao acessar db"})}
 });
 
 router.post('/insert', bodyParser.json(), async (req, res) =>{
