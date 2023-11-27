@@ -15,7 +15,7 @@ router.get('/get/:userId/:prodId', async (req, res) =>{
         req.body = {customer_id: req.params.userId, product_id: req.params.prodId};
         const data = await db.getRow2Condition('carts', req.body);
         res.json(data);
-    }   catch(error){;res.status(500).json({error: "falha ao acessar db"})}
+    }   catch(error){res.status(500).json({error: "falha ao acessar db"})}
 });
 
 router.post('/insert', bodyParser.json(), async (req, res) =>{

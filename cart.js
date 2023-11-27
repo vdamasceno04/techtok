@@ -1,16 +1,35 @@
-const products = [
-    { name: "Mouse Logitech", price: 78.67 },
-    { name: "Teclado gamer", price: 573.21 },
-    { name: "Headset rgb 7.1", price: 312.53 },
-    { name: "Speaker JBL", price: 230.11 }
-    
-];
+document.addEventListener('DOMContentLoaded', async function() {
+    const products = [
+        { name: "Mouse Logitech", price: 78.67 },
+        { name: "Teclado gamer", price: 573.21 },
+        { name: "Headset rgb 7.1", price: 312.53 },
+        { name: "Speaker JBL", price: 230.11 }
+        
+    ];
+    const fromCartTable = [];
+    const userId = 8 //use cookies??  
+    const endpoint = 'http://localhost:3000/cart/get/' + userId;
+    fetch(endpoint)
+    .then(res => res.json())
+    .then(data => {
+        if (data.length > 0){
+            for(i = 0; i<data.length; i++)
+                fromCartTable.push({prodId: data[i].product_id, quant: data[i].quantity})
+        }
+        console.log('fetched data: ' + JSON.stringify(data))
+        console.log('fromcart =     ' + JSON.stringify(fromCartTable))
+    })
+    .catch(error => console.log(error))
 
-getCart()
-const cart = [];
-let totalPrice = 0;
+    let totalPrice = 0;
 
-// Function to add an item to the cart
+    // Add products to the cart
+    for (let x in products) {
+   //     addToCart(products[x]);
+    }
+
+
+/*
 function addToCart(product) {
     cart.push({ ...product, quantity: 1 });
     totalPrice += product.price;
@@ -30,6 +49,18 @@ function updateCartUI() {
     const cartItems = document.getElementById("cart-items");
     const totalDisplay = document.getElementById("total-price");
 
+    const userId = 8 //use cookies??  
+    const endpoint = 'http://localhost:3000/cart/get' + userId;
+
+    
+    fetch(endpoint)
+    .then(res => res.json())
+    .then(data => {
+        console.log(data)
+        console.log('fetched data: ' + JSON.stringify(data))
+    })
+    .catch(error => console.log(error))
+    
     // Clear the cart display
     cartItems.innerHTML = "";
 
@@ -57,26 +88,5 @@ function updateQuantity(index, newQuantity) {
     totalPrice = totalPrice - previousTotal + newTotal;
     updateCartUI();
 }
-
-// Add products to the cart
-for (let x in products) {
-    addToCart(products[x]);
-}
-
-async function getCart(){
-    const userId = 8 //use cookies??  
-    const endpoint = 'http://localhost:3000/cart/get' + userId;
-    fetch(endpoint)
-    .then(res => res.json())
-    .then(data => {
-        console.log('fetched data: ' + JSON.stringify(data))
-        if(data.length == 0)
-            console.log("user doesnt exist")
-        else if(password == data[0].password)
-            console.log("password match")
-        else
-            console.log("wrong password")
-        
-    })
-    .catch(error => console.log(error))
-}
+*/
+});
