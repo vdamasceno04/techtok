@@ -7,20 +7,38 @@ document.addEventListener('DOMContentLoaded', async function() {
         
     ];
     const fromCartTable = [];
+    const fromProdTable = [];
     const userId = 8 //use cookies??  
     const endpoint = 'http://localhost:3000/cart/get/' + userId;
-    fetch(endpoint)
-    .then(res => res.json())
-    .then(data => {
-        if (data.length > 0){
-            for(i = 0; i<data.length; i++)
-                fromCartTable.push({prodId: data[i].product_id, quant: data[i].quantity})
-        }
-        console.log('fetched data: ' + JSON.stringify(data))
-        console.log('fromcart =     ' + JSON.stringify(fromCartTable))
-    })
-    .catch(error => console.log(error))
+    try {
+        const res = await fetch(endpoint);
+        const data = await res.json();
 
+        if (data.length > 0){
+            for(i = 0; i<data.length; i++){
+                fromCartTable.push({prodId: data[i].product_id, quant: data[i].quantity})
+                const fetchDetalhesProduto = async () => {
+                const detalhesResponse = await fetch('http://localhost:3000/product/products' + (data[i].product_id));
+                const detalhesProduto = await detalhesResponse.json()
+                return detalhesProduto
+            }
+            const dataProd = await fetchDetalhesProduto();
+            console.log('det = ' + await JSON.stringify(dataProd))
+            if(dataProd.length > 0){
+                for(i=0; i<dataProd.length; i++){
+                    fromProdTable.push({name: dataProd[i].model, price: dataProd[i].price})
+                }
+            }
+                //return detalhesProduto
+                //const detalhesProduto = await detalhesResponse.json();
+            }
+            //console.log(detalhesProduto)
+        }
+        //console.log('fetched data: ' + JSON.stringify(data))
+        console.log('fromcart =     ' + JSON.stringify(fromCartTable))
+        console.log('fromProd =     ' + JSON.stringify(fromProdTable))
+    }
+    catch(error){console.log(error)} 
     let totalPrice = 0;
 
     // Add products to the cart

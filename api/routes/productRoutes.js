@@ -13,6 +13,7 @@ router.get('/products:id', async (req, res) => {
   try{
     const dados = await db.getRow('products', 'id', req.params.id);
     res.json(dados);
+    //console.log(dados)
   } catch(error){res.status(500).json({error: "falha ao acessar db"})}
 });
 
