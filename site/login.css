@@ -1,9 +1,10 @@
 body {
-    font-family: 'Segoe UI', sans-serif;
-    text-align: center;
-    margin-top: 50px;
-    background-color: #FAFAFA;
-  }
+  font-family: 'Alegreya Sans', sans-serif;
+  background-image: url('https://img.freepik.com/free-vector/digital-red-circuit-lines-technology-background-design_1017-27263.jpg?w=1380&t=st=1701210637~exp=1701211237~hmac=98df68a79170d4b56c379ffc84d769e460fd235ee89db982220812e5c053e889');
+  background-size: cover;
+  margin: 0;
+  padding: 0;
+}
   
   h1 {
     color: #005A9E;

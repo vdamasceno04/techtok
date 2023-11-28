@@ -2,10 +2,9 @@
 
 E-commerce website with database registration.
 
-Start with "begin.js".
+URL: https://techtok.loca.lt/
 
-
-lembrar de criar o banco de dados local e ajustar as configurações no db.js
+Start using VS Code Run and debug
 
 MySQL Workbench:
-Edit -> Preferences... -> SQL Editor -> Desmarcar Safe Updates
+Edit -> Preferences... -> SQL Editor -> Uncheck Safe Updates
