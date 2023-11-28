@@ -34,6 +34,15 @@ router.put('/update', bodyParser.json(), async (req, res) =>{
     } catch(error){res.status(500).json({error: "falha ao acessar db"})}
 });
 
+router.put('/update/:userId/:prodId/:quantity', bodyParser.json(), async (req, res) =>{
+    try{
+        info = {quantity: req.params.quantity};
+        match = {customer_id: req.params.userId, product_id: req.params.prodId};
+        await db.updateCell('carts', match, info)
+        res.json(res.status(200));
+    } catch(error){res.status(500).json({error: "falha ao acessar db"})}
+});
+
 router.delete('/delete/:userId/:prodId', async (req, res) =>{ //TODO: DELETE PRODUCT FROM CART
     try{
         console.log("caiu")

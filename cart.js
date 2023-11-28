@@ -85,7 +85,6 @@ async function removeFromCart(index) {
         const res = await fetch(endpoint, {method: 'DELETE'});
 
         const data = await res.json();
-        console.log('entrou');
 
         const deleteProduct = async () => {
             await getInfoFromDb();
@@ -110,7 +109,7 @@ function updateCartUI() {
         const li = document.createElement("li");
         li.innerHTML = `
             <span>${item.name}</span>
-            <input type="number" value="${item.quantity}" min="1"s>
+            <input type="number" value="${item.quantity}" min="1" onchange="handleQuantityClick(${index}, this.value)">
             <span class="price">R$${(item.price * item.quantity).toFixed(2)}</span>
             <button onclick="handleRemoveClick(${index})">Remove</button>
         `;
@@ -119,17 +118,42 @@ function updateCartUI() {
 
     totalDisplay.textContent = totalPrice.toFixed(2);
 }
-/*
+
+function handleQuantityClick(index, newQuantity) {
+    updateQuantity(index, newQuantity).then(() => {
+        console.log('Updated');
+    }).catch((error) => {
+        console.error('Failed to update', error);
+    });
+}
+
 // Function to update the quantity of an item in the cart
-function updateQuantity(index, newQuantity) {
-    const item = cart[index];
-    const previousTotal = item.price * item.quantity;
+async function updateQuantity(index, newQuantity) {
+    const item = JSON.stringify(cart[index]);
+    const idProd = item[item.length-2]
+    const userId = 8 // USECOOKIES
+/*    const previousTotal = item.price * item.quantity;
     item.quantity = parseInt(newQuantity, 10);
     const newTotal = item.price * item.quantity;
     totalPrice = totalPrice - previousTotal + newTotal;
-    updateCartUI();
-}
 */
+    const endpoint = ('http://localhost:3000/cart/update/' + userId.toString() +'/'+ idProd + '/' + newQuantity);
+    try {
+        const res = await fetch(endpoint, {method: 'PUT'});
+
+        const data = await res.json();
+        console.log('entrou');
+
+        const updateProduct = async () => {
+            await getInfoFromDb();
+            return true;
+        }
+        const dataProd = await updateProduct();
+    }
+    catch(error){console.log(error)} 
+}
+
+
 
 
 /*
