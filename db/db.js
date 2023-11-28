@@ -7,9 +7,9 @@ const createConnectionPool = async()=>{
     return mysql.createPool({// Pool to allow multiple simultaneous database users
         host: 'localhost',
         port: 3306,
-        database: 'techtok',
+        database: 'company',
         user: 'root',
-        password: 'admin',
+        password: 'batatinha',
         connectionLimit: 10,// Max simultaneous users connected
         connectTimeout: 10000,// ms
         idleTimeout: 180000,// ms
@@ -59,8 +59,8 @@ const getRow = async(table, col, info)=>{// Return a row from database
     console.log('getRow')
     const sql = `SELECT * FROM ?? WHERE ??=?;`
     const values = [table, col, info]
-   //console.log(sql)
-   // console.log(values)
+    //console.log(sql)
+    //console.log(values)
     try{
         const con = await connectDb()
         const [data] = await con.query(sql,values)
@@ -127,7 +127,7 @@ const deleteRow = async(table,match)=>{// Delete a row from database
 const deleteRow2Condition = async(table,info)=>{//Delete with 2 conditions 
     console.log('deleteRow2Condition')
     const entries = Object.entries(info)
-    const sql = `DELETE FROM ? WHERE (?=? AND ?=?);`
+    const sql = `DELETE FROM ?? WHERE (??=? AND ??=?);`
     const values = [table,entries[0][0],entries[0][1], entries[1][0], entries[1][1]]
     //console.log(sql)
     //console.log(values)
