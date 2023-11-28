@@ -129,8 +129,8 @@ const deleteRow2Condition = async(table,info)=>{//Delete with 2 conditions
     const entries = Object.entries(info)
     const sql = `DELETE FROM ?? WHERE (??=? AND ??=?);`
     const values = [table,entries[0][0],entries[0][1], entries[1][0], entries[1][1]]
-    console.log(sql)
-    console.log(values)
+    //console.log(sql)
+    //console.log(values)
     try{
         const con = await connectDb()
         await con.query(sql,values)
@@ -145,20 +145,27 @@ const deleteRow2Condition = async(table,info)=>{//Delete with 2 conditions
 const updateCell = async(table,match,info)=>{// Update cells in database
     console.log('updateCell')
     const entries = Object.entries(info)
+    const matches = Object.entries(match)
     let values = [table]
     let sql = `UPDATE ?? SET `
     for(let i=0; i<Object.keys(info).length-1; i++){
         sql += `??=?, `
     }
-    sql += `??=? WHERE ??=?;`
+    sql += `??=? WHERE( `
+    for(let i=0; i<Object.keys(match).length-1; i++){
+        sql += `??=? AND `
+    }
+    sql += `??=?);`
     for(const [key, value] of entries){
         values.push(key)
         values.push(value)
     }
-    values.push(Object.keys(match)[0])
-    values.push(Object.values(match)[0])
-    //console.log(sql)
-    //console.log(values)
+    for(const [key, value] of matches){
+        values.push(key)
+        values.push(value)
+    }
+    console.log(sql)
+    console.log(values)
     try{
         const con = await connectDb()
         await con.query(sql,values)
