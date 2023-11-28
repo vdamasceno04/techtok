@@ -1,3 +1,5 @@
+let cart=[]
+
 document.addEventListener('DOMContentLoaded', async function() {
     const products = [
         { name: "Mouse Logitech", price: 78.67 },
@@ -7,7 +9,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         
     ];
     let totalPrice = 0;
-    const cart =[]
+    //const cart =[]
     // Add products to the cart
     /*
     for (let x in products) {
@@ -18,6 +20,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 });
 
 async function getInfoFromDb(){
+    cart = []
     const fromCartTable = [];
     const fromProdTable = [];
     const userId = 8 //use cookies??  
@@ -28,7 +31,7 @@ async function getInfoFromDb(){
 
         if (data.length > 0){
             for(i = 0; i<data.length; i++){
-                fromCartTable.push({prodId: data[i].product_id, quantity: data[i].quantity})
+                fromCartTable.push({product_id: data[i].product_id, quantity: data[i].quantity})
                 const fetchDetalhesProduto = async () => {
                 const detalhesResponse = await fetch('http://localhost:3000/product/products' + (data[i].product_id));
                 //await new Promise(resolve => setTimeout(resolve, 1000)); //avoid infinite calls
@@ -46,12 +49,13 @@ async function getInfoFromDb(){
         //console.log('fetched data: ' + JSON.stringify(data))
         console.log('fromcart =     ' + JSON.stringify(fromCartTable))
         console.log('fromProd =     ' + JSON.stringify(fromProdTable))
-        const product = []
+        //const product = []
         for(i = 0; i<fromProdTable.length; i++){
-            product.push({name: fromProdTable[i].name, price: fromProdTable[i].price, quantity: fromCartTable[i].quantity})
+            cart.push({name: fromProdTable[i].name, price: fromProdTable[i].price, 
+                quantity: fromCartTable[i].quantity, id: fromCartTable[i].product_id})
         }
-        console.log('prod =     ' + JSON.stringify(product))
-        updateCartUI(product)
+        console.log('prod =     ' + JSON.stringify(cart))
+        updateCartUI()
     }
     catch(error){console.log(error)} 
 }
@@ -62,16 +66,38 @@ function addToCart(product) {
     totalPrice += product.price;
     updateCartUI();
 }
+*/
+function handleRemoveClick(index) {
+    removeFromCart(index).then(() => {
+        console.log('Removed from cart');
+    }).catch((error) => {
+        console.error('Failed to remove from cart', error);
+    });
+}
 
 // Function to remove an item from the cart
-function removeFromCart(index) {
+async function removeFromCart(index) {
+    const userId = 8 // USECOOKIES
     const item = cart[index];
-    totalPrice -= item.price * item.quantity;
-    cart.splice(index, 1);
-    updateCartUI();
+    console.log('tem =     ' + JSON.stringify(item))
+  //  endpoint = ('http://localhost:3000/cart/delete/' + item.id.toString() + '/' + userId.toString());
+    const endpoint = ('http://localhost:3000/cart/delete/8/1');
+    try {
+        const res = await fetch(endpoint, {method: 'DELETE'});
+
+        const data = await res.json();
+        console.log('entrou');
+
+        const deleteProduct = async () => {
+            await getInfoFromDb();
+            return true;
+        }
+        const dataProd = await deleteProduct();
+    }
+    catch(error){console.log(error)} 
 }
-*/
-function updateCartUI(cart) {
+
+function updateCartUI() {
     const cartItems = document.getElementById("cart-items");
     const totalDisplay = document.getElementById("total-price");
     totalPrice = 0;
@@ -80,7 +106,6 @@ function updateCartUI(cart) {
     }
     // Clear the cart display
     cartItems.innerHTML = "";
-
     // Populate the cart display with current items
     cart.forEach((item, index) => {
         const li = document.createElement("li");
@@ -88,7 +113,7 @@ function updateCartUI(cart) {
             <span>${item.name}</span>
             <input type="number" value="${item.quantity}" min="1"s>
             <span class="price">R$${(item.price * item.quantity).toFixed(2)}</span>
-            <button>Remove</button>
+            <button onclick="handleRemoveClick(${index})">Remove</button>
         `;
         cartItems.appendChild(li);
     });
