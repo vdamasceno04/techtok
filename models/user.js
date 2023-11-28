@@ -7,7 +7,7 @@ class User extends Model{
             name = null,
             email = null,
             superuser = null,
-            cart = []
+            cart = null
         ){
             super()
 

@@ -1,52 +1,58 @@
 <!DOCTYPE html>
 <html lang="en-US">
   <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>TechTok</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechTok</title>
+    <link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@100;300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="initialPage.css">
   </head>
-  <style>
-      body {
-        font-family: Arial, sans-serif;
-        text-align: center;
-        margin-top: 50px;
-      }
-
-      h1 {
-        margin-bottom: 30px;
-      }
-
-      form {
-        display: inline-block;
-        text-align: left;
-      }
-
-      label {
-        display: block;
-        margin-bottom: 10px;
-      }
-
-      input[type="submit"] {
-        padding: 10px 20px;
-        font-size: 18px;
-        background-color: #4CAF50;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-      }
-  </style>
   <body>
-      <h1>TechTok</h1>
-      <button onclick="redirectToCart()">Cart</button><br>
-      <button onclick="redirectToCategory('?cat=mouses')">Mouses</button> 
-      <button onclick="redirectToCategory('?cat=keyboards')">Keyboards</button>
-      <button onclick="redirectToCategory('?cat=usbflash')">USB Flash Drives</button>
-      <button onclick="redirectToCategory('?cat=earphones')">Earphones</button>
-      <button onclick="redirectToCategory('?cat=speakers')">Speakers</button>
-      <button onclick="redirectToLogin()">User Area</button>
-      <button onclick="redirectToStaff()">Staff Area</button>
-
-    </body>
-  <script src ="htmlRedirect.js"></script>
+    <header>
+      <img id="logo" src=""
+      alt="TechTok Logo"
+      style="display: block;margin-left: auto; margin-right: auto;width: 40vw;height: auto;"
+      >
+      <nav>
+        <button onclick="redirectToCart()">Cart</button>
+        <button onclick="redirectToLogin()">User Area</button>
+        <button onclick="redirectToStaff()">Staff Area</button>
+      </nav>
+    </header>
+    <main>
+      <section class="category-grid">
+        <div class="category-card" onclick="redirectToCategory('mice')">
+          <img id="mice" src="" alt="Mice">
+          <h2>Mice</h2>
+        </div>
+        <div class="category-card" onclick="redirectToCategory('keyboards')">
+          <img id="keyboards" src="" alt="Keyboards">
+          <h2>Keyboards</h2>
+        </div>
+        <div class="category-card" onclick="redirectToCategory('usb_flash_drives')">
+          <img id="usbFlashDrives" src="" alt="USB Flash Drives">
+          <h2>USB Flash Drives</h2>
+        </div>
+        <div class="category-card" onclick="redirectToCategory('earphones')">
+          <img id="earphones" src="" alt="Earphones">
+          <h2>Earphones</h2>
+        </div>
+        <div class="category-card" onclick="redirectToCategory('speakers')">
+          <img id="speakers" src="" alt="Speakers">
+          <h2>Speakers</h2>
+        </div>
+      </section>
+    </main>
+    <script src = "config.js"></script>
+    <script src = "htmlRedirect.js"></script>
+    <script src = "initialPage.js"></script>
+    <script>
+      setImg('logo', 'techTokNoBg.png')
+      setImg('mice', 'mice.jpg')
+      setImg('keyboards', 'keyboards.jpg')
+      setImg('earphones', 'earphones.webp')
+      setImg('speakers', 'speakers.avif')
+      setImg('usbFlashDrives', 'usbFlashDrives.jpg')
+    </script>
+  </body>
 </html>

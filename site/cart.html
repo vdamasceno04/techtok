@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechTok</title>
     <style>
         body {
             display: flex;
@@ -50,12 +49,17 @@
     </style>
 </head>
 <body>
+    <h1><img id="logo" src=""
+        alt="TechTok Logo"
+        style="display: block;margin-left: auto; margin-right: auto;width: 40vw;height: auto;"
+        ></h1>
     <div class="cart">
         <h2>Shopping Cart</h2>
         <ul id="cart-items">
         </ul>
         <p>Total: R$<span id="total-price">0.00</span></p>
     </div>
+    <script src = "config.js"></script>
     <script>
         // Product data
         const products = [
@@ -121,5 +125,8 @@
             addToCart(products[x]);
         }
     </script>
+    <script src ="htmlRedirect.js"></script>
+    <script src ="category.js"></script>
+    <script>setImg('logo', 'techTokNoBg.png')</script>
 </body>
 </html>

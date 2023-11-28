@@ -1,7 +1,3 @@
-require('dotenv').config()
-
-const API_ADDRESS = process.env.API_PROTOCOL + '://' + process.env.API_HOSTS + ':' + process.env.API_PORT + '/'
-
 document.addEventListener('DOMContentLoaded', async function() {
     const prodForm = document.getElementById('form');
     const selectCategory = document.getElementById('product');
@@ -113,7 +109,7 @@ document.addEventListener('DOMContentLoaded', async function() {
   //    console.log(box.id, box.value);
     });
  //   console.log('info = ', info);
-    await axios.post(API_ADDRESS + 'staff/insert', info)
+    await axios.post(window.config.API_ENDPOINT + 'staff/insert', info)
       .catch(error => console.log(error.response.data));
   });
 });

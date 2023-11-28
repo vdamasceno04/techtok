@@ -35,6 +35,10 @@
       }
   </style>
   <body>
+    <h1><img id="logo" src=""
+      alt="TechTok Logo"
+      style="display: block;margin-left: auto; margin-right: auto;width: 40vw;height: auto;"
+      ></h1>
       <div id="mainPage" onClick="redirectToMainPage()"> <h1>TechTok</h1> </div>
       <div class="login-box">
           <form onsubmit="validateRegister(); return false;">
@@ -72,5 +76,7 @@
       <button onclick="redirectToLogin()">Log in</button>
     </div>
   </body>
+  <script src = "config.js"></script>
   <script src='htmlRedirect.js'></script>
+  <script>setImg('logo', 'techTokNoBg.png')</script>
 </html> 

@@ -1,7 +1,4 @@
-require('dotenv').config()
 const axios = require('axios')
-
-const API_ADDRESS = process.env.API_PROTOCOL + '://' + process.env.API_HOSTS + ':' + process.env.API_PORT + '/'
 
 function getUsername(){ //get username from html's filled box
     const username = document.getElementById("username").value;
@@ -26,7 +23,7 @@ function getEmail(){ //get email from html's filled box
 async function sendRegisterData(usname, pass, uname, em){
     const info = {login: usname, password: pass, name: uname, email: em, superuser: 0}; 
     console.log(info)
-    await axios.post(API_ADDRESS + 'user/register', info)
+    await axios.post(window.config.API_ENDPOINT + 'user/register', info)
     .catch(error => console.log(error));
 }
 

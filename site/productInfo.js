@@ -1,7 +1,3 @@
-require('dotenv').config()
-
-const API_ADDRESS = process.env.API_PROTOCOL + '://' + process.env.API_HOSTS + ':' + process.env.API_PORT + '/'
-
 function getProductId(url){// get product id from url
     params = new URLSearchParams(url)
     return params.get('prod')
@@ -21,7 +17,7 @@ function setName(info){// set html product name field
 
 function setImgPath(info){// set html product img field
     // document.getElementById("productImg").src = 'imgs/' + info.image_path
-    document.getElementById("productImg").src = API_ADDRESS + 'product/' + info.image_path
+    document.getElementById("productImg").src = window.config.API_ENDPOINT + 'product/' + info.image_path
     document.getElementById("productImg").alt = getName(info)
 }
 

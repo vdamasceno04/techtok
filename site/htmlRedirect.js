@@ -1,7 +1,12 @@
-function redirectToCategory(category){ //send to category.html/CHOSENCATEGORY
-    url = 'category.html'
-    window.location.href = url.concat(category)
+function setImg(id, filename){
+    const imagePath = window.config.API_ENDPOINT + 'images/'
+    document.getElementById(id).src = imagePath + filename
+    console.log(imagePath + filename)
 }
+
+function redirectToCategory(category) {
+    window.location.href = `category.html?cat=${category}`
+  }
 
 function redirectToProduct(product){//send to product.html?CHOSENPRODUCT
     url = 'product.html'

@@ -1,30 +1,35 @@
 require('dotenv').config()
+
+const cors = require('cors')
+const express = require('express')
 const https = require('https')
 const fs = require('fs')
 const path = require('path')
-const cookieParser = require('cookie-parser')
-const express = require('express')
-const cors = require('cors')
+
+// Import routes
 const productRoutes = require('./routes/productRoutes')
-const userRoutes = require('./routes/userRoutes')
 const staffRoutes = require('./routes/staffRoutes')
-const { cookieJwtAuth } = require('../middleware/cookieJwtAuth')
+const userRoutes = require('./routes/userRoutes')
+
+// Create an Express application
 const app = express()
 
-app.use(cors())
-
-const options = {
-  key: fs.readFileSync(path.join(__dirname, 'security/private.key')),
-  cert: fs.readFileSync(path.join(__dirname, 'security/certificate.crt'))
+// SSL options
+const optionSSL = {
+  key: fs.readFileSync(path.join(__dirname, '..', 'security', 'server.key')),
+  cert: fs.readFileSync(path.join(__dirname, '..', 'security', 'server.crt'))
 }
 
-const server = https.createServer(options, app)
+// Middleware
+app.use(cors())
+app.use(express.static('public'))
 
-server.listen(process.env.API_PORT, () => console.log(`Server listening on port ${process.env.API_PORT}`))
+// Routes
+app.use(productRoutes)
+app.use(staffRoutes)
+app.use(userRoutes)
 
-app.use(cookieParser())
-
-app.use('/product', productRoutes)
-app.use('/staff', staffRoutes)
-app.use('/user', userRoutes)
-app.use('/login', userRoutes)
+// Start the server
+https.createServer(optionSSL, app).listen(process.env.API_PORT, () => {
+  console.log(`Server running on port ${process.env.API_PORT}`)
+})

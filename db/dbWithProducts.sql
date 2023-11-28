@@ -151,7 +151,7 @@ CREATE TABLE `ids` (
 
 LOCK TABLES `ids` WRITE;
 /*!40000 ALTER TABLE `ids` DISABLE KEYS */;
-INSERT INTO `ids` VALUES (1,'products'),(2,'products'),(3,'products'),(4,'products'),(5,'products'),(6,'products'),(7,'products'),(8,'products'),(9,'products'),(10,'products');
+INSERT INTO `ids` VALUES (1,'products'),(2,'products'),(3,'products'),(4,'products'),(5,'products'),(6,'products'),(7,'products'),(8,'products'),(9,'products'),(10,'products'),(11,'users'),(12,'users');
 /*!40000 ALTER TABLE `ids` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -323,7 +323,7 @@ CREATE TABLE `users` (
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
   `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
-  `superuser` binary(1) DEFAULT NULL,
+  `superuser` tinyint DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `login_UNIQUE` (`login`),
@@ -337,6 +337,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (11,'admin','techtok','boss','techtok@techtok.com',1),(12,'foobar','batatinha','vrl','vrl@vrl.com',0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -349,4 +350,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-10-08 19:09:26
+-- Dump completed on 2023-11-28 15:09:26

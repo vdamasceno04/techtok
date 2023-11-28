@@ -6,6 +6,10 @@
         <title>"Techtok"</title>
     </head>
     <body>
+        <header><img id="logo" src=""
+            alt="TechTok Logo"
+            style="display: block;margin-left: auto; margin-right: auto;width: 40vw;height: auto;"
+            ></header>
         <button onclick="redirectToCart()">Cart</button><br>
         <h1 id="productName"></h1><br>
         <img id="productImg" src="" alt="" width="200"><br>
@@ -17,9 +21,12 @@
         <p id="description">" "</p>
         <p id="warranty">" "</p>
     </body>
+    <script src = "config.js"></script>
     <script src="productInfo.js"></script>
+    <script src='htmlRedirect.js'></script>
     <script>
         const info = getProductInfo(getProductId(window.location.search))
         setProduct(info)
     </script>
+    <script>setImg('logo', 'techTokNoBg.png')</script>
 </html>

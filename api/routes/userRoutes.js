@@ -1,83 +1,97 @@
-const express = require('express')
-const db = require("../../db/db.js")
-const bodyParser = require('body-parser')
-const router = express.Router()
-const User = require('../../models/User.js')
-const { generateAccessToken, generateRefreshToken, verifyRefreshToken } = require('../security/auth')
+// Importing required modules
+const express = require('express') // Express.js library for building web applications
+const db = require("../../db/db.js") // Database module for interacting with the database
+const router = express.Router() // Router object to define routes
+const User = require('../../models/User.js') // User model
+const { generateAccessToken, generateRefreshToken, verifyToken } = require('../auth') // Authentication functions
 
+// Middleware for parsing JSON and urlencoded data
+router.use(express.json())
+router.use(express.urlencoded({ extended: true }))
+
+// Route to get all users
 router.get('/users', async (req, res) => {
-  try{
+  try {
+    // Fetch all users from the database
     const dados = await db.getTable('users')
+    // Send the users as a JSON response
     res.json(dados)
   } catch(error) {
-    res.status(500).json({error: "falha ao acessar db"})
+    // Send an error message if something goes wrong
+    res.status(500).json({error: "Failed to access database."})
   }
 })
 
-//username as a parameter in the route
-// router.get('/users:username', async (req, res) => {
-//     try{
-//       const dados = await db.getRow('users', 'login', req.params.username)
-//       console.log('dados =')
-//       console.log(dados)
-//       res.json(dados)
-//     } catch(error) {
-//       res.status(500).json({error: "falha ao acessar db"})
-//     }
-//   })
+// Route to get a user by username
+router.get('/users/:username', async (req, res) => {
+  try {
+    // Fetch a user from the database by username
+    const dados = await db.getRow('users', 'login', req.params.username)
+    // Send the user as a JSON response
+    res.json(dados)
+  } catch(error) {
+    // Send an error message if something goes wrong
+    res.status(500).json({error: "Failed to access database."})
+  }
+})
 
-router.post('/login', bodyParser.json(), async (req, res) => {
+// Route to log in a user
+router.post('/login', async (req, res) => {
+  // Extract login and password from the request body
   const { login, password } = req.body
+  // Create a new User object
   const usr = new User(login, password)
 
   try {
+    // Validate the login and password
     const isLoginValid = await usr.validateLogin(login)
     const isPasswordValid = await usr.validatePassword(password)
 
+    // If the login and password are valid, generate access and refresh tokens
     if (isLoginValid && isPasswordValid) {
       usr.load()
 
-      // Generate an access token with a shorter expiration time
       const accessToken = generateAccessToken(usr.getId())
-
-      // Generate a refresh token with a longer expiration time
       const refreshToken = generateRefreshToken(usr.getId())
 
-      // Set secure and SameSite attributes for the access token cookie
       const accessTokenCookieOptions = {
         httpOnly: true,
         secure: req.secure || req.headers['x-forwarded-proto'] === 'https',
         sameSite: 'lax'
       }
 
-      // Set the access token cookie
+      // Set the access token as a cookie
       res.cookie('accessToken', accessToken, accessTokenCookieOptions)
-
-      // Return the access token and refresh token as JSON response
+      // Send the access and refresh tokens as a JSON response
       res.status(200).json({ accessToken, refreshToken })
     } else {
-      let errorType
-      if (!isLoginValid) {
-        errorType = 'login'
-      } else if (!isPasswordValid) {
-        errorType = 'password'
-      }
+      // If the login or password is invalid, send an error message
+      let errorType = !isLoginValid ? 'login' : 'password'
       res.status(401).json({ errorType })
     }
   } catch (error) {
+    // Send an error message if something goes wrong
     res.status(500).json({ errorType: error.message })
   }
 })
 
-router.post('/register', bodyParser.json(), async (req, res) =>{
-    const { login, password, name, email, superuser } = req.body
-    const user = new User(login, password, name, email, superuser)
-    try{
-      await user.save()
-      res.json(res.status(200))
-    } catch(error) {
-      res.status(500).json({error: "falha ao acessar db"})
-    }
-  })
+// Route to register a new user
+router.post('/register', async (req, res) => {
+  // Extract user data from the request body
+  const { login, password, name, email, superuser } = req.body
+  // Create a new User object
+  const user = new User(login, password, name, email, superuser)
 
+  try {
+    // Save the new user to the database
+    await user.save()
+    // Send a success message
+    res.status(200).json({ message: "User registered successfully." })
+  } catch(error) {
+    // Send an error message if something goes wrong
+    res.status(500).json({error: "Failed to access database."})
+  }
+})
+
+// Export the router object
 module.exports = router

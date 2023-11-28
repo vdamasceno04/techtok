@@ -3,7 +3,6 @@
   <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>TechTok</title>
   </head>
   <style>
       body {
@@ -35,9 +34,13 @@
       }
   </style>
   <body>
+      <header><img id="logo" src=""
+        alt="TechTok Logo"
+        style="display: block;margin-left: auto; margin-right: auto;width: 40vw;height: auto;"
+        ></header>
       <div id="mainPage" onClick="redirectToMainPage()"> <h1>TechTok</h1> </div>
       <h1>Choose new product type</h1>
-      <button onclick="redirectToCategory('?cat=Mouse')">Mouses</button> 
+      <button onclick="redirectToCategory('?cat=Mice')">Mice</button> 
       <button onclick="redirectToCategory('?cat=Keyboard')">Keyboards</button>
       <button onclick="redirectToCategory('?cat=USBFlashDrive')">USB Flash Drives</button>
       <button onclick="redirectToCategory('?cat=Earphone')">Earphones</button>
@@ -79,5 +82,8 @@
           </form>
       </div>
   </body>
+  <script src = "config.js"></script>
   <script src="login.js"></script>
+  <script src='htmlRedirect.js'></script>
+  <script>setImg('logo', 'techTokNoBg.png')</script>
 </html> 

@@ -1,68 +1,43 @@
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>TechTok</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechTok</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Segoe+UI">
+    <link rel="stylesheet" href="login.css">
   </head>
-  <style>
-      body {
-        font-family: Arial, sans-serif;
-        text-align: center;
-        margin-top: 50px;
-      }
-
-      h1 {
-        margin-bottom: 30px;
-      }
-
-      div#passwordBox {
-        margin-top: 7px;
-      }
-
-      div#submitMessage {
-        margin-top: 2px;
-        color: red;
-        display: none;
-      }
-
-      div#registerButton {
-        margin-top: 20px;
-      }
-
-      input[type="submit"] {
-        margin-top: 20px;
-      }
-  </style>
   <body>
-      <div id="mainPage" onClick="redirectToMainPage()"> <h1>TechTok</h1> </div>
-      <div class="login-box">
-          <form onsubmit="validateLogin(); return false;">
-            <div id="usernameBox">
-              <label for="username">Username:</label>
-              <input id="username" placeholder="Your username">
-            </div>
-      
-            <div id="passwordBox">
-              <label for="password">Password:</label>
-              <input id="password" type="password" placeholder="Your password">
-            </div>
-
-            
-            <div id="submitMessage">
-              Missing Username/Password
-            </div>
-      
-            <input type="submit" value="Enter">
-          </form>
-      </div>
-  </body>
-  <script src="login.js"></script>
-  <body>
-    <div id="registerButton">
+    <div class="user-menu">
+      <span id="usernameDisplay"></span>
+      <a href="initialPage.html">Home</a> |
+      <a href="#" onclick="logout()">Logout</a>
+    </div>
+    <h1><img id="logo" src=""
+      alt="TechTok Logo"
+      style="display: block;margin-left: auto; margin-right: auto;width: 40vw;height: auto;"
+      ></h1>
+    <div class="login-box">
+      <form onsubmit="validateLogin(); return false;">
+        <label for="username">Username:</label>
+        <input id="username" type="text" placeholder="Your username">
+        <label for="password">Password:</label>
+        <input id="password" type="password" placeholder="Your password">
+        <label><input type="checkbox" id="rememberMe"> Remember me</label>
+        <div id="submitMessage" class="error-message">
+          Missing Username/Password
+        </div>
+        <input type="submit" value="Enter">
+      </form>
+      <a href="#" onclick="forgotPassword()">Forgot password?</a>
+    </div>
+    <div id="registerButton" class="register-button">
       Don't have an account?
       <button onclick="redirectToRegister()">Register now</button>
     </div>
+    <script src = "config.js"></script>
+    <script src="login.js"></script>
+    <script src='htmlRedirect.js'></script>
+    <script>setImg('logo', 'techTokNoBg.png')</script>
   </body>
-  <script src='htmlRedirect.js'></script> 
-</html> 
+</html>
