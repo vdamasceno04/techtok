@@ -19,14 +19,15 @@ document.addEventListener('DOMContentLoaded', async function() {
                 fromCartTable.push({prodId: data[i].product_id, quant: data[i].quantity})
                 const fetchDetalhesProduto = async () => {
                 const detalhesResponse = await fetch('http://localhost:3000/product/products' + (data[i].product_id));
+                //await new Promise(resolve => setTimeout(resolve, 1000)); //avoid infinite calls
                 const detalhesProduto = await detalhesResponse.json()
                 return detalhesProduto
             }
             const dataProd = await fetchDetalhesProduto();
-            console.log('det = ' + await JSON.stringify(dataProd))
+            console.log('dataProd = ' + await JSON.stringify(dataProd))
             if(dataProd.length > 0){
-                for(i=0; i<dataProd.length; i++){
-                    fromProdTable.push({name: dataProd[i].model, price: dataProd[i].price})
+                for(j=0; j<dataProd.length; j++){
+                    fromProdTable.push({name: dataProd[j].model, price: dataProd[j].price})
                 }
             }
                 //return detalhesProduto
