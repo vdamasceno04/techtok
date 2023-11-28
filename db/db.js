@@ -129,8 +129,8 @@ const deleteRow2Condition = async(table,info)=>{//Delete with 2 conditions
     const entries = Object.entries(info)
     const sql = `DELETE FROM ?? WHERE (??=? AND ??=?);`
     const values = [table,entries[0][0],entries[0][1], entries[1][0], entries[1][1]]
-    //console.log(sql)
-    //console.log(values)
+    console.log(sql)
+    console.log(values)
     try{
         const con = await connectDb()
         await con.query(sql,values)

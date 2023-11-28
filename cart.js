@@ -47,8 +47,8 @@ async function getInfoFromDb(){
             }
         }
         //console.log('fetched data: ' + JSON.stringify(data))
-        console.log('fromcart =     ' + JSON.stringify(fromCartTable))
-        console.log('fromProd =     ' + JSON.stringify(fromProdTable))
+        //console.log('fromcart =     ' + JSON.stringify(fromCartTable))
+        //console.log('fromProd =     ' + JSON.stringify(fromProdTable))
         //const product = []
         for(i = 0; i<fromProdTable.length; i++){
             cart.push({name: fromProdTable[i].name, price: fromProdTable[i].price, 
@@ -78,10 +78,9 @@ function handleRemoveClick(index) {
 // Function to remove an item from the cart
 async function removeFromCart(index) {
     const userId = 8 // USECOOKIES
-    const item = cart[index];
-    console.log('tem =     ' + JSON.stringify(item))
-  //  endpoint = ('http://localhost:3000/cart/delete/' + item.id.toString() + '/' + userId.toString());
-    const endpoint = ('http://localhost:3000/cart/delete/8/1');
+    const item = JSON.stringify(cart[index]);
+    const idProd = item[item.length-2]
+    const endpoint = ('http://localhost:3000/cart/delete/' + userId.toString() +'/'+ idProd);
     try {
         const res = await fetch(endpoint, {method: 'DELETE'});
 
