@@ -3,7 +3,7 @@ const express = require('express') // Express.js library for building web applic
 const db = require("../../db/db.js") // Database module for interacting with the database
 const router = express.Router() // Router object to define routes
 const User = require('../../models/User.js') // User model
-const { generateAccessToken, generateRefreshToken, verifyToken } = require('../auth') // Authentication functions
+const { generateAccessToken, generateRefreshToken, verifyToken, authenticateToken } = require('../middleware/auth.js') // Authentication functions
 
 // Middleware for parsing JSON and urlencoded data
 router.use(express.json())
@@ -40,37 +40,37 @@ router.post('/login', async (req, res) => {
   // Extract login and password from the request body
   const { login, password } = req.body
   // Create a new User object
-  const usr = new User(login, password)
+  const user = new User(login, password)
 
   try {
     // Validate the login and password
-    const isLoginValid = await usr.validateLogin(login)
+    const isLoginValid = await user.validateLogin(login)
     console.log(isLoginValid ? 'Login valid.' : 'Login invalid.')
-    const isPasswordValid = await usr.validatePassword(password)
+    const isPasswordValid = await user.validatePassword(password)
     console.log(isPasswordValid ? 'Password valid.' : 'Password invalid.')
     // If the login and password are valid, generate access and refresh tokens
     if (isLoginValid && isPasswordValid) {
-      await usr.load()
+      await user.load()
 
-      console.log('User named ' + usr.getName() + ' requested login tokens.')
+      console.log('User named ' + user.getName() + ' requested login tokens.')
 
-      const accessToken = generateAccessToken(usr)
-      const refreshToken = generateRefreshToken(usr.getId(), usr.getLogin(), usr.getSuperuser())
+      const accessToken = generateAccessToken(user)
+      const refreshToken = generateRefreshToken(user)
 
       // Check if the tokens were successfully generated
       if (accessToken && refreshToken) {
-        const accessTokenCookieOptions = {
+        const refreshTokenCookieOptions = {
           httpOnly: true,
           secure: req.secure || req.headers['x-forwarded-proto'] === 'https',
           sameSite: 'lax'
         }
 
-        // Set the access token as a cookie
-        res.cookie('accessToken', accessToken, accessTokenCookieOptions)
-        // Send the access and refresh tokens as a JSON response
-        res.status(200).json({ accessToken, refreshToken })
+        // Set the refreshToken as a cookie
+        res.cookie('refreshToken', refreshToken, refreshTokenCookieOptions)
+        // Send the accessToken as a JSON response
+        res.status(200).json({ accessToken })
       } else {
-        res.status(500).json({ errorType: 'Error generating access tokens.' })
+        res.status(500).json({ errorType: 'Error generating tokens.' })
       }
     } else {
       // If the login or password is invalid, send an error message
@@ -101,7 +101,16 @@ router.post('/register', async (req, res) => {
   }
 })
 
-router.post('/verify-refresh-token', async (req, res) => {
+// Route to delete refreshToken
+router.post('/delete-refresh-token', authenticateToken, (req, res) => {
+  // Clear the refreshToken cookie
+  res.cookie('refreshToken', '', { expires: new Date(0) })
+  // Send a success message
+  res.status(200).json({ message: 'Refresh token deleted successfully.' })
+})
+
+// Route to verify refreshToken
+router.post('/verify-refresh-token', authenticateToken, async (req, res) => {
   const refreshToken = req.cookies.refreshToken
   if (refreshToken) {
       // Verify the refreshToken

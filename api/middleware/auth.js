@@ -1,7 +1,7 @@
 require('dotenv').config()
 
 const jwt = require('jsonwebtoken')
-const User = require('./models/User') // Require the User model
+const User = require('../../models/User') // Require the User model
 
 // Secret key for signing and verifying tokens
 const SECRET_KEY = process.env.JWT_SECRET_KEY
@@ -15,8 +15,6 @@ function generateAccessToken(user) {
   // Payload
   const payload = {
     user: user.id,
-    login: user.login,
-    superuser: user.superuser,
     type: 'access',
   }
 
@@ -75,8 +73,34 @@ function verifyToken(token, type) {
   return userData
 }
 
+// Middleware to authenticate requests
+function authenticateToken(req, res, next) {
+  // Get the authorization header
+  const authHeader = req.headers['authorization']
+  // Extract the token
+  const token = authHeader && authHeader.split(' ')[1]
+
+  if (token == null) {
+      // If there's no token, return a 401 Unauthorized status
+      return res.sendStatus(401)
+  }
+
+  // Verify the token
+  jwt.verify(token, SECRET_KEY, (err, user) => {
+      if (err) {
+          // If the token is not valid, return a 403 Forbidden status
+          return res.sendStatus(403)
+      }
+
+      // If the token is valid, set req.user and call the next middleware
+      req.user = user
+      next()
+  })
+}
+
 module.exports = {
   generateAccessToken,
   generateRefreshToken,
   verifyToken,
+  authenticateToken
 }

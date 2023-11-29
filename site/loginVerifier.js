@@ -1,7 +1,4 @@
 function logout() {
-    // Remove the access token from local storage
-    localStorage.removeItem('accessToken')
-
     // Request to the server to delete the refreshToken
     fetch('/delete-refresh-token', {
         method: 'POST',
@@ -25,12 +22,10 @@ function logout() {
 // Check if the user is already logged in when the page loads
 window.addEventListener('load', function() {
     console.log('Page loaded')
-    const accessToken = localStorage.getItem('accessToken')
     const logoutButton = document.getElementById('logout')
     const loginButton = document.getElementById('redirLogin')
     const staffButton = document.getElementById('staff')
     const userLoginDisplay = document.getElementById('userLoginDisplay')
-    console.log('accessToken:', accessToken)
 
     // Request to the server to verify refreshToken
     fetch('/verify-refresh-token', {
@@ -41,7 +36,7 @@ window.addEventListener('load', function() {
     .then(data => {
         if (data.hasRefreshToken) {
             console.log('User is logged in')
-            const isSuperuser = localStorage.getItem('superuser') === 'true'
+            const isSuperuser = data.superuser
             if (isSuperuser) {
                 // If the user is a superuser, enable the staff area button
                 staffAreaButton.classList.remove('disabled')
@@ -55,7 +50,7 @@ window.addEventListener('load', function() {
             logoutButton.style.display = 'block'
             logoutButton.classList.remove('disabled')
             logoutButton.disabled = false
-            userLoginDisplay.textContent = localStorage.getItem('login')
+            userLoginDisplay.textContent = data.login
             userLoginDisplay.style.display = 'block'
             loginButton.classList.add('disabled')
             loginButton.disabled = true
