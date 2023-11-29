@@ -39,7 +39,15 @@ async function startServer() {
 
     // Handle other paths using Express' static file serving middleware
     app.use(express.static(__dirname))
-    app.use(cors())
+    const allowedOrigins = ['https://techtok.loca.lt', 'http://localhost:8443', 'http://localhost:3306']
+
+    app.use(cors({
+      origin: allowedOrigins
+    }))
+    app.use((req, res, next) => {
+      res.header("Access-Control-Allow-Credentials", "true")
+      next()
+    })
     app.use((req, res, next) => {
       console.log(`Web request sent: ${req.method} ${req.url}`)
       next()

@@ -30,6 +30,18 @@ class Mouse extends Product{
     getBattery(){return this.battery}
     getLed(){return this.led}
 
+    toJson(){
+        const productJson = productToJson()
+        const mouseJson = {
+            'connection':this.connection,
+            'dpi':this.dpi,
+            'buttons':this.buttons,
+            'battery':this.battery,
+            'led':this.led
+        }
+        return Object.assign(productJson, mouseJson)
+    }
+
     /**
      * Load the mouse information from the database.
      *
@@ -38,11 +50,11 @@ class Mouse extends Product{
     async load(){
         await this.loadProduct()
         const [info] = await db.getRow('mice',{'id':this.id})
-        this.connection = info[0]['connection']
-        this.dpi = info[0]['dpi']
-        this.buttons = info[0]['buttons']
-        this.battery = info[0]['battery']
-        this.led = info[0]['led']
+        this.connection = info['connection']
+        this.dpi = info['dpi']
+        this.buttons = info['buttons']
+        this.battery = info['battery']
+        this.led = info['led']
     }
 
     /**

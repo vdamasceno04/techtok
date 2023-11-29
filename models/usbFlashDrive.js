@@ -25,6 +25,17 @@ class UsbFlashDrive extends Product{
     getWriteSpeed(){return this.writeSpeed}
     getReadSpeed(){return this.readSpeed}
 
+    toJson(){
+        const productJson = productToJson()
+        const usbFlashDriveJson = {
+            'usb_type':this.usbType,
+            'capacity':this.capacity,
+            'write_speed':this.writeSpeed,
+            'read_speed':this.readSpeed
+        }
+        return Object.assign(productJson, usbFlashDriveJson)
+    }
+
     /**
      * Load the usbFlashDrive information from the database.
      *
@@ -34,10 +45,10 @@ class UsbFlashDrive extends Product{
         const db = require('../db/db.js')
         await this.loadProduct()
         const [info] = await db.getRow('usb_flash_drives',{'id':this.id})
-        this.usbType = info[0]['usb_type']
-        this.capacity = info[0]['capacity']
-        this.writeSpeed = info[0]['write_speed']
-        this.readSpeed = info[0]['read_speed']
+        this.usbType = info['usb_type']
+        this.capacity = info['capacity']
+        this.writeSpeed = info['write_speed']
+        this.readSpeed = info['read_speed']
     }
 
     /**

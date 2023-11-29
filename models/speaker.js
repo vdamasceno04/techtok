@@ -37,11 +37,23 @@ class Speaker extends Product{
         const db = require('../db/db.js')
         await this.loadProduct()
         const [info] = await db.getRow('speakers',{'id':this.id})
-        this.source = info[0]['source']
-        this.channels = info[0]['channels']
-        this.audioInput = info[0]['audio_input']
-        this.power = info[0]['power']
-        this.battery = info[0]['battery']
+        this.source = info['source']
+        this.channels = info['channels']
+        this.audioInput = info['audio_input']
+        this.power = info['power']
+        this.battery = info['battery']
+    }
+
+    toJson(){
+        const productJson = productToJson()
+        const speakerJson = {
+            'source':this.source,
+            'channels':this.channels,
+            'audio_input':this.audioInput,
+            'power':this.power,
+            'battery':this.battery
+        }
+        return Object.assign(productJson, speakerJson)
     }
 
     /**

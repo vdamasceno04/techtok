@@ -41,6 +41,20 @@ class Product extends Model{
     getWarranty(){return this.warranty}
     getStock(){return this.stock}
 
+    productToJson(){
+        const idJson = idToJson()
+        const productJson = {
+            'brand':this.brand,
+            'model':this.model,
+            'description':this.description,
+            'image_path':this.imgPath,
+            'price':this.price,
+            'warranty':this.warranty,
+            'stock':this.stock
+        }
+        return Object.assign(idJson, productJson)
+    }
+
     /**
      * Load the common product information from the database.
      *
@@ -48,13 +62,13 @@ class Product extends Model{
      */
     async loadProd(){// load common info from database
         const [info] = await db.getRow('products',{'id':this.id})
-        this.brand = info[0]['brand']
-        this.model = info[0]['model']
-        this.description = info[0]['stock']
-        this.imgPath = info[0]['image_path']
-        this.price = info[0]['price']
-        this.warranty = info[0]['warranty']
-        this.stock = info[0]['stock']
+        this.brand = info['brand']
+        this.model = info['model']
+        this.description = info['stock']
+        this.imgPath = info['image_path']
+        this.price = info['price']
+        this.warranty = info['warranty']
+        this.stock = info['stock']
     }
 
     /**

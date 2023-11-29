@@ -28,7 +28,7 @@ function displayProducts(products) {
       <p>${product.price}</p>
     `
     productCard.addEventListener('click', () => {
-      window.location.href = `product.html?id=${product.id}`
+      window.location.href = `product.html?category=${product.category}&id=${product.id}`
     })
     
     productGrid.appendChild(productCard)

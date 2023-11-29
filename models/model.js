@@ -10,6 +10,12 @@ class Model{
     // getters
     getId(){return this.id}
 
+    idToJson(){
+        return {
+            'id':this.id
+        }
+    }
+
     /**
      * Generate an ID for the specified type.
      *

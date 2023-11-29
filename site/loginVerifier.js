@@ -1,6 +1,6 @@
 function logout() {
     // Request to the server to delete the refreshToken
-    fetch('/delete-refresh-token', {
+    fetch(window.config.API_ENDPOINT + 'delete-refresh-token', {
         method: 'POST',
         credentials: 'include', // Include cookies in the request
     })
@@ -27,12 +27,17 @@ window.addEventListener('load', function() {
     const staffButton = document.getElementById('staff')
     const userLoginDisplay = document.getElementById('userLoginDisplay')
 
-    // Request to the server to verify refreshToken
-    fetch('/verify-refresh-token', {
+// Request to the server to verify refreshToken
+    fetch(window.config.API_ENDPOINT + 'verify-refresh-token', {
         method: 'POST',
         credentials: 'include', // Include cookies in the request
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
     .then(data => {
         if (data.hasRefreshToken) {
             console.log('User is logged in')
@@ -56,17 +61,19 @@ window.addEventListener('load', function() {
             loginButton.disabled = true
             // Redirect to the main page
             redirectToMainPage()
-        } else {
-            console.log('User is not logged in')
-            // If the user is not logged in, show the logout button as disabled
-            logoutButton.style.display = 'block'
-            logoutButton.classList.add('disabled')
-            logoutButton.disabled = true
-            userLoginDisplay.style.display = 'none'
-            loginButton.classList.remove('disabled')
-            loginButton.disabled = false
         }
     })
+    .catch(error => {
+        console.log('Fetch error:', error);
+        console.log('User is not logged in')
+        // If the user is not logged in, show the logout button as disabled
+        logoutButton.style.display = 'block'
+        logoutButton.classList.add('disabled')
+        logoutButton.disabled = true
+        userLoginDisplay.style.display = 'none'
+        loginButton.classList.remove('disabled')
+        loginButton.disabled = false
+    });
 })
 
 document.getElementById('redirLogin').addEventListener('click', function() {
@@ -86,6 +93,6 @@ document.getElementById('logout').addEventListener('click', function() {
 document.getElementById('staff').addEventListener('click', function() {
     console.log('Staff button clicked.')
     if (!this.classList.contains('disabled')) { 
-        redirectToStaff();
+        redirectToStaff()
     }
 })

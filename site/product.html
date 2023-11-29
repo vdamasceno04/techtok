@@ -32,7 +32,7 @@
         <script src="productInfo.js"></script>
         <script src='htmlRedirect.js'></script>
         <script>
-            const info = getProductInfo(getProductId(window.location.search))
+            const info = getProductInfo(getProductCategory(window.location.search),getProductId(window.location.search))
             setProduct(info)
         </script>
         <script>setImg('logo', 'techTokNoBg.png')</script>

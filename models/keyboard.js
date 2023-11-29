@@ -33,6 +33,19 @@ class Keyboard extends Product{
     getLed(){return this.led}
     getNumpad(){return this.numpad}
 
+    toJson(){
+        const productJson = productToJson()
+        const keyboardJson = {
+            'connection':this.connection,
+            'layout':this.layout,
+            'switch':this.keySwitch,
+            'battery':this.battery,
+            'led':this.led,
+            'numpad':this.numpad
+        }
+        return Object.assign(productJson, keyboardJson)
+    }
+
     /**
      * Load the keyboard from the database.
      *
@@ -42,12 +55,12 @@ class Keyboard extends Product{
         const db = require('../db/db.js')
         await this.loadProduct()
         const [info] = await db.getRow('keyboards',{'id':this.id})
-        this.connection = info[0]['connection']
-        this.layout = info[0]['layout']
-        this.keySwitch = info[0]['switch']
-        this.battery = info[0]['battery']
-        this.led = info[0]['led']
-        this.numpad = info[0]['numpad']
+        this.connection = info['connection']
+        this.layout = info['layout']
+        this.keySwitch = info['switch']
+        this.battery = info['battery']
+        this.led = info['led']
+        this.numpad = info['numpad']
     }
 
     /**

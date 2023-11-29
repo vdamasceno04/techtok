@@ -20,8 +20,15 @@ const optionSSL = {
   cert: fs.readFileSync(path.join(__dirname, '..', 'security', 'server.crt'))
 }
 
-// Middleware
-app.use(cors())
+const allowedOrigins = ['https://techtok.loca.lt', 'http://localhost:8443', 'http://localhost:3306']
+
+app.use(cors({
+  origin: allowedOrigins
+}))
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Credentials", "true")
+  next()
+})
 app.use(express.static('public'))
 
 // Routes

@@ -30,6 +30,18 @@ class Earphone extends Product{
     getMic(){return this.mic}
     getWaterproof(){return this.waterproof}
 
+    toJson(){
+        const productJson = productToJson()
+        const earphoneJson = {
+            'connection':this.connection,
+            'channels':this.channels,
+            'battery':this.battery,
+            'microphone':this.mic,
+            'waterproof':this.waterproof
+        }
+        return Object.assign(productJson, earphoneJson)
+    }
+
     /**
      * Load the earphone information from the database.
      *
@@ -38,11 +50,12 @@ class Earphone extends Product{
     async load(){
         await this.loadProduct()
         const [info] = await db.getRow('earphones',{'id':this.id})
-        this.connection = info[0]['connection']
-        this.channels = info[0]['channels']
-        this.battery = info[0]['battery']
-        this.mic = info[0]['microphone']
-        this.waterproof = info[0]['waterproof']
+        console.log(info)
+        this.connection = info['connection']
+        this.channels = info['channels']
+        this.battery = info['battery']
+        this.mic = info['microphone']
+        this.waterproof = info['waterproof']
     }
     
     /**

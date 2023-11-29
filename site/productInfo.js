@@ -1,12 +1,27 @@
 function getProductId(url){// get product id from url
     params = new URLSearchParams(url)
-    return params.get('prod')
+    return params.get('id')
 }
 
-function getProductInfo(id){// get product's info json from session storage
-    return JSON.parse(sessionStorage.getItem(String(id)))
+function getProductCategory(url){// get product id from url
+  params = new URLSearchParams(url)
+  return params.get('category')
 }
 
+async function getProductInfo(category,id) {
+    try {
+      const response = await fetch(config.API_ENDPOINT + 'products?category=' + category + '&id=' + id)
+      if (!response.ok) {
+        throw new Error(`Failed to fetch product. Status: ${response.status}`)
+      }
+      const product = await response.json()
+      return product
+    } catch (error) {
+      console.error(error)
+      
+    }
+  }
+  
 function getName(info){// get product name from json
     return info.brand + ' ' + info.model
 }
