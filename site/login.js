@@ -1,34 +1,12 @@
 const jwt = require('jsonwebtoken')
 const redirect = require('./htmlRedirect')
 
-// Get the login from the HTML's filled box.
-function getLogin() {
-    return document.getElementById('login').value
-}
-
-// Get the password from the HTML's filled box.
-function getPassword() {
-    return document.getElementById('password').value
-}
-
-// Check if either the login or the password is blank.
-function hasBlankText(login, password) {
-    let submitMessage = document.getElementById('submitMessage');
-    if (!login.length && !password.length) {
-        submitMessage.style.display = 'block';
-        submitMessage.innerText = 'Please fill in your information';
-        return true;
-    } else if (!login.length) {
-        submitMessage.style.display = 'block';
-        submitMessage.innerText = 'Please fill in your login';
-        return true;
-    } else if (!password.length) {
-        submitMessage.style.display = 'block';
-        submitMessage.innerText = 'Please fill in your password';
-        return true;
-    } else {
-        submitMessage.style.display = 'none';
-        return false;
+// Check if the user is already logged in when the login page loads
+window.onload = function() {
+    const accessToken = localStorage.getItem('accessToken')
+    if (accessToken) {
+        // If the user is already logged in, redirect to the main page
+        redirectToMainPage()
     }
 }
 
@@ -47,27 +25,34 @@ async function validateLogin() {
             body: JSON.stringify({ login:login, password })
         })
         const data = await response.json()
-        if (response.ok) {
+        console.log('Response from api:')
+        console.log(data)
+        if (response.status === 200) {
             console.log('Login successful.')
-            // Store the access token in local storage for "Remember me" functionality
-            localStorage.setItem('accessToken', data.accessToken)
+            // Store the access token in local storage if "Remember Me" is checked
+            const rememberMe = isRememberMeChecked()
+            if (rememberMe) {
+                localStorage.setItem('accessToken', data.accessToken)
+            }
+            // Store the refresh token in a secure HttpOnly cookie
+            document.cookie = `refreshToken=${data.refreshToken}; HttpOnly; Secure; SameSite=Lax;`
             // Redirect to the main page
             redirectToMainPage()
         } else {
-            let msg
+            let msg = ' '
             let submitMessage = document.getElementById('submitMessage')
             submitMessage.style.display = 'block'
-            if (data.error === 401) {
+            if (response.status === 401) {
                 if (data.errorType === 'login') {
                     msg = 'User not registered.'
                 } else if (data.errorType === 'password') {
                     msg = 'Wrong password.'
                 }
-                msg += data.error
-            } else if (data.error === 500) {
-                msg = 'Internal server error.'
+                msg = 'Error ' + response.status + ': ' + msg
+            } else if (response.status === 500) {
+                msg = 'Error ' + response.status + ':  Internal server error: ' + data.errorType
             } else {
-                msg = 'Unknown error: ' + data.error
+                msg = 'Unknown error: ' + data.errorType
             }
             submitMessage.innerText = msg
             console.log(msg)

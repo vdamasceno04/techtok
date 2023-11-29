@@ -58,28 +58,28 @@ router.post('/login', async (req, res) => {
       const refreshToken = generateRefreshToken(usr.getId())
 
       // Check if the tokens were successfully generated
-      if (!accessToken || !refreshToken) {
-        throw new Error('Token generation failed')
-      }
+      if (accessToken && refreshToken) {
+        const accessTokenCookieOptions = {
+          httpOnly: true,
+          secure: req.secure || req.headers['x-forwarded-proto'] === 'https',
+          sameSite: 'lax'
+        }
 
-      const accessTokenCookieOptions = {
-        httpOnly: true,
-        secure: req.secure || req.headers['x-forwarded-proto'] === 'https',
-        sameSite: 'lax'
+        // Set the access token as a cookie
+        res.cookie('accessToken', accessToken, accessTokenCookieOptions)
+        // Send the access and refresh tokens as a JSON response
+        res.status(200).json({ accessToken, refreshToken })
+      } else {
+        res.status(500).json({ errorType: 'Error generating access tokens.' })
       }
-
-      // Set the access token as a cookie
-      res.cookie('accessToken', accessToken, accessTokenCookieOptions)
-      // Send the access and refresh tokens as a JSON response
-      res.status(200).json({ accessToken, refreshToken })
     } else {
       // If the login or password is invalid, send an error message
       let errorType = !isLoginValid ? 'login' : 'password'
-      res.status(401).json({ errorType })
+      res.status(401).json({ errorType: errorType })
     }
   } catch (error) {
     // Send an error message if something goes wrong
-    res.status(500).json({ errorType: error.message })
+    res.status(501).json({ errorType: error.message })
   }
 })
 

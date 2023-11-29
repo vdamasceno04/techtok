@@ -1,35 +1,47 @@
 body {
-    font-family: 'Alegreya Sans', sans-serif;
-    background-image: url('https://img.freepik.com/free-vector/digital-red-circuit-lines-technology-background-design_1017-27263.jpg?w=1380&t=st=1701210637~exp=1701211237~hmac=98df68a79170d4b56c379ffc84d769e460fd235ee89db982220812e5c053e889');
-    background-size: cover;
-    margin: 0;
-    padding: 0;
-  }
-  
-  h1 {
-    color: #005A9E;
-    text-align: center;
-    margin: 20px 0;
-  }
-  
-  nav {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 20px;
-  }
-  
-  nav button {
-    padding: 10px 20px;
-    font-size: 18px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    background-image: url('https://www.flaticon.com/svg/static/icons/svg/60/60740.svg');
-    background-size: contain;
-  }
+  font-family: 'Alegreya Sans', sans-serif;
+  background-image: url('https://img.freepik.com/free-vector/digital-red-circuit-lines-technology-background-design_1017-27263.jpg?w=1380&t=st=1701210637~exp=1701211237~hmac=98df68a79170d4b56c379ffc84d769e460fd235ee89db982220812e5c053e889');
+  background-size: cover;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  color: #005A9E;
+  text-align: center;
+  margin: 20px 0;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+
+nav {
+  display: flex;
+  gap: 20px;
+}
+
+nav button {
+  padding: 10px 20px;
+  font-size: 18px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-image: url('https://www.flaticon.com/svg/static/icons/svg/60/60740.svg');
+  background-size: contain;
+}
+
+#logoutContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: red;
+}
   
   .category-grid {
     display: grid;
