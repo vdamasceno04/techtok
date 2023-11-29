@@ -78,41 +78,41 @@ async function getSpecs(){
     .then(data => {
         switch (category) {
           case 'mice':
-              addProductAttribute('Connection:', data[0].connection);
-              addProductAttribute('Dpi:', data[0].dpi);
-              addProductAttribute('Buttons:', data[0].buttons);
-              addProductAttribute('Battery:', data[0].battery);
-              addProductAttribute('LED:', data[0].led);
+              addProductAttribute('Connection:', data[0].connection + '     ');
+              addProductAttribute('Dpi:', data[0].dpi + '     ');
+              addProductAttribute('Buttons:', data[0].buttons + '     ');
+              addProductAttribute('Battery:', data[0].battery + 'days' + '     ');
+              addProductAttribute('LED:', data[0].led + '     ');
             break;
             
           case 'keyboards':
-              addProductAttribute('Connection:', 'connection');
-              addProductAttribute('Layout:', 'layout');
-              addProductAttribute('Key switch:', 'key_switch');
-              addProductAttribute('Battery:', 'battery');
-              addProductAttribute('LED:', 'led');
-              addProductAttribute('Numpad:', 'numpad');
+              addProductAttribute('Connection:', data[0].connection + '     ');
+              addProductAttribute('Layout:', data[0].layout+ ' ');
+              addProductAttribute('Key switch:', data[0].key_switch+ '       ');
+              addProductAttribute('Battery:', data[0].battery+ 'days'+ '        ');
+              addProductAttribute('LED:', data[0].led+ '        ');
+              addProductAttribute('Numpad:', data[0].numpad+ '      ');
               break;
           case 'usb_flash_drives':
-              addProductAttribute('USB Type:', 'usb_type');
-              addProductAttribute('Capacity:', 'capacity');
-              addProductAttribute('Write Speed:', 'write_speed');
-              addProductAttribute('Read Speed:', 'read_speed');
+              addProductAttribute('USB Type:', data[0].usb_type+ '       ');
+              addProductAttribute('Capacity:', data[0].capacity + 'Gb'+ '       ');
+              addProductAttribute('Write Speed:', data[0].write_speed + 'Mb/s'+ '        ');
+              addProductAttribute('Read Speed:', data[0].read_speed + 'Mb/s'+ '      ');
             break;
           case 'speakers':
-              addProductAttribute('Source:', 'source');
-              addProductAttribute('Channels:', 'channels');
-              addProductAttribute('Audio Input:', 'audio_input');
-              addProductAttribute('Power:', 'power');
-              addProductAttribute('Battery:', 'battery');
+              addProductAttribute('Source:', data[0].source+ '       ');
+              addProductAttribute('Channels:', data[0].channels+ '       ');
+              addProductAttribute('Audio Input:', data[0].audio_input+ '         ');
+              addProductAttribute('Power:', data[0].power + 'Watts'+ '       ');
+              addProductAttribute('Battery:', data[0].battery+ '         ');
             break;
   
           case 'earphones':
-              addProductAttribute('Connection', 'connection');
-              addProductAttribute('Channels:', 'channels');
-              addProductAttribute('Battery:', 'battery');
-              addProductAttribute('Microphone:', 'microphone');
-              addProductAttribute('Waterproof:', 'waterproof');
+              addProductAttribute('Connection', data[0].connection+ '       ');
+              addProductAttribute('Channels:', data[0].channels+ '      ');
+              addProductAttribute('Battery:', data[0].battery + 'minutes'+ '         ');
+              addProductAttribute('Microphone:', data[0].microphone+ '       ');
+              addProductAttribute('Waterproof:', data[0].waterproof+ '      ');
             break;
           default:
         }
