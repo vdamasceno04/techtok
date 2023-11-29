@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get('/get/:userId', async (req, res) =>{
     try{
-        const data = await db.getRow2Condition('carts', 'customer_id', req.params.userId);
+        const data = await db.getRow('carts', 'customer_id', req.params.userId);
         res.json(data);
     }   catch(error){res.status(500).json({error: "falha ao acessar db"})}
 });
@@ -15,7 +15,7 @@ router.get('/get/:userId/:prodId', async (req, res) =>{
         req.body = {customer_id: req.params.userId, product_id: req.params.prodId};
         const data = await db.getRow2Condition('carts', req.body);
         res.json(data);
-    }   catch(error){;res.status(500).json({error: "falha ao acessar db"})}
+    }   catch(error){res.status(500).json({error: "falha ao acessar db"})}
 });
 
 router.post('/insert', bodyParser.json(), async (req, res) =>{
@@ -29,14 +29,24 @@ router.put('/update', bodyParser.json(), async (req, res) =>{
     try{
         info = {quantity: req.body.quantity};
         match = {id: req.body.id};
-        //console.log('match = ' + match)
         await db.updateCell('carts', match, info)
         res.json(res.status(200));
     } catch(error){res.status(500).json({error: "falha ao acessar db"})}
 });
 
-router.delete('/', bodyParser.json(), async (req, res) =>{ //TODO: DELETE PRODUCT FROM CART
+router.put('/update/:userId/:prodId/:quantity', bodyParser.json(), async (req, res) =>{
     try{
+        info = {quantity: req.params.quantity};
+        match = {customer_id: req.params.userId, product_id: req.params.prodId};
+        await db.updateCell('carts', match, info)
+        res.json(res.status(200));
+    } catch(error){res.status(500).json({error: "falha ao acessar db"})}
+});
+
+router.delete('/delete/:userId/:prodId', async (req, res) =>{ //TODO: DELETE PRODUCT FROM CART
+    try{
+        console.log("caiu")
+        req.body = {product_id: parseInt(req.params.prodId), customer_id: parseInt(req.params.userId)}
         await db.deleteRow2Condition('carts', req.body);
         res.json(res.status(200));
     } catch(error){res.status(500).json({error: "falha ao acessar db"})}
