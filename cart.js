@@ -78,9 +78,9 @@ function handleRemoveClick(index) {
 // Function to remove an item from the cart
 async function removeFromCart(index) {
     const userId = 8 // USECOOKIES
-    const item = JSON.stringify(cart[index]);
+    const item = cart[index];
     const idProd = item[item.length-2]
-    const endpoint = ('http://localhost:3000/cart/delete/' + userId.toString() +'/'+ idProd);
+    const endpoint = ('http://localhost:3000/cart/delete/' + userId.toString() +'/'+ item.id);
     try {
         const res = await fetch(endpoint, {method: 'DELETE'});
 
@@ -129,15 +129,14 @@ function handleQuantityClick(index, newQuantity) {
 
 // Function to update the quantity of an item in the cart
 async function updateQuantity(index, newQuantity) {
-    const item = JSON.stringify(cart[index]);
-    const idProd = item[item.length-2]
+    const item = (cart[index]);
     const userId = 8 // USECOOKIES
 /*    const previousTotal = item.price * item.quantity;
     item.quantity = parseInt(newQuantity, 10);
     const newTotal = item.price * item.quantity;
     totalPrice = totalPrice - previousTotal + newTotal;
 */
-    const endpoint = ('http://localhost:3000/cart/update/' + userId.toString() +'/'+ idProd + '/' + newQuantity);
+    const endpoint = ('http://localhost:3000/cart/update/' + userId.toString() +'/'+ item.id + '/' + newQuantity);
     try {
         const res = await fetch(endpoint, {method: 'PUT'});
 
