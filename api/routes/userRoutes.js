@@ -45,14 +45,22 @@ router.post('/login', async (req, res) => {
   try {
     // Validate the login and password
     const isLoginValid = await usr.validateLogin(login)
+    console.log(isLoginValid ? 'Login valid.' : 'Login invalid.')
     const isPasswordValid = await usr.validatePassword(password)
-
+    console.log(isPasswordValid ? 'Password valid.' : 'Password invalid.')
     // If the login and password are valid, generate access and refresh tokens
     if (isLoginValid && isPasswordValid) {
-      usr.load()
+      await usr.load()
+
+      console.log('User named ' + usr.getName() + ' requested login tokens.')
 
       const accessToken = generateAccessToken(usr.getId())
       const refreshToken = generateRefreshToken(usr.getId())
+
+      // Check if the tokens were successfully generated
+      if (!accessToken || !refreshToken) {
+        throw new Error('Token generation failed')
+      }
 
       const accessTokenCookieOptions = {
         httpOnly: true,

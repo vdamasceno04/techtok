@@ -1,9 +1,9 @@
 const jwt = require('jsonwebtoken')
 const redirect = require('./htmlRedirect')
 
-// Get the username from the HTML's filled box.
-function getUsername() {
-    return document.getElementById('username').value
+// Get the login from the HTML's filled box.
+function getLogin() {
+    return document.getElementById('login').value
 }
 
 // Get the password from the HTML's filled box.
@@ -11,33 +11,40 @@ function getPassword() {
     return document.getElementById('password').value
 }
 
-// Check if either the username or the password is blank.
-function hasBlankText(username, password) {
-    let submitMessage = document.getElementById('submitMessage')
-    submitMessage.style.display = 'block'
-    if (!username.length && !password.length) {
-        submitMessage.innerText = 'Please fill in your information'
-    } else if (!username.length) {
-        submitMessage.innerText = 'Please fill in your username'
+// Check if either the login or the password is blank.
+function hasBlankText(login, password) {
+    let submitMessage = document.getElementById('submitMessage');
+    if (!login.length && !password.length) {
+        submitMessage.style.display = 'block';
+        submitMessage.innerText = 'Please fill in your information';
+        return true;
+    } else if (!login.length) {
+        submitMessage.style.display = 'block';
+        submitMessage.innerText = 'Please fill in your login';
+        return true;
     } else if (!password.length) {
-        submitMessage.innerText = 'Please fill in your password'
+        submitMessage.style.display = 'block';
+        submitMessage.innerText = 'Please fill in your password';
+        return true;
     } else {
-        submitMessage.style.display = 'none'
-        return false
+        submitMessage.style.display = 'none';
+        return false;
     }
-    return true
 }
 
 // Validate the login credentials by making a POST request to the login endpoint.
-async function validateLogin(username, password) {
-    if (!hasBlankText(username, password)) {
+async function validateLogin() {
+    const login = getLogin()
+    const password = getPassword()
+    if (!hasBlankText(login, password)) {
         const endpoint = window.config.API_ENDPOINT + 'login'
+        console.log(endpoint)
         const response = await fetch(endpoint, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ username, password })
+            body: JSON.stringify({ login:login, password })
         })
         const data = await response.json()
         if (response.ok) {
@@ -71,5 +78,5 @@ async function validateLogin(username, password) {
 // Event listener for the login form submission
 document.getElementById('loginForm').addEventListener('submit', function(event) {
     event.preventDefault()
-    validateLogin(getUsername(), getPassword())
+    validateLogin(getLogin(), getPassword())
 })

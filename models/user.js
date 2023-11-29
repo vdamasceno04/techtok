@@ -49,12 +49,13 @@ class User extends Model{
      */
     async load(){
         const db = require('../db/db.js')
-        const [info] = await db.getRow('users', {'id':this.id})
-        this.login = info[0]['login']
-        this.password = info[0]['password']
-        this.name = info[0]['name']
-        this.email = info[0]['email']
-        this.superuser = info[0]['superuser']
+        const [info] = await db.getRow('users', 'login', this.login)
+        console.log(info)
+        this.login = info['login']
+        this.password = info['password']
+        this.name = info['name']
+        this.email = info['email']
+        this.superuser = info['superuser']
     }
 
     /**

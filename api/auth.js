@@ -3,7 +3,11 @@ require('dotenv').config()
 const jwt = require('jsonwebtoken')
 
 // Secret key for signing and verifying tokens
-const SECRET_KEY = process.env.JWT_SECRET
+const SECRET_KEY = process.env.JWT_SECRET_KEY
+
+// Expiration times for the tokens
+const SHORT_EXPIRES_IN = process.env.JWT_SHORT_EXPIRES_IN
+const LONG_EXPIRES_IN = process.env.JWT_LONG_EXPIRES_IN
 
 // Function to generate a new access token
 function generateAccessToken(userId) {
@@ -13,8 +17,15 @@ function generateAccessToken(userId) {
     type: 'access',
   }
 
-  // Sign the token
-  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '15m' })
+  let token
+
+  try {
+    // Sign the token
+    token = jwt.sign(payload, SECRET_KEY, { expiresIn: SHORT_EXPIRES_IN })
+    console.log('Generated access token:', token)
+  } catch (err) {
+    console.log('Error generating access token:', err)
+  }
 
   return token
 }
@@ -27,8 +38,15 @@ function generateRefreshToken(userId) {
     type: 'refresh',
   }
 
-  // Sign the token
-  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '7d' })
+  let token
+
+  try {
+    // Sign the token
+    token = jwt.sign(payload, SECRET_KEY, { expiresIn: LONG_EXPIRES_IN })
+    console.log('Generated refresh token:', token)
+  } catch (err) {
+    console.log('Error generating refresh token:', err)
+  }
 
   return token
 }
