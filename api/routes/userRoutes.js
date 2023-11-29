@@ -54,8 +54,8 @@ router.post('/login', async (req, res) => {
 
       console.log('User named ' + usr.getName() + ' requested login tokens.')
 
-      const accessToken = generateAccessToken(usr.getId())
-      const refreshToken = generateRefreshToken(usr.getId())
+      const accessToken = generateAccessToken(usr)
+      const refreshToken = generateRefreshToken(usr.getId(), usr.getLogin(), usr.getSuperuser())
 
       // Check if the tokens were successfully generated
       if (accessToken && refreshToken) {
@@ -98,6 +98,25 @@ router.post('/register', async (req, res) => {
   } catch(error) {
     // Send an error message if something goes wrong
     res.status(500).json({error: "Failed to access database."})
+  }
+})
+
+router.post('/verify-refresh-token', async (req, res) => {
+  const refreshToken = req.cookies.refreshToken
+  if (refreshToken) {
+      // Verify the refreshToken
+      const userData = verifyToken(refreshToken, 'refresh')
+
+      if (userData) {
+          // If the refreshToken is valid, send the user data as a JSON response
+          res.status(200).json({ hasRefreshToken: true, login: userData.login, superuser: userData.superuser })
+      } else {
+          // If the refreshToken is not valid, send an error message
+          res.status(401).json({ hasRefreshToken: false })
+      }
+  } else {
+      // If refreshToken does not exist, send an error message
+      res.status(401).json({ hasRefreshToken: false })
   }
 })
 

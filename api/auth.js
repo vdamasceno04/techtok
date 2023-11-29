@@ -1,6 +1,7 @@
 require('dotenv').config()
 
 const jwt = require('jsonwebtoken')
+const User = require('./models/User') // Require the User model
 
 // Secret key for signing and verifying tokens
 const SECRET_KEY = process.env.JWT_SECRET_KEY
@@ -10,10 +11,12 @@ const SHORT_EXPIRES_IN = process.env.JWT_SHORT_EXPIRES_IN
 const LONG_EXPIRES_IN = process.env.JWT_LONG_EXPIRES_IN
 
 // Function to generate a new access token
-function generateAccessToken(userId) {
+function generateAccessToken(user) {
   // Payload
   const payload = {
-    user: userId,
+    user: user.id,
+    login: user.login,
+    superuser: user.superuser,
     type: 'access',
   }
 
@@ -31,10 +34,12 @@ function generateAccessToken(userId) {
 }
 
 // Function to generate a new refresh token
-function generateRefreshToken(userId) {
+function generateRefreshToken(user) {
   // Payload
   const payload = {
-    user: userId,
+    user: user.id,
+    login: user.login,
+    superuser: user.superuser,
     type: 'refresh',
   }
 

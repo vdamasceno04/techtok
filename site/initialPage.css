@@ -14,66 +14,115 @@ h1 {
 
 header {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
   padding: 0 20px;
 }
 
 nav {
   display: flex;
+  justify-content: space-between;
+  width: 100%;
   gap: 20px;
 }
 
-nav button {
-  padding: 10px 20px;
-  font-size: 18px;
+#userLoginDisplay {
+  color: white;
+}
+
+#leftButtons {
+  display: flex;
+  gap: 20px;
+  align-items: center; /* Align items along the cross axis */
+}
+
+#leftButtons button{
   background-color: #4CAF50;
+}
+
+nav button, #logoutContainer button {
+  padding: 5px 10px; /* Reduced padding */
+  font-size: 16px; /* Reduced font size */
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  background-image: url('https://www.flaticon.com/svg/static/icons/svg/60/60740.svg');
-  background-size: contain;
+  height: auto;
+  width: auto;
+}
+
+h2 {
+  color: #005A9E;
+  text-align: center;
+  margin: 10px 0; /* Reduced margin */
+}
+
+#redirLogin{
+  background-color: #4CAF50;
+}
+
+#login.disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+#logout {
+  background-color: rgb(124, 1, 1);
+}
+
+#logout.disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+#staff.disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
 }
 
 #logoutContainer {
   display: flex;
   align-items: center;
   gap: 10px;
-  color: red;
+}
+
+#logoAndRightButtons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }
   
-  .category-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    justify-items: center;
-    gap: 20px;
-    padding: 20px;
-    box-sizing: border-box;
-  }
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  justify-items: center;
+  gap: 20px;
+  padding: 20px;
+  box-sizing: border-box;
+}
   
-  .category-card {
-    border: 1px solid #D6D6D6;
-    border-radius: 4px;
-    padding: 20px;
-    text-align: center;
-    background-color: #FFFFFF;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-  }
+.category-card {
+  border: 1px solid #D6D6D6;
+  border-radius: 4px;
+  padding: 20px;
+  text-align: center;
+  background-color: #FFFFFF;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
   
-  .category-card img {
-    width: 100%; /* Set to desired width */
-    height: 100%; /* Maintain aspect ratio */
-    object-fit: cover; /* Scale the image to cover the element */
-    object-position: center; /* Center the image within the element */
-    flex-grow: 1;
-  }
+.category-card img {
+  width: 100%; /* Set to desired width */
+  height: 100%; /* Maintain aspect ratio */
+  object-fit: cover; /* Scale the image to cover the element */
+  object-position: center; /* Center the image within the element */
+  flex-grow: 1;
+}
  
-  
-  .category-card h2 {
-    margin: 10px 0;
-  }
-  
+.category-card h2 {
+  margin: 10px 0;
+  margin-top: 0;
+}
