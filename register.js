@@ -8,6 +8,11 @@ function getPassword(){ //get password from html's filled box
     return password;
 }
 
+function getPasswordConfirm(){ //get password confirm from html's filled box 
+    const password = document.getElementById("passwordConfirm").value;
+    return password;
+}
+
 function getName(){ //get name from html's filled box 
     const uname = document.getElementById("uname").value;
     return uname;
@@ -28,21 +33,24 @@ async function sendRegisterData(usname, pass, uname, em){
 async function validateRegister(){ 
     username = getUsername();
     password = getPassword();
+    passwordConfirm = getPasswordConfirm();
     uname = getName();
     email = getEmail();
     console.log(username, password, uname, email);
-    await sendRegisterData(username, password, uname, email);
-    if (!hasBlankText(username, password, email, uname)) {
-        //if (checarNoBancoDeDados(username, password)) {
-            //redirectToUserArea()
-        //}
-        //else {
-            // TODO: verifica se a senha tá
-            // errada e mostra a msg correta.
-            //var submitMessage = document.getElementById("submitMessage")
-            //submitMessage.style.display = "block"
-            //submitMessage.innerText = "This user does not exist!"
-        //}
+    if(password == passwordConfirm){
+        if (!hasBlankText(username, password, email, uname)) {
+            await sendRegisterData(username, password, uname, email);
+            //if (checarNoBancoDeDados(username, password)) {
+                //redirectToUserArea()
+            //}
+            //else {
+                // TODO: verifica se a senha tá
+                // errada e mostra a msg correta.
+                //var submitMessage = document.getElementById("submitMessage")
+                //submitMessage.style.display = "block"
+                //submitMessage.innerText = "This user does not exist!"
+            //}
+        }
     }
 }
 
