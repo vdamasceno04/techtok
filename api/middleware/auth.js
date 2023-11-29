@@ -82,7 +82,7 @@ function authenticateToken(req, res, next) {
 
   if (token == null) {
       // If there's no token, return a 401 Unauthorized status
-      return res.sendStatus(401)
+      return res.sendStatus(406)
   }
 
   // Verify the token

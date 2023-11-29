@@ -59,16 +59,16 @@ router.post('/login', async (req, res) => {
 
       // Check if the tokens were successfully generated
       if (accessToken && refreshToken) {
-        const refreshTokenCookieOptions = {
-          httpOnly: true,
-          secure: req.secure || req.headers['x-forwarded-proto'] === 'https',
-          sameSite: 'lax'
-        }
+        // const refreshTokenCookieOptions = {
+        //   httpOnly: true,
+        //   secure: req.secure || req.headers['x-forwarded-proto'] === 'https',
+        //   sameSite: 'lax'
+        // }
 
         // Set the refreshToken as a cookie
-        res.cookie('refreshToken', refreshToken, refreshTokenCookieOptions)
+        // res.cookie('refreshToken', refreshToken/*, refreshTokenCookieOptions*/)
         // Send the accessToken as a JSON response
-        res.status(200).json({ accessToken })
+        res.status(200).json({ accessToken, refreshToken })
       } else {
         res.status(500).json({ errorType: 'Error generating tokens.' })
       }
@@ -103,29 +103,34 @@ router.post('/register', async (req, res) => {
 
 // Route to delete refreshToken
 router.post('/delete-refresh-token', authenticateToken, (req, res) => {
+  res.header("Access-Control-Allow-Credentials", "true")
   // Clear the refreshToken cookie
+  const refreshToken = req.headers['x-refresh-token'];
   res.cookie('refreshToken', '', { expires: new Date(0) })
   // Send a success message
   res.status(200).json({ message: 'Refresh token deleted successfully.' })
 })
 
-// Route to verify refreshToken
-router.post('/verify-refresh-token', authenticateToken, async (req, res) => {
-  const refreshToken = req.cookies.refreshToken
-  if (refreshToken) {
-      // Verify the refreshToken
-      const userData = verifyToken(refreshToken, 'refresh')
+router.post('/verify-refresh-token', async (req, res) => {
+  res.header("Access-Control-Allow-Credentials", "true");
 
-      if (userData) {
-          // If the refreshToken is valid, send the user data as a JSON response
-          res.status(200).json({ hasRefreshToken: true, login: userData.login, superuser: userData.superuser })
-      } else {
-          // If the refreshToken is not valid, send an error message
-          res.status(401).json({ hasRefreshToken: false })
-      }
+  const refreshToken = req.headers['x-refresh-token'];
+
+  if (refreshToken) {
+    console.log('Received X-Refresh-Token:', refreshToken);
+    // Verify the refreshToken
+    const userData = verifyToken(refreshToken, 'refresh');
+
+    if (userData) {
+      // If the refreshToken is valid, send the user data as a JSON response
+      res.status(200).json({ hasRefreshToken: true, login: userData.login, superuser: userData.superuser });
+    } else {
+      // If the refreshToken is not valid, send an error message
+      res.status(405).json({ hasRefreshToken: false });
+    }
   } else {
-      // If refreshToken does not exist, send an error message
-      res.status(401).json({ hasRefreshToken: false })
+    // If refreshToken does not exist, send an error message
+    res.status(424).json({ hasRefreshToken: false });
   }
 })
 

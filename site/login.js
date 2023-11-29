@@ -51,7 +51,8 @@ async function validateLogin() {
             // Store the access token in local storage for "Remember me" functionality
             localStorage.setItem('accessToken', data.accessToken)
             // Store the refresh token in a secure HttpOnly cookie
-            document.cookie = `refreshToken=${data.refreshToken}; HttpOnly; Secure; SameSite=Lax;`
+            // document.cookie = `refreshToken=${data.refreshToken}; HttpOnly; Secure; SameSite=Lax;`
+            localStorage.setItem('refreshToken', data.refreshToken)
             // Redirect to the main page
             redirectToMainPage()
         } else {

@@ -1,22 +1,27 @@
 function logout() {
     // Request to the server to delete the refreshToken
+    const refreshToken = localStorage.getItem('refreshToken')
     fetch(window.config.API_ENDPOINT + 'delete-refresh-token', {
-        method: 'POST',
-        credentials: 'include', // Include cookies in the request
-    })
+            method: 'POST',
+            headers: {
+              'X-Refresh-Token': refreshToken
+            },
+            credentials: 'include' // Include cookies in the request
+          })
     .then(response => {
         if (response.ok) {
-            console.log('Logout successful')
+            // console.log('Logout successful')
         } else {
-            console.log('Logout failed')
+            // console.log('Logout failed')
         }
     })
     .catch((error) => {
-        console.error('Error:', error)
+        // console.error('Error:', error)
     })
-
+    localStorage.removeItem('refreshToken')
+    localStorage.removeItem('accessToken')
     // Redirect the user to the login page (or any other page you want)
-    window.location.href = '/login'
+    redirectToLogin()
 }
 
 // Check if the user is already logged in when the page loads
@@ -27,11 +32,15 @@ window.addEventListener('load', function() {
     const staffButton = document.getElementById('staff')
     const userLoginDisplay = document.getElementById('userLoginDisplay')
 
+    const refreshToken = localStorage.getItem('refreshToken')
 // Request to the server to verify refreshToken
-    fetch(window.config.API_ENDPOINT + 'verify-refresh-token', {
-        method: 'POST',
-        credentials: 'include', // Include cookies in the request
-    })
+fetch(window.config.API_ENDPOINT + 'verify-refresh-token', {
+    method: 'POST',
+    headers: {
+      'X-Refresh-Token': refreshToken
+    },
+    credentials: 'include' // Include cookies in the request
+  })
     .then(response => {
         if (!response.ok) {
             throw new Error('Network response was not ok');
@@ -44,12 +53,12 @@ window.addEventListener('load', function() {
             const isSuperuser = data.superuser
             if (isSuperuser) {
                 // If the user is a superuser, enable the staff area button
-                staffAreaButton.classList.remove('disabled')
-                staffAreaButton.disabled = false
+                staffButton.classList.remove('disabled')
+                staffButton.disabled = false
             } else {
                 // If the user is not a superuser, disable the staff area button
-                staffAreaButton.classList.add('disabled')
-                staffAreaButton.disabled = true
+                staffButton.classList.add('disabled')
+                staffButton.disabled = true
             }
             // If the user is already logged in, show the logout button and the user's login
             logoutButton.style.display = 'block'
@@ -60,7 +69,7 @@ window.addEventListener('load', function() {
             loginButton.classList.add('disabled')
             loginButton.disabled = true
             // Redirect to the main page
-            redirectToMainPage()
+            // redirectToMainPage()
         }
     })
     .catch(error => {
@@ -73,6 +82,8 @@ window.addEventListener('load', function() {
         userLoginDisplay.style.display = 'none'
         loginButton.classList.remove('disabled')
         loginButton.disabled = false
+        staffButton.classList.add('disabled')
+        staffButton.disabled = true
     });
 })
 
