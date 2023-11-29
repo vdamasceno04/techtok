@@ -3,15 +3,13 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechTok</title>
     <link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@100;300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="login.css">
   </head>
   <body>
     <div class="user-menu">
-      <span id="usernameDisplay"></span>
-      <a href="initialPage.html">Home</a> |
-      <a href="#" onclick="logout()">Logout</a>
+      <a href="initialPage.html"><i class="fas fa-home fa-2x"></i></a>
     </div>
     <h1><img id="logo" src=""
       alt="TechTok Logo"
@@ -23,17 +21,20 @@
         <input id="username" type="text" placeholder="Your username">
         <label for="password">Password:</label>
         <input id="password" type="password" placeholder="Your password">
-        <label><input type="checkbox" id="rememberMe"> Remember me</label>
+        <label>
+          <input type="checkbox" id="rememberMe">
+          Remember me
+        </label>            
         <div id="submitMessage" class="error-message">
           Missing Username/Password
         </div>
         <input type="submit" value="Enter">
       </form>
-      <a href="#" onclick="forgotPassword()">Forgot password?</a>
+      <a id="forgotPassword" href="#" onclick="forgotPassword()">Forgot password?</a>
     </div>
-    <div id="registerButton" class="register-button">
+    <div id="registerAsk" class="register-button">
       Don't have an account?
-      <button onclick="redirectToRegister()">Register now</button>
+      <button id="registerButton" style="margin-left: 10px;" onclick="redirectToRegister()">Register now</button>
     </div>
     <script src = "config.js"></script>
     <script src="login.js"></script>

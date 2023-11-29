@@ -5,58 +5,77 @@ body {
   margin: 0;
   padding: 0;
 }
-  
-  h1 {
-    color: #005A9E;
-    margin-bottom: 30px;
-  }
-  
-  .login-box {
-    width: 300px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #D6D6D6;
-    border-radius: 4px;
-    background-color: #FFFFFF;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  label {
-    display: block;
-    margin-bottom: 5px;
-  }
-  
-  input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #D6D6D6;
-    border-radius: 4px;
-  }
-  
-  input[type="submit"] {
-    background-color: #005A9E;
-    color: #FFFFFF;
-    cursor: pointer;
-  }
-  
-  input[type="submit"]:hover {
-    background-color: #004080;
-  }
-  
-  .error-message {
-    color: #D8000C;
-    display: none;
-  }
-  
-  .register-button {
-    margin-top: 20px;
-  }
-  
-  .user-menu {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    text-align: right;
-  }
-  
+
+h1 {
+  color: #005A9E;
+  margin-bottom: 30px;
+}
+
+.login-box {
+  width: 300px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #D6D6D6;
+  border-radius: 4px;
+  background-color: #FFFFFF;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+label {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+input[type="checkbox"] {
+  margin-right: 5px;
+}
+
+input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid rgb(214, 214, 214);
+  border-radius: 4px;
+}
+
+input[type="submit"] {
+  background-color: #005A9E;
+  color: #FFFFFF;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover {
+  background-color: #004080;
+}
+
+.error-message {
+  color: #D8000C;
+  display: none;
+}
+
+.register-button {
+  margin-top: 20px;
+}
+
+.user-menu {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  text-align: right;
+}
+
+#registerAsk {
+  text-align: center;
+  color: white; /* This will set the text color */
+}
+
+#registerButton {
+    color: black; /* This will set the button text color */
+    background-color: rgb(199, 246, 89); /* This will set the button background color */
+}
+
+#forgotPassword{
+  text-align: center;
+}
