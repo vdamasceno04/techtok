@@ -30,9 +30,8 @@ function setPrice(info){// set html product price field
 }
 
 function setWarranty(info){// set html product warranty field
-    document.getElementById("warranty").innerHTML = 'Warranty: ' + info.warranty
+    document.getElementById("warranty").innerHTML = 'Warranty: ' + info.warranty + ' years'
 }
-
 function setStock(info){// set html product stock field
     document.getElementById("stock").innerHTML = 'Stock: ' + info.stock
 }
@@ -60,6 +59,79 @@ function setProduct(info){// run all functions above
     setDescription(info)
     setWarranty(info)
 }
+
+const productInfoContainer = document.getElementById('productInfo');
+const productInfoContainers = [];
+productInfoContainer.innerHTML = '';
+productInfoContainers.length = 0;
+
+var id = getProductId(window.location.search)
+
+var category = getProductInfo(id).category
+
+getSpecs()
+async function getSpecs(){
+    const endpoint = ('http://localhost:3000/product/products/' + category + '/' + id)
+    console.log(endpoint)
+    fetch(endpoint)
+    .then(res => res.json())
+    .then(data => {
+        switch (category) {
+          case 'mice':
+              addProductAttribute('Connection:', data[0].connection);
+              addProductAttribute('Dpi:', data[0].dpi);
+              addProductAttribute('Buttons:', data[0].buttons);
+              addProductAttribute('Battery:', data[0].battery);
+              addProductAttribute('LED:', data[0].led);
+            break;
+            
+          case 'keyboards':
+              addProductAttribute('Connection:', 'connection');
+              addProductAttribute('Layout:', 'layout');
+              addProductAttribute('Key switch:', 'key_switch');
+              addProductAttribute('Battery:', 'battery');
+              addProductAttribute('LED:', 'led');
+              addProductAttribute('Numpad:', 'numpad');
+              break;
+          case 'usb_flash_drives':
+              addProductAttribute('USB Type:', 'usb_type');
+              addProductAttribute('Capacity:', 'capacity');
+              addProductAttribute('Write Speed:', 'write_speed');
+              addProductAttribute('Read Speed:', 'read_speed');
+            break;
+          case 'speakers':
+              addProductAttribute('Source:', 'source');
+              addProductAttribute('Channels:', 'channels');
+              addProductAttribute('Audio Input:', 'audio_input');
+              addProductAttribute('Power:', 'power');
+              addProductAttribute('Battery:', 'battery');
+            break;
+  
+          case 'earphones':
+              addProductAttribute('Connection', 'connection');
+              addProductAttribute('Channels:', 'channels');
+              addProductAttribute('Battery:', 'battery');
+              addProductAttribute('Microphone:', 'microphone');
+              addProductAttribute('Waterproof:', 'waterproof');
+            break;
+          default:
+        }
+
+        console.log('fetched data: ' + JSON.stringify(data))
+    
+    })
+    .catch(error => console.log(error))
+}
+
+function addProductAttribute(labelText, specInfo) {
+    const label = document.createElement('label');
+    label.textContent = labelText;
+    const spec = document.createElement('label');
+    spec.textContent = specInfo;
+    productInfoContainers.push(spec);
+    productInfoContainer.appendChild(label);
+    productInfoContainer.appendChild(spec);
+ }
 
 async function addToCart(url){
     let userId = 8 //get user id (using cookies?)

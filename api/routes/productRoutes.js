@@ -17,6 +17,14 @@ router.get('/products:id', async (req, res) => {
   } catch(error){res.status(500).json({error: "falha ao acessar db"})}
 });
 
+router.get('/products/:category/:id', async (req, res) => {
+  try{
+    const dados = await db.getRow(req.params.category, 'id', req.params.id);
+    res.json(dados);
+    //console.log(dados)
+  } catch(error){res.status(500).json({error: "falha ao acessar db"})}
+});
+
 router.get('/products/keyboards', async (req, res) => {
   try{
     const dados = await db.getRow('products', 'category', 'keyboards');
