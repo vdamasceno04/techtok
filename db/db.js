@@ -7,7 +7,7 @@ const createConnectionPool = async()=>{
     return mysql.createPool({// Pool to allow multiple simultaneous database users
         host: 'localhost',
         port: 3306,
-        database: 'company',
+        database: 'techtok',
         user: 'root',
         password: 'batatinha',
         connectionLimit: 10,// Max simultaneous users connected
