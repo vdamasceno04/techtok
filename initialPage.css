@@ -1,13 +1,13 @@
 body {
   font-family: 'Alegreya Sans', sans-serif;
-  background-image: url('https://img.freepik.com/free-vector/digital-red-circuit-lines-technology-background-design_1017-27263.jpg?w=1380&t=st=1701210637~exp=1701211237~hmac=98df68a79170d4b56c379ffc84d769e460fd235ee89db982220812e5c053e889');
+  background-image: url('./imgs/greybackground.jpg');
   background-size: cover;
   margin: 0;
   padding: 0;
 }
 
 h1 {
-  color: #005A9E;
+  color: #ffffff;
   text-align: center;
   margin: 20px 0;
 }
@@ -52,7 +52,7 @@ nav button, #logoutContainer button {
 }
 
 h2 {
-  color: #005A9E;
+  color: #000000;
   text-align: center;
   margin: 10px 0; /* Reduced margin */
 }
