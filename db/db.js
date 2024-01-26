@@ -9,7 +9,7 @@ const createConnectionPool = async()=>{
         port: 3306,
         database: 'techtok',
         user: 'root',
-        password: 'batatinha',
+        password: 'admin',
         connectionLimit: 10,// Max simultaneous users connected
         connectTimeout: 10000,// ms
         idleTimeout: 180000,// ms
@@ -22,7 +22,7 @@ const getConnection = async(pool)=>{
     return pool.getConnection()// Connect to database
 }
 
-const connectDb = async()=>{// Connect to database
+const connectDb = async()=>{// Connect to d atabase
     try{
         if(global.connection && global.connection.state != 'disconnected'){
             return global.connection
