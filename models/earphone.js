@@ -30,17 +30,40 @@ class Earphone extends Product{
     getMic(){return this.mic}
     getWaterproof(){return this.waterproof}
 
-    load = async()=>{// load from database
-        await this.loadProduct()
-        const [info] = await db.getRow('earphones',{'id':this.id})
-        this.connection = info[0]['connection']
-        this.channels = info[0]['channels']
-        this.battery = info[0]['battery']
-        this.mic = info[0]['microphone']
-        this.waterproof = info[0]['waterproof']
+    toJson(){
+        const productJson = productToJson()
+        const earphoneJson = {
+            'connection':this.connection,
+            'channels':this.channels,
+            'battery':this.battery,
+            'microphone':this.mic,
+            'waterproof':this.waterproof
+        }
+        return Object.assign(productJson, earphoneJson)
     }
 
-    save = async()=>{// save new product to database
+    /**
+     * Load the earphone information from the database.
+     *
+     * @return {Promise<void>} A promise that resolves once the earphone information is loaded.
+     */
+    async load(){
+        await this.loadProduct()
+        const [info] = await db.getRow('earphones',{'id':this.id})
+        console.log(info)
+        this.connection = info['connection']
+        this.channels = info['channels']
+        this.battery = info['battery']
+        this.mic = info['microphone']
+        this.waterproof = info['waterproof']
+    }
+    
+    /**
+     * Save new earphone to database.
+     *
+     * @return {Promise<void>} - Promise that resolves when the save operation is complete
+     */
+    async save(){
         await this.saveProduct('earphones')
         await db.insertRow(
             'earphones',{
@@ -54,7 +77,12 @@ class Earphone extends Product{
         )
     }
 
-    async drop(){// delete earphone
+    /**
+     * Deletes the earphone from the database.
+     *
+     * @return {Promise<void>} Promise that resolves when the earphone is deleted.
+     */
+    async drop(){
         const db = require('../db/db.js')
         await db.deleteRow('earphones',{'id':this.id})
         await this.dropProduct()
@@ -65,7 +93,13 @@ class Earphone extends Product{
         this.waterproof = null
     }
 
-    async update(info){// update earphone info={'column':value} in database
+    /**
+     * Updates the earphone information in the database.
+     *
+     * @param {Object} info - The updated earphone information in the form of {'column': value}.
+     * @return {Promise} - A promise that resolves when the earphone information is successfully updated.
+     */
+    async update(info){
         const db = require('../db/db.js')
         await db.updateCell('earphones',{'id':this.id},info)
     }

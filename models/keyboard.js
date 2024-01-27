@@ -33,19 +33,42 @@ class Keyboard extends Product{
     getLed(){return this.led}
     getNumpad(){return this.numpad}
 
-    async load(){// load from database
+    toJson(){
+        const productJson = productToJson()
+        const keyboardJson = {
+            'connection':this.connection,
+            'layout':this.layout,
+            'switch':this.keySwitch,
+            'battery':this.battery,
+            'led':this.led,
+            'numpad':this.numpad
+        }
+        return Object.assign(productJson, keyboardJson)
+    }
+
+    /**
+     * Load the keyboard from the database.
+     *
+     * @return {Promise<void>} The promise that resolves after the keyboard is loaded.
+     */
+    async load(){
         const db = require('../db/db.js')
         await this.loadProduct()
         const [info] = await db.getRow('keyboards',{'id':this.id})
-        this.connection = info[0]['connection']
-        this.layout = info[0]['layout']
-        this.keySwitch = info[0]['switch']
-        this.battery = info[0]['battery']
-        this.led = info[0]['led']
-        this.numpad = info[0]['numpad']
+        this.connection = info['connection']
+        this.layout = info['layout']
+        this.keySwitch = info['switch']
+        this.battery = info['battery']
+        this.led = info['led']
+        this.numpad = info['numpad']
     }
 
-    async save(){// save new product to database
+    /**
+     * Save new keyboard to the database.
+     *
+     * @return {Promise<void>} A Promise that resolves when the save operation is complete.
+     */
+    async save(){
         const db = require('../db/db.js')
         await this.saveProduct('keyboards')
         await db.insertRow(
@@ -61,7 +84,12 @@ class Keyboard extends Product{
         )
     }
 
-    async drop(){// delete keyboard
+    /**
+     * Deletes the keyboard.
+     *
+     * @return {Promise<void>} A promise that resolves when the keyboard is deleted.
+     */
+    async drop(){
         const db = require('../db/db.js')
         await db.deleteRow('keyboards',{'id':this.id})
         await this.dropProduct()
@@ -72,8 +100,14 @@ class Keyboard extends Product{
         this.led = null
         this.numpad = null
     }
-
-    async update(info){// update keyboard info={'column':value} in database
+    
+    /**
+     * Update the keyboard information in the database.
+     *
+     * @param {Object} info - The updated keyboard information in the form of {'column': value}.
+     * @return {Promise} - A promise that resolves when the update is complete.
+     */
+    async update(info){
         const db = require('../db/db.js')
         await db.updateCell('keyboards',{'id':this.id},info)
     }
