@@ -35,14 +35,15 @@ function displayProducts(products, category) {
   const endpoint = 'http://localhost:3000/product/products/' + category
   const productGrid = document.getElementById('dados')
   productGrid.innerHTML = ''
+
   products.forEach(product => {
     const productCard = document.createElement('div')
     productCard.className = 'product-card'
     productCard.innerHTML = `
-      <img src="${endpoint}imgs/${product.image_path}" alt="${product.brand} ${product.model}">
-      <h2>${product.brand} ${product.model}</h2>
-      <p>${product.price}</p>
-    `
+    <img src="./imgs/${product.image_path}" alt="${product.brand} ${product.model}">
+    <h2>${product.brand} ${product.model}</h2>
+    <p>${product.price}</p>
+  `
     productCard.addEventListener('click', () => {
       window.location.href = `product.html?category=${product.category}&id=${product.id}`
     })
