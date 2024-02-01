@@ -39,14 +39,14 @@ router.get('/keyboards', async (req, res) => {
   } catch(error){res.status(500).json({error: "falha ao acessar db"})}
   });
 
-router.get('/products/mouses', async (req, res) => {
+router.get('/products/mice', async (req, res) => {
 try{
   const dados = await db.getRow('products', 'category', 'mice');
   res.json(dados);
 } catch(error){res.status(500).json({error: "falha ao acessar db"})}
 });
 
-router.get('/mouses', async (req, res) => {
+router.get('/mice', async (req, res) => {
   try{
     const dados = await db.getTable('mice');
     res.json(dados);
@@ -67,14 +67,14 @@ router.get('/earphones', async (req, res) => {
   } catch(error){res.status(500).json({error: "falha ao acessar db"})}
 });
 
-router.get('/products/usbflash', async (req, res) => {
+router.get('/products/usb_flash_drives', async (req, res) => {
 try{
   const dados = await db.getRow('products', 'category', 'usb_flash_drives');
   res.json(dados);
 } catch(error){res.status(500).json({error: "falha ao acessar db"})}
 });
 
-router.get('/usbflash', async (req, res) => {
+router.get('/usb_flash_drives', async (req, res) => {
   try{
     const dados = await db.getTable('usb_flash_drives');
     res.json(dados);
