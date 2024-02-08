@@ -1,12 +1,43 @@
+function setImg(elementId, imagePath) {
+    const imgElement = document.getElementById(elementId);
+  
+    if (imgElement) {
+      // Set the src attribute of the image element
+      imgElement.src = imagePath;
+  
+      // Optional: Set alt attribute for accessibility
+      imgElement.alt = elementId;
+    } else {
+      console.error(`Element with ID '${elementId}' not found.`);
+    }
+  }
+  
 function getProductId(url){// get product id from url
     params = new URLSearchParams(url)
-    return params.get('prod')
+    return params.get('id')
 }
 
-function getProductInfo(id){// get product's info json from session storage
-    return JSON.parse(sessionStorage.getItem(String(id)))
+function getProductCategory(url){// get product id from url
+  params = new URLSearchParams(url)
+  return params.get('category')
 }
 
+async function getProductInfo(category,id) {
+    console.log("abacate")
+    try {
+    const endpoint = 'http://localhost:3000/product/products'+ id 
+      const response = await fetch(endpoint)
+      if (!response.ok) {
+        throw new Error(`Failed to fetch product. Status: ${response.status}`)
+      }
+      const product = await response.json()
+      setProduct(product[0])
+    } catch (error) {
+      console.error(error)
+      
+    }
+  }
+  
 function getName(info){// get product name from json
     return info.brand + ' ' + info.model
 }
@@ -17,7 +48,7 @@ function setName(info){// set html product name field
 
 function setImgPath(info){// set html product img field
     // document.getElementById("productImg").src = 'imgs/' + info.image_path
-    document.getElementById("productImg").src = `http://localhost:3000/product/${info.image_path}`
+    document.getElementById("productImg").src = "./imgs/" + info.image_path;
     document.getElementById("productImg").alt = getName(info)
 }
 
@@ -30,8 +61,9 @@ function setPrice(info){// set html product price field
 }
 
 function setWarranty(info){// set html product warranty field
-    document.getElementById("warranty").innerHTML = 'Warranty: ' + info.warranty + ' years'
+    document.getElementById("warranty").innerHTML = 'Warranty: ' + info.warranty + ' months'
 }
+
 function setStock(info){// set html product stock field
     document.getElementById("stock").innerHTML = 'Stock: ' + info.stock
 }
@@ -48,113 +80,36 @@ function setModel(info){// set html product model field
     document.getElementById("model").innerHTML = 'Model: ' + info.model
 }
 
-function setProduct(info){// run all functions above
-    setTitle(info)
-    setName(info)
-    setImgPath(info)
-    setBrand(info)
-    setModel(info)
-    setPrice(info)
-    setStock(info)
-    setDescription(info)
-    setWarranty(info)
-}
 
-const productInfoContainer = document.getElementById('productInfo');
-const productInfoContainers = [];
-productInfoContainer.innerHTML = '';
-productInfoContainers.length = 0;
-
-var id = getProductId(window.location.search)
-
-var category = getProductInfo(id).category
-
-getSpecs()
-async function getSpecs(){
-    const endpoint = ('http://localhost:3000/product/products/' + category + '/' + id)
-    console.log(endpoint)
-    fetch(endpoint)
-    .then(res => res.json())
-    .then(data => {
-        switch (category) {
-          case 'mice':
-              addProductAttribute('Connection:', data[0].connection + '     ');
-              addProductAttribute('Dpi:', data[0].dpi + '     ');
-              addProductAttribute('Buttons:', data[0].buttons + '     ');
-              addProductAttribute('Battery:', data[0].battery + 'days' + '     ');
-              addProductAttribute('LED:', data[0].led + '     ');
-            break;
-            
-          case 'keyboards':
-              addProductAttribute('Connection:', data[0].connection + '     ');
-              addProductAttribute('Layout:', data[0].layout+ ' ');
-              addProductAttribute('Key switch:', data[0].key_switch+ '       ');
-              addProductAttribute('Battery:', data[0].battery+ 'days'+ '        ');
-              addProductAttribute('LED:', data[0].led+ '        ');
-              addProductAttribute('Numpad:', data[0].numpad+ '      ');
-              break;
-          case 'usb_flash_drives':
-              addProductAttribute('USB Type:', data[0].usb_type+ '       ');
-              addProductAttribute('Capacity:', data[0].capacity + 'Gb'+ '       ');
-              addProductAttribute('Write Speed:', data[0].write_speed + 'Mb/s'+ '        ');
-              addProductAttribute('Read Speed:', data[0].read_speed + 'Mb/s'+ '      ');
-            break;
-          case 'speakers':
-              addProductAttribute('Source:', data[0].source+ '       ');
-              addProductAttribute('Channels:', data[0].channels+ '       ');
-              addProductAttribute('Audio Input:', data[0].audio_input+ '         ');
-              addProductAttribute('Power:', data[0].power + 'Watts'+ '       ');
-              addProductAttribute('Battery:', data[0].battery+ '         ');
-            break;
+function setProduct(info) {
+    // Set the title
+    console.log("caiu set")
+    console.log("info", info)
+    console.log("name= ", getName(info))
+    document.querySelector("title").textContent = getName(info);
   
-          case 'earphones':
-              addProductAttribute('Connection', data[0].connection+ '       ');
-              addProductAttribute('Channels:', data[0].channels+ '      ');
-              addProductAttribute('Battery:', data[0].battery + 'minutes'+ '         ');
-              addProductAttribute('Microphone:', data[0].microphone+ '       ');
-              addProductAttribute('Waterproof:', data[0].waterproof+ '      ');
-            break;
-          default:
+    // Set the product name
+    document.getElementById("productName").innerHTML = getName(info);
+  
+    // Set the product image
+    document.getElementById("productImg").src = "./imgs/" + info.image_path;
+    document.getElementById("productImg").alt = getName(info);
+  
+    // Create an array of keys for the info object
+    var keys = Object.keys(info);
+  
+    // Loop through the keys
+    for (var i = 0; i < keys.length; i++) {
+      // Skip the 'image_path' key because it's used for the image source
+      if (keys[i] !== 'image_path') {
+        // Get the element by id
+        var element = document.getElementById(keys[i]);
+  
+        // If the element exists, set its innerHTML
+        if (element) {
+          element.innerHTML = keys[i].charAt(0).toUpperCase() + keys[i].slice(1) + ': ' + info[keys[i]];
         }
-
-        console.log('fetched data: ' + JSON.stringify(data))
-    
-    })
-    .catch(error => console.log(error))
-}
-
-function addProductAttribute(labelText, specInfo) {
-    const label = document.createElement('label');
-    label.textContent = labelText;
-    const spec = document.createElement('label');
-    spec.textContent = specInfo;
-    productInfoContainers.push(spec);
-    productInfoContainer.appendChild(label);
-    productInfoContainer.appendChild(spec);
- }
-
-async function addToCart(url){
-    let userId = 8 //get user id (using cookies?)
-    let prodId = getProductId(url)
-    var quant = 1
-    const endpoint = ('http://localhost:3000/cart/get/' + userId + '/' + prodId) 
-    //check if user already has the specific product in the cart
-    fetch(endpoint)
-    .then(res => res.json())
-    .then(data => {
-        console.log('fetched data: ' + JSON.stringify(data))
-        if(data.length > 0 ){ //if the product is in the cart
-            quant += data[0].quantity;
-            const info = {quantity: quant, id: data[0].id};
-            axios.put('http://localhost:3000/cart/update', info)
-            .catch(error => console.log(error));
-        }
-        else {
-            const info = {customer_id: userId, product_id: prodId, quantity: quant};
-            axios.post('http://localhost:3000/cart/insert', info)
-            .catch(error => console.log(error));
-        }
-    })
-    .catch(error => console.log(error))
-}
+      }
+    }
+  }
 //TODO: SHOW SPECIFIC ATTRIBUTES FROM EACH CATEGORY
