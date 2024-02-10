@@ -1,66 +1,78 @@
-function getUsername(){ //get username from html's filled box
-    const username = document.getElementById("username").value;
-    return username
+// Get the login from the HTML's filled box.
+function getLogin() {
+    return document.getElementById('login').value
 }
 
-function getPassword(){ //get password from html's filled box 
-    const password = document.getElementById("password").value
-    return password
+// Get the password from the HTML's filled box.
+function getPassword() {
+    return document.getElementById('password').value
 }
 
-function hasBlankText(username, password) {
-    var submitMessage = document.getElementById("submitMessage")
-    submitMessage.style.display = "block"
-    
-    if (username.length == 0 && password.length == 0) {
-        submitMessage.innerText = "Please fill in your information"
-    }
-    else if (username.length == 0) {
-        submitMessage.innerText = "Please fill in your username"
-    }
-    else if (password.length == 0) {
-        submitMessage.innerText = "Please fill in your password"
-    }
-    else {
-        submitMessage.style.display = "none"
-        return false;
-    }
-    return true;
-}
-
-async function validateLogin(){ 
-    username = getUsername()
-    password = getPassword()
-    console.log(checkLoginData(username, password));
-    if (!hasBlankText(username, password)) {
-        //if (checarNoBancoDeDados(username, password)) {
-            //redirectToUserArea()
-        //}
-        //else {
-            // TODO: verifica se a senha tá
-            // errada e mostra a msg correta.
-            //var submitMessage = document.getElementById("submitMessage")
-            //submitMessage.style.display = "block"
-            //submitMessage.innerText = "This user does not exist!"
-        //}
+// Check if either the login or the password is blank.
+function hasBlankText(login, password) {
+    let submitMessage = document.getElementById('submitMessage')
+    if (!login.length && !password.length) {
+        submitMessage.style.display = 'block'
+        submitMessage.innerText = 'Please fill in your information'
+        return true
+    } else if (!login.length) {
+        submitMessage.style.display = 'block'
+        submitMessage.innerText = 'Please fill in your login'
+        return true
+    } else if (!password.length) {
+        submitMessage.style.display = 'block'
+        submitMessage.innerText = 'Please fill in your password'
+        return true
+    } else {
+        submitMessage.style.display = 'none'
+        return false
     }
 }
 
-
-//Gets user's row from users table by its login and check if password matches
-async function checkLoginData(username, password){ 
-    const endpoint = 'http://localhost:3000/user/users' + username;
-    fetch(endpoint)
-    .then(res => res.json())
-    .then(data => {
-        //console.log('fetched data: ' + JSON.stringify(data))
-        if(data.length == 0)
-            console.log("user doesnt exist")
-        else if(password == data[0].password)
-            console.log("password match")
-        else
-            console.log("wrong password")
-        
-    })
-    .catch(error => console.log(error))
+// Validate the login credentials by making a POST request to the login endpoint.
+async function validateLogin() {
+    const login = getLogin()
+    const password = getPassword()
+    if (!hasBlankText(login, password)) {
+        const endpoint = window.config.API_ENDPOINT + 'login'
+        console.log(endpoint)
+        const response = await fetch(endpoint, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ login:login, password })
+        })
+        const data = await response.json()
+        console.log('Response from api:')
+        console.log(data)
+        if (response.status === 200) {
+            console.log('Login successful.')
+            // Store the access token in local storage for "Remember me" functionality
+            localStorage.setItem('accessToken', data.accessToken)
+            // Store the refresh token in a secure HttpOnly cookie
+            // document.cookie = `refreshToken=${data.refreshToken}; HttpOnly; Secure; SameSite=Lax;`
+            localStorage.setItem('refreshToken', data.refreshToken)
+            // Redirect to the main page
+            redirectToMainPage()
+        } else {
+            let msg = ' '
+            let submitMessage = document.getElementById('submitMessage')
+            submitMessage.style.display = 'block'
+            if (response.status === 401) {
+                if (data.errorType === 'login') {
+                    msg = 'User not registered.'
+                } else if (data.errorType === 'password') {
+                    msg = 'Wrong password.'
+                }
+                msg = 'Error ' + response.status + ': ' + msg
+            } else if (response.status === 500) {
+                msg = 'Error ' + response.status + ':  Internal server error: ' + data.errorType
+            } else {
+                msg = 'Unknown error: ' + data.errorType
+            }
+            submitMessage.innerText = msg
+            console.log(msg)
+        }
+    }
 }
