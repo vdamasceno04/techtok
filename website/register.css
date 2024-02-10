@@ -1,0 +1,8 @@
+body {
+    font-family: 'Alegreya Sans', sans-serif;
+    background-image: url('./imgs/greybackground.jpg');
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+    color:white;
+  }

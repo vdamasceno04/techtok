@@ -4,6 +4,8 @@
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>TechTok</title>
+      <link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@100;300;400;500;700;800;900&display=swap" rel="stylesheet">
+      <link rel="stylesheet" href="register.css">
   </head>
   <style>
       body {
@@ -16,18 +18,17 @@
         margin-bottom: 30px;
       }
 
-      #passwordBox {
+      div#passwordBox {
         margin-top: 7px;
       }
 
-      #submitMessage {
+      div#submitMessage {
         margin-top: 2px;
         color: red;
         display: none;
       }
 
-      #loginButton,
-      input[type="submit"] {
+      div#loginButton {
         margin-top: 20px;
       }
 
@@ -36,10 +37,14 @@
       }
   </style>
   <body>
-      <div id="mainPage" onClick="redirectToMainPage()"> <h1>TechTok</h1> </div>
+    <h1><img id="logo" src="./imgs/techTokNoBg.png"
+      alt="TechTok Logo"
+      style="display: block;margin-left: auto; margin-right: auto;width: 40vw;height: auto;"
+      ></h1>
+      <div id="mainPage" onClick="redirectToMainPage()"></div>
       <div class="login-box">
           <form onsubmit="validateRegister(); return false;">
-            <div id="passwordBox">
+            <div id="usernameBox">
               <label for="username">Username:</label>
               <input id="username" placeholder="Your username">
             </div>
@@ -49,17 +54,12 @@
               <input id="password" type="password" placeholder="Your password">
             </div>
 
-            <div id="passwordBox">
-              <label for="password">Confirm your password:</label>
-              <input id="passwordConfirm" type="password" placeholder="Your password">
-            </div>
-
-            <div id="passwordBox">
+            <div id="unameBox">
               <label for="uname">Name:</label>
               <input id="uname" placeholder="Name">
             </div>
       
-            <div id="passwordBox">
+            <div id="emailBox">
               <label for="email">Email:</label>
               <input id="email" type="email" placeholder="You email">
             </div>
@@ -78,5 +78,6 @@
       <button onclick="redirectToLogin()">Log in</button>
     </div>
   </body>
+  <script src = "config.js"></script>
   <script src='htmlRedirect.js'></script>
 </html> 

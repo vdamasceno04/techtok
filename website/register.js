@@ -1,3 +1,5 @@
+const axios = require('axios')
+
 function getUsername(){ //get username from html's filled box
     const username = document.getElementById("username").value;
     return username;
@@ -5,11 +7,6 @@ function getUsername(){ //get username from html's filled box
 
 function getPassword(){ //get password from html's filled box 
     const password = document.getElementById("password").value;
-    return password;
-}
-
-function getPasswordConfirm(){ //get password confirm from html's filled box 
-    const password = document.getElementById("passwordConfirm").value;
     return password;
 }
 
@@ -26,31 +23,28 @@ function getEmail(){ //get email from html's filled box
 async function sendRegisterData(usname, pass, uname, em){
     const info = {login: usname, password: pass, name: uname, email: em, superuser: 0}; 
     console.log(info)
-    await axios.post('http://localhost:3000/user/register', info)
+    await axios.post(window.config.API_ENDPOINT + 'user/register', info)
     .catch(error => console.log(error));
 }
 
 async function validateRegister(){ 
     username = getUsername();
     password = getPassword();
-    passwordConfirm = getPasswordConfirm();
     uname = getName();
     email = getEmail();
     console.log(username, password, uname, email);
-    if(password == passwordConfirm){
-        if (!hasBlankText(username, password, email, uname)) {
-            await sendRegisterData(username, password, uname, email);
-            //if (checarNoBancoDeDados(username, password)) {
-                //redirectToUserArea()
-            //}
-            //else {
-                // TODO: verifica se a senha tá
-                // errada e mostra a msg correta.
-                //var submitMessage = document.getElementById("submitMessage")
-                //submitMessage.style.display = "block"
-                //submitMessage.innerText = "This user does not exist!"
-            //}
-        }
+    await sendRegisterData(username, password, uname, email);
+    if (!hasBlankText(username, password, email, uname)) {
+        //if (checarNoBancoDeDados(username, password)) {
+            //redirectToUserArea()
+        //}
+        //else {
+            // TODO: verifica se a senha tá
+            // errada e mostra a msg correta.
+            //var submitMessage = document.getElementById("submitMessage")
+            //submitMessage.style.display = "block"
+            //submitMessage.innerText = "This user does not exist!"
+        //}
     }
 }
 
