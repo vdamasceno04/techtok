@@ -1,0 +1,29 @@
+body {
+    font-family: 'Alegreya Sans', sans-serif;
+    background-image: url('./imgs/greybackground.jpg');
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+    color:white;
+  }
+
+.login-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-box div {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.login-box label {
+    display: block;
+    text-align: left;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 5px;
+}

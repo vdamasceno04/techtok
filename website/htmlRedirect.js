@@ -1,6 +1,7 @@
 function redirectToCategory(category){ //send to category.html/CHOSENCATEGORY
-    url = 'category.html'
+    url = 'category.html?cat='
     window.location.href = url.concat(category)
+    console.log(url);
 }
 
 function redirectToProduct(product){//send to product.html?CHOSENPRODUCT

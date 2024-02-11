@@ -1,0 +1,66 @@
+body {
+    font-family: 'Alegreya Sans', sans-serif;
+    background-image: url('./imgs/greybackground.jpg');
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .icon-menu {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    z-index: 1;
+  }
+  
+  .cart-icon {
+    margin-left: 10px;
+  }
+  
+  .home-icon {
+    margin-right: 10px;
+  }
+  
+
+  #productInfo {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  #productInfo img {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+  }
+  
+  #productInfo h1 {
+    text-align: center;
+    color: #005A9E;
+  }
+  
+  #productInfo p {
+    margin-bottom: 10px;
+  }
+  
+  #productInfo button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #005A9E;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  #productInfo button:hover {
+    background-color: #004080;
+  }
+  

@@ -4,6 +4,8 @@
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>TechTok</title>
+      <link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@100;300;400;500;700;800;900&display=swap" rel="stylesheet">
+      <link rel="stylesheet" href="staff.css">
   </head>
   <style>
       body {
@@ -37,7 +39,10 @@
       }
   </style>
   <body>
-      <h1>TechTok</h1>
+      <h1><img id="logo" src="./imgs/techTokNoBg.png"
+        alt="TechTok Logo"
+        style="display: block;margin-left: auto; margin-right: auto;width: 40vw;height: auto;"
+        ></h1>
       <form id="form">
         <label for="product">Choose a category:</label>
         <select id="product">
@@ -48,9 +53,11 @@
           <option value="earphones">Earphones</option>
         </select>
             <div id="productInfo"></div>
-            <button type ="submit" id="submitInfo">Submit</button>
+            <button type ="submit" id="submitInfo">Register product</button>
         </form>
   </body>
+  <script src = "config.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script src ="staff.js"></script>
+  <script src='htmlRedirect.js'></script>
 </html>

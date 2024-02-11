@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechTok</title>
+    <link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@100;300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="login.css">
+  </head>
+  <body>
+    <div class="user-menu">
+      <a href="initialPage.html"><i class="fas fa-home fa-2x"></i></a>
+    </div>
+    <h1><img id="logo" src="./imgs/techTokNoBg.png"
+      alt="TechTok Logo"
+      style="display: block;margin-left: auto; margin-right: auto;width: 40vw;height: auto;"
+      ></h1>
+    <div class="login-box">
+      <form onsubmit="validateLogin(); return false;">
+        <label for="login">Login:</label>
+        <input id="login" type="text" placeholder="Your login">
+        <label for="password">Password:</label>
+        <input id="password" type="password" placeholder="Your password">
+        <label>
+          <input type="checkbox" id="rememberMe">
+          Remember me
+        </label>            
+        <div id="submitMessage" class="error-message">
+          Missing Login/Password
+        </div>
+        <input type="submit" value="Enter">
+      </form>
+      <a id="forgotPassword" href="#" onclick="forgotPassword()">Forgot password?</a>
+    </div>
+    <div id="registerAsk" class="register-button">
+      Don't have an account?
+      <button id="registerButton" style="margin-left: 10px;" onclick="redirectToRegister()">Register now</button>
+    </div>
+    <script src="config.js"></script>
+    <script src="login.js"></script>
+    <script src="htmlRedirect.js"></script>
+  </body>
+</html>

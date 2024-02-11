@@ -1,0 +1,66 @@
+body {
+  font-family: 'Alegreya Sans', sans-serif;
+  background-image: url('./imgs/greybackground.jpg');
+  background-size: cover;
+  margin: 0;
+  padding: 0;
+}
+ 
+.icon-menu {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  z-index: 1;
+}
+
+.cart-icon {
+  margin-left: 10px;
+}
+
+.home-icon {
+  margin-right: 10px;
+}
+
+  h1 {
+    color: #005A9E;
+    text-align: center;
+    margin: 20px 0;
+  }
+  
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    justify-items: center;
+    gap: 20px;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  .product-card {
+    border: 1px solid #D6D6D6;
+    border-radius: 4px;
+    padding: 20px;
+    text-align: center;
+    background-color: #FFFFFF;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+  }
+  
+  .product-card img {
+    width: 100%;
+    height: auto;
+  }
+  
+  .product-card h2 {
+    margin: 10px 0;
+  }
+  
+  .product-card p {
+    color: #005A9E;
+    font-weight: bold;
+  }
+  
