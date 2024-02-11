@@ -33,8 +33,8 @@
 ![registerprod](https://github.com/vdamasceno04/techtok/assets/101156671/cae63a75-5397-4dc6-800d-0572ca45c895)
 
 ## Development
-The initial motivation for creating this system was for an university project, which/
-the professor required to be a system linked to a database and its respective diagrams./
+The initial motivation for creating this system was for an university project, which
+the professor required to be a system linked to a database and its respective diagrams.
 
 ### Technologies used
 - Front-end: JavaScript, HTML, CSS
