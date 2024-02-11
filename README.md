@@ -35,9 +35,11 @@
 ## Development
 The initial motivation for creating this system was for an university project, which
 the professor required to be a system linked to a database and its respective diagrams.
+We saw that as an oportunity to develop a personal project and learn more about some
+topics: web development, (REST) APIs, databases, routing and authentication... 
 
 ### Technologies used
 - Front-end: JavaScript, HTML, CSS
-- Back-end: Node.js, Express.js
-- DataBase: 
+- Back-end: Node.js
+- Database: MySQL
 ## Installation
