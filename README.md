@@ -15,7 +15,7 @@
 ![initialpage](https://github.com/vdamasceno04/techtok/assets/101156671/32217c6e-1831-4abf-ac63-cab59cecd6f5)
 
 ### Chosen category page
-![category](https://github.com/vdamasceno04/techtok/assets/101156671/30a241cb-6727-4847-a692-f7a777474d0f)
+![category](https://github.com/vdamasceno04/techtok/assets/101156671/981e56d9-979a-408a-8a92-c7cf2f95c395)
 
 ### Chosen product page
 ![product](https://github.com/vdamasceno04/techtok/assets/101156671/44a26eea-be9e-401f-897f-af7ab2b457d9)
@@ -31,3 +31,13 @@
 
 ### Staff page
 ![registerprod](https://github.com/vdamasceno04/techtok/assets/101156671/cae63a75-5397-4dc6-800d-0572ca45c895)
+
+## Development
+The initial motivation for creating this system was for an university project, which/
+the professor required to be a system linked to a database and its respective diagrams./
+
+### Technologies used
+- Front-end: JavaScript, HTML, CSS
+- Back-end: Node.js, Express.js
+- DataBase: 
+## Installation
